@@ -13,7 +13,7 @@ print("Robo1 Online!")
 
 speed = 50 # 0 - 100%
 l = eh.motor.one
-r = eh.motor.teo
+r = eh.motor.two
 
 def circle():
     l.forwards()
@@ -57,6 +57,7 @@ btnReverse = PushButton(box, backwards, text="Reverse", grid=[1,2])
 app.display()
 
 # Explore!
+'''
 circle()
 while True:
     stop()
@@ -65,3 +66,4 @@ while True:
     time.sleep(1)
     moveForward()
     time.sleep(2)
+'''
