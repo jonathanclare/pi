@@ -10,8 +10,10 @@ print("Robo1 Online!")
 
 class Robo:
 
-    def __init__(self):
-        self.speed = 50 # 0 - 100%
+    name = 'Robo 1' # class variable shared by all instances.
+
+    def __init__(self): # Constructor
+        self.speed = 50 # 0 - 100% instance variable unique to each instance.
         #self.l = eh.motor.one
         #self.r = eh.motor.two
         print('New robot instance created')
