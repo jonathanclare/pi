@@ -64,6 +64,8 @@ def robotState(state=None):
         r.faster()
     elif state == 'slower':
         r.slower()
+    elif state == 'spin':
+        r.spin()
     else:
         print('None')
 
