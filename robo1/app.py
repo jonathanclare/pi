@@ -68,6 +68,8 @@ def robotState(state=None):
         r.spin()
     elif state == 'alarm':
         r.alarm()
+    elif state == 'photo':
+        r.photo()
     else:
         print('None')
 

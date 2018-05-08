@@ -60,4 +60,5 @@ class Robo:
         print('alarm')
 
     def photo(self):
+        # Check if camera module is available
         print('photo')
