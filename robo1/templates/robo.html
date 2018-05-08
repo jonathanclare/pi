@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Robo</title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/default.css')}}">
+    </head>
+    <body>
+        <div><a href="/robo/left">Left</a></div>
+        <div><a href="/robo/forwards">Forward</a></div>
+        <div><a href="/robo/right">Right</a></div>
+        <div><a href="/robo/backwards">Back</a></div>
+        <div><a href="/robo/stop">Stop</a></div>
+        <div><a href="/robo/faster">Faster</a></div>
+        <div><a href="/robo/slower">Slower</a></div>
+        <div>You pressed: {{state}}</div>
+        <div>The time is: {{time}}</div>
+        <div>The speed is: {{speed}}</div>
+    </body>
+</html>
