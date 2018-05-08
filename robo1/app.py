@@ -66,6 +66,8 @@ def robotState(state=None):
         r.slower()
     elif state == 'spin':
         r.spin()
+    elif state == 'alarm':
+        r.alarm()
     else:
         print('None')
 

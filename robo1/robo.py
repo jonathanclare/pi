@@ -53,3 +53,6 @@ class Robo:
     def slower(self):
         self.speed = max(self.speed - 10, 0)
         print('slower ', self.speed)
+
+    def alarm(self):
+        print('alarm')
