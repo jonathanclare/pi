@@ -58,3 +58,6 @@ class Robo:
 
     def alarm(self):
         print('alarm')
+
+    def photo(self):
+        print('photo')
