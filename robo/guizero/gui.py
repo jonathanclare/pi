@@ -1,8 +1,4 @@
-
-
 import explorerhat as eh
-from time import sleep
-import math
 from guizero import App, Box, PushButton
 
 # invert() - Reverses the direction of forwards for this motor
@@ -42,13 +38,13 @@ def right():
     r.forwards(speed / 2)
 
 def faster():
-    speed = math.min(speed + 10, 100)
+    speed = min(speed + 10, 100)
 
 def slower():
-    speed = math.max(speed - 10, 0)
+    speed = max(speed - 10, 0)
 
 # GUI
-app = App(title="Robo1 Controller", height=300, width=300, layout="grid")
+app = App(title="Robo", height=300, width=300, layout="grid")
 box = Box(app, layout="grid", grid=[1,1])
 btnForward = PushButton(box, forwards, text="Forwards", grid=[1,0])
 btnLeft = PushButton(box, left, text="Left", grid=[0,1])
@@ -57,15 +53,3 @@ btnRight = PushButton(box, right, text="Right", grid=[2,1])
 btnReverse = PushButton(box, backwards, text="Reverse", grid=[1,2])
 
 app.display()
-
-# Explore!
-'''
-circle()
-while True:
-    stop()
-    time.sleep(3)
-    circle()
-    time.sleep(1)
-    moveForward()
-    time.sleep(2)
-'''

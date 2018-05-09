@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{title}}</title>
+        <link rel="icon" href="{{url_for('static', filename='img/robo.png')}}">
+
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Keywords for google search -->
+        <meta name="description" content="Robo">
+        <meta name="keywords" content="Robo">
+
+        <!-- Disable tap highlight on IE -->
+        <meta name="msapplication-tap-highlight" content="no">
+
+        <!-- Web Application Manifest -->
+        <link rel="manifest" href="./manifest.json">
+
+        <!-- Add to homescreen for Chrome on Android -->
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="application-name" content="Robo">
+        <link rel="icon" sizes="192x192" href="{{url_for('static', filename='img/robo.png')}}">
+
+        <!-- Add to homescreen for Safari on iOS -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#75c7eb">
+        <meta name="apple-mobile-web-app-title" content="Robo">
+        <link rel="apple-touch-icon" href="{{url_for('static', filename='img/robo.png')}}">
+
+        <!-- Tile icon for Win8 (144x144 + tile color) -->
+        <meta name="msapplication-TileImage" content="{{url_for('static', filename='img/robo.png')}}">
+        <meta name="msapplication-TileColor" content="#ffffff">
+
+        <!-- Color the status bar on mobile devices -->
+        <meta name="theme-color" content="#75c7eb">
+
+        <!-- Styles -->
+        <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/default.css')}}">
+
+        <!-- JavaScript -->
+        <script src="{{url_for('static', filename='js/app.js')}}"></script>
+    </head>
+    <body>
+        <div><a class="control" data-action="left">Left</a></div>
+        <div><a class="control" data-action="forwards">Forward</a></div>
+        <div><a class="control" data-action="right">Right</a></div>
+        <div><a class="control" data-action="backwards">Back</a></div>
+        <div><a class="control" data-action="stop">Stop</a></div>
+        <div><a class="control" data-action="faster">Faster</a></div>
+        <div><a class="control" data-action="slower">Slower</a></div>
+        <div><a class="control" data-action="spin">Spin</a></div>
+        <div><a class="control" data-action="alarm">Alarm</a></div>
+        <div><a class="control" data-action="photo">Photo</a></div>
+        <div>You pressed: {{state}}</div>
+        <div>The time is: {{time}}</div>
+        <div>The speed is: {{speed}}</div>
+    </body>
+</html>

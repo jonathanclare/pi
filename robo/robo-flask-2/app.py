@@ -1,27 +1,31 @@
 # INSTALL FLASK ON WINDOWS
-# pip install flask
+# Open command prompt
+# > pip install flask
 #
 # RUN ON WINDOWS
 # https://stackoverflow.com/questions/31080829/python-error-io-unsupportedoperation-fileno
 # Open command prompt
-# > cd C:\Work\GitHub\pi\robo
+# > cd <This directory>
 # > python app.py
 #
 #
 # INSTALL FLASK ON PI
+# Open terminal
 # > sudo apt-get install python3-flask
 #
 # RUN ON PI
-# > cd C:\Work\GitHub\pi\robo
+# Open terminal
+# > cd <This directory>
 # > sudo python app.py
 #
 #
 # BROWSER URL
+# 127.0.0.1 is considered localhost for IPv4
 # http://127.0.0.1:5000/robo
 #
 #
 # VIEW ON OTHER DEVICES:
-# Open terminal to get Pi’s IP address 
+# Open terminal to get Pi’s IP address (eg 192.168.1.3) 
 # > hostname -I
 # BROWSER URL
 # http://192.168.1.3:5000/robo
@@ -41,7 +45,7 @@ r = Robo()
 
 @app.route("/")
 def index():
-    return "Hello world!"
+    return "Hello Robo!"
 
 @app.route('/robo')
 def robot():
@@ -77,12 +81,13 @@ def robotState(state=None):
     time = now.strftime("%Y-%m-%d %H:%M")
 
     template_data = {
+        'title' : 'ROBO',
         'state' : state,
         'time': time,
         'speed': r.speed
     }
 
-    return render_template('robo.html', **template_data, debug=True)
+    return render_template('robo.html', **template_data)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0')

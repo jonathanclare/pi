@@ -30,35 +30,34 @@ class Robo:
 
     def forwards(self):
         print('forwards')
-        #self.l.forwards(speed)
-        #self.r.forwards(speed)
+        #self.l.forwards(self.speed)
+        #self.r.forwards(self.speed)
 
     def backwards(self):
         print('backwards')
-        #self.l.backwards(speed)
-        #self.r.backwards(speed)
+        #self.l.backwards(self.speed)
+        #self.r.backwards(self.speed)
 
     def left(self):
         print('left')
-        #self.l.forwards(speed / 2)
-        #self.r.forwards(speed)
+        #self.l.forwards(self.speed / 2)
+        #self.r.forwards(self.speed)
 
     def right(self):
         print('right')
-        #self.l.forwards(speed)
-        #self.r.forwards(speed / 2)
+        #self.l.forwards(self.speed)
+        #self.r.forwards(self.speed / 2)
 
     def faster(self):
-        self.speed = min(self.speed + 10, 100)
         print('faster ', self.speed)
+        #self.speed = min(self.speed + 10, 100)
 
     def slower(self):
-        self.speed = max(self.speed - 10, 0)
         print('slower ', self.speed)
+        #self.speed = max(self.speed - 10, 0)
 
     def alarm(self):
         print('alarm')
 
     def photo(self):
-        # Check if camera module is available
         print('photo')
