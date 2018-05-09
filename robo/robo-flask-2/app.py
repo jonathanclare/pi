@@ -37,7 +37,7 @@
 # Open terminal to get Pi’s IP address (eg 192.168.1.3) 
 # > hostname -I
 # BROWSER URL
-# http://192.168.1.3:5000/robo
+# http://192.168.0.22:5000/robo
 #
 #
 # TAKE A PHOTO
