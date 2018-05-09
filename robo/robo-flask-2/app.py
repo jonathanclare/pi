@@ -25,7 +25,7 @@
 # RUN ON PI
 # Open terminal
 # > cd <This directory>
-# > sudo python app.py
+# > sudo python3 app.py
 #
 #
 # BROWSER URL
