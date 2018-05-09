@@ -9,7 +9,16 @@
 # > python app.py
 #
 #
-# INSTALL FLASK ON PI
+# CLONE CODE FROM GITHUB
+# Open terminal
+# > git clone https://github.com/jonathanclare/pi.git
+#
+# OVERWRITE CODE FROM GITHUB
+# Open terminal
+# > git fetch --all
+# > git reset --hard origin/master
+#
+# INSTALL FLASK ON PI 
 # Open terminal
 # > sudo apt-get install python3-flask
 #
