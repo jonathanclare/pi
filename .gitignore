@@ -1,4 +1,4 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
-# dependencies
+# dependencies - ignores all nested node_module folders
 node_modules/
