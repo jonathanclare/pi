@@ -35,8 +35,13 @@ Robo.prototype.forwards = function ()
 };
 Robo.prototype.execute = function (action)
 {
-    var url = [location.protocol, '//', location.host, location.pathname, '/', action].join('');
+    var url = [location.protocol, '//', location.host, action].join('');
+
+    console.log(location.host)
+    console.log(location.pathname);
+    console.log(action);
     console.log(url);
+
     fetch(url)
     .then(function(response) 
     {

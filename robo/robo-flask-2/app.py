@@ -60,8 +60,8 @@ def index():
 def robot():
     return render_template('robo.html')
 
-@app.route('/robo/<state>')
-def robotState(state=None):
+@app.route('/robo/drive/<state>')
+def drive(state=None):
 
     if state == 'forwards':
         r.forwards()

@@ -42,20 +42,23 @@
 
         <!-- JavaScript -->
         <script src="{{url_for('static', filename='js/app.js')}}"></script>
+        <script type="module" src="{{url_for('static', filename='js/Robo.js')}}"></script>
     </head>
     <body>
-        <div><a class="control" data-action="left">Left</a></div>
-        <div><a class="control" data-action="forwards">Forward</a></div>
-        <div><a class="control" data-action="right">Right</a></div>
-        <div><a class="control" data-action="backwards">Back</a></div>
-        <div><a class="control" data-action="stop">Stop</a></div>
-        <div><a class="control" data-action="faster">Faster</a></div>
-        <div><a class="control" data-action="slower">Slower</a></div>
-        <div><a class="control" data-action="spin">Spin</a></div>
-        <div><a class="control" data-action="alarm">Alarm</a></div>
-        <div><a class="control" data-action="photo">Photo</a></div>
-        <div>You pressed: {{state}}</div>
-        <div>The time is: {{time}}</div>
-        <div>The speed is: {{speed}}</div>
+        <div class="control-panel">
+            <div><a class="control" data-action="/robo/drive/left">Left</a></div>
+            <div><a class="control" data-action="/robo/drive/forwards">Forward</a></div>
+            <div><a class="control" data-action="/robo/drive/right">Right</a></div>
+            <div><a class="control" data-action="/robo/drive/backwards">Back</a></div>
+            <div><a class="control" data-action="/robo/drive/stop">Stop</a></div>
+            <div><a class="control" data-action="/robo/drive/faster">Faster</a></div>
+            <div><a class="control" data-action="/robo/drive/slower">Slower</a></div>
+            <div><a class="control" data-action="/robo/drive/spin">Spin</a></div>
+            <div><a class="control" data-action="/robo/sound/alarm">Alarm</a></div>
+            <div><a class="control" data-action="/robo/camera/photo">Photo</a></div>
+            <div>You pressed: {{state}}</div>
+            <div>The time is: {{time}}</div>
+            <div>The speed is: {{speed}}</div>
+        </div>
     </body>
 </html>
