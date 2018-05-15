@@ -18,6 +18,11 @@ class Robo:
         #self.r = eh.motor.two
         print('New robot instance created')
 
+    def move(self, movement='stop', direction=''):
+        print('move')
+        #self.l.forwards()
+        #self.r.backwards()
+
     def spin(self):
         print('spin')
         #self.l.forwards()
