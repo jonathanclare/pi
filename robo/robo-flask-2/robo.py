@@ -23,6 +23,24 @@ class Robo:
         #self.l.forwards()
         #self.r.backwards()
 
+    def move(self, movement = 'forwards', direction = 'straight'):
+        if movement == 'forwards' and direction == 'straight':
+            self.forwards()
+        elif movement == 'forwards' and direction == 'left':
+            self.left()
+        elif movement == 'forwards' and direction == 'right':
+            self.right()
+        elif movement == 'backwards':
+            self.backwards()
+        elif direction == 'left':
+            self.left()
+        elif direction == 'right':
+            self.right()
+        elif movement == 'stop':
+            self.stop()
+        else:
+            print('None')
+
     def stop(self):
         print('stop')
         #self.l.stop()

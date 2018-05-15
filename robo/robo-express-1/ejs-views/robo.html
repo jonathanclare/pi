@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title><%= title %></title>
+        <link rel="icon" href="/img/robo.png">
+
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Keywords for google search -->
+        <meta name="description" content="Robo">
+        <meta name="keywords" content="Robo">
+
+        <!-- Disable tap highlight on IE -->
+        <meta name="msapplication-tap-highlight" content="no">
+
+        <!-- Web Application Manifest -->
+        <link rel="manifest" href="./manifest.json">
+
+        <!-- Add to homescreen for Chrome on Android -->
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="application-name" content="Robo">
+        <link rel="icon" sizes="192x192" href="/img/robo.png">
+
+        <!-- Add to homescreen for Safari on iOS -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#75c7eb">
+        <meta name="apple-mobile-web-app-title" content="Robo">
+        <link rel="apple-touch-icon" href="/img/robo.png">
+
+        <!-- Tile icon for Win8 (144x144 + tile color) -->
+        <meta name="msapplication-TileImage" content="/img/robo.png">
+        <meta name="msapplication-TileColor" content="#ffffff">
+
+        <!-- Color the status bar on mobile devices -->
+        <meta name="theme-color" content="#75c7eb">
+
+        <!-- Styles -->
+        <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="/css/default.css">
+
+        <!-- JavaScript -->
+        <script src="/js/robo.js"></script>
+    </head>
+    <body>
+        <div class="flexbox control-panel no-select">
+            <div>
+                <div><a class="control" data-action="left">Left</a></div>
+                <div><a class="control" data-action="right">Right</a></div>
+            </div>
+            <div>
+                <div><a class="control" data-action="forwards">Forwards</a></div>
+                <div><a class="control" data-action="stop">Stop</a></div>
+                <div><a class="control" data-action="backwards">Backwards</a></div>
+            </div>
+        </div>
+        <!--div class="flexbox control-panel no-select">
+            <div><a class="control" data-action="/robo/drive/left">Left</a></div>
+            <div><a class="control" data-action="/robo/drive/forwards">Forward</a></div>
+            <div><a class="control" data-action="/robo/drive/right">Right</a></div>
+            <div><a class="control" data-action="/robo/drive/backwards">Back</a></div>
+            <div><a class="control" data-action="/robo/drive/stop">Stop</a></div>
+            <div><a class="control" data-action="/robo/drive/faster">Faster</a></div>
+            <div><a class="control" data-action="/robo/drive/slower">Slower</a></div>
+            <div><a class="control" data-action="/robo/drive/spin">Spin</a></div>
+            <div><a class="control" data-action="/robo/sound/alarm">Alarm</a></div>
+            <div><a class="control" data-action="/robo/camera/photo">Photo</a></div>
+        </div-->
+    </body>
+</html>
