@@ -54,30 +54,32 @@ html
 .control
 {
 	cursor: pointer;
-    stroke: deepskyblue;
-    stroke-width: 3;
+    stroke: #00bfff;
+    fill: #e6f8ff;
+    stroke-width: 2;
+    opacity:0.7;
 }
 .control:hover
 {
-    stroke: red;
+    opacity:1;
 }
 #control-left
 {
-    fill: blue;
+
 }
 #control-right
 {
-    fill: azure;
+
 }
 #control-forwards
 {
-    fill: green;
+
 }
 #control-stop
 {
-    fill: purple;
+
 }
 #control-backwards
 {
-    fill: beige;
+
 }
