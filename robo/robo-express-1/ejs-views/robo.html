@@ -42,30 +42,32 @@
 
         <!-- JavaScript -->
         <script src="/js/robo.js"></script>
+
+        <svg viewBox="0 0 120 120" display="none">
+            <defs>
+                <path id="arrow" d="M20 0 L40 40 L0 40 Z" vector-effect="non-scaling-stroke"/>
+            </defs>
+        </svg>
     </head>
     <body>
-        <div class="flexbox control-panel no-select">
-            <div>
-                <div><a class="control" data-action="left">Left</a></div>
-                <div><a class="control" data-action="right">Right</a></div>
+        <div class="flex-box control-panel" /> 
+            <div class="control-panel-left" /> 
+                <svg width="100%" height="100%" viewBox="0 0 120 120"> 
+                    <g transform="translate(20 40)">
+                        <use id="control-left" class="control" data-action="left"  xlink:href="#arrow" transform="rotate(-90 20 20)"/>
+                        <use id="control-right" class="control" data-action="right" xlink:href="#arrow" transform="translate(40, 0) rotate(90 20 20)" />
+                    </g>
+                </svg>
             </div>
-            <div>
-                <div><a class="control" data-action="forwards">Forwards</a></div>
-                <div><a class="control" data-action="stop">Stop</a></div>
-                <div><a class="control" data-action="backwards">Backwards</a></div>
+            <div class="control-panel-right" /> 
+                <svg width="100%" height="100%" viewBox="0 0 120 120"> 
+                    <g transform="translate(40 0)">
+                        <use id="control-forwards" class="control" data-action="forwards" xlink:href="#arrow" />
+                        <circle id="control-stop" class="control" data-action="stop" xlink:href="#arrow" cx="20" cy="60" r="20" vector-effect="non-scaling-stroke" />
+                        <use id="control-backwards" class="control" data-action="backwards" xlink:href="#arrow" transform="translate(0 80)rotate(180 20 20)" />
+                    </g>
+                </svg>
             </div>
         </div>
-        <!--div class="flexbox control-panel no-select">
-            <div><a class="control" data-action="/robo/drive/left">Left</a></div>
-            <div><a class="control" data-action="/robo/drive/forwards">Forward</a></div>
-            <div><a class="control" data-action="/robo/drive/right">Right</a></div>
-            <div><a class="control" data-action="/robo/drive/backwards">Back</a></div>
-            <div><a class="control" data-action="/robo/drive/stop">Stop</a></div>
-            <div><a class="control" data-action="/robo/drive/faster">Faster</a></div>
-            <div><a class="control" data-action="/robo/drive/slower">Slower</a></div>
-            <div><a class="control" data-action="/robo/drive/spin">Spin</a></div>
-            <div><a class="control" data-action="/robo/sound/alarm">Alarm</a></div>
-            <div><a class="control" data-action="/robo/camera/photo">Photo</a></div>
-        </div-->
     </body>
 </html>

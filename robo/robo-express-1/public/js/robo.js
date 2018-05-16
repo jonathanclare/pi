@@ -7,27 +7,54 @@ const init = () =>
 {
     const robo = new Robo();
     const ctrls = document.querySelectorAll('.control');
-    let movement = 'stop', direction = 'straight';
+
+    const btnPressed = 
+    {
+        'forwards':false,
+        'backwards':false,
+        'left':false,
+        'right':false,
+        'stop':false
+    }
+    let leftDown = false, rightDown = false, forwardsDown = false, backwardsDown = false; 
 
     for (let ctrl of ctrls)
     {
         on(ctrl, 'mousedown touchstart', function(evt)
         {
             evt.preventDefault();
-            const action = this.getAttribute('data-action');
-            if (action === 'forwards' || action === 'backwards' || action === 'stop') movement = action;
-            if (action === 'left' || action === 'right') direction = action;
-            robo.move(movement, direction);
+            onButtonPressed(this.getAttribute('data-action'));
         });
         on(ctrl, 'mouseup touchend', function(evt)
         {
             evt.preventDefault();
-            const action = this.getAttribute('data-action');
-            if (action === 'forwards' || action === 'backwards' || action === 'stop') movement = 'stop';
-            if (action === 'left' || action === 'right') direction = 'straight';
-            robo.move(movement, direction);
+            onButtonReleased(this.getAttribute('data-action'));
         });
     }
+
+    const onButtonPressed = (action) =>
+    {
+        btnPressed[action] = true;
+        onButtonChanged();
+    }
+    const onButtonReleased = (action) =>
+    {
+        btnPressed[action] = false;
+        onButtonChanged();
+    }
+    const onButtonChanged = () =>
+    {
+        if (btnPressed['forwards'] && btnPressed['left']) robo.move('forwards', 'left');
+        else if (btnPressed['forwards'] && btnPressed['right']) robo.move('forwards', 'right');
+        else if (btnPressed['backwards'] && btnPressed['left']) robo.move('backwards', 'left');
+        else if (btnPressed['backwards'] && btnPressed['right']) robo.move('backwards', 'right');
+        else if (btnPressed['forwards']) robo.move('forwards', 'straight');
+        else if (btnPressed['backwards']) robo.move('backwards', 'straight');
+        else if (btnPressed['left']) robo.move('spin', 'left');
+        else if (btnPressed['right']) robo.move('spin', 'right');
+        else if (btnPressed['stop']) robo.stop();
+        else robo.stop();
+    };
 };
 
 class Robo
@@ -46,12 +73,8 @@ class Robo
     }
     move(movement, direction)
     {
-        if (movement === 'stop') this.stop();
-        else
-        {
-            let endpoint = '/robo/drive/' + movement + '/' + direction;
-            this.execute(endpoint);
-        }
+        let action = '/robo/drive/' + movement + '/' + direction;
+        this.execute(action);
     }
     execute(action)
     { 

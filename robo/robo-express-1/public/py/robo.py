@@ -6,8 +6,6 @@
 # speed(-100 to 100) - Moves the motor at speed, from full backwards to full forwards
 # stop() - Stops the motor by setting its speed to 0
 
-print("Robo1 Online!")
-
 class Robo:
 
     name = 'Robo 1' # class variable shared by all instances.
@@ -16,7 +14,6 @@ class Robo:
         self.speed = 50 # 0 - 100% instance variable unique to each instance.
         #self.l = eh.motor.one
         #self.r = eh.motor.two
-        print('New robot instance created')
 
     def move(self, movement='stop', direction=''):
         print('move')
@@ -60,9 +57,3 @@ class Robo:
     def slower(self):
         print('slower ', self.speed)
         #self.speed = max(self.speed - 10, 0)
-
-    def alarm(self):
-        print('alarm')
-
-    def photo(self):
-        print('photo')
