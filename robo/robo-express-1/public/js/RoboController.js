@@ -1,5 +1,6 @@
 import * as dom from './dom.js' ;
 
+// This shuold be replaced with react in future version.
 export default class RoboController
 {
     constructor(robo) 
@@ -9,6 +10,16 @@ export default class RoboController
     }
     init()
     {
+        // Store controller state.
+        const state = new Map([
+            ['forwards', false],
+            ['backwards', false],
+            ['left', false],
+            ['right', false],
+            ['stop', false],
+            ['speed', 0.7],
+        ]);
+
         // Attach events to html controls.
         const ctrls = document.querySelectorAll('.control');
         for (let ctrl of ctrls)
@@ -25,30 +36,18 @@ export default class RoboController
             });
         }
 
-        // Robot.
-        const speed = 0.7;
-
-        // Store button state.
-        const btnPressed = 
-        {
-            'forwards':false,
-            'backwards':false,
-            'left':false,
-            'right':false,
-            'stop':false
-        }
         const onButtonChanged = (action, btnDown=true) =>
         {
-            btnPressed[action] = btnDown;
-            if (btnPressed['forwards'] && btnPressed['left'])           this.robo.drive({dir:'forwards', turn:'left', speed:speed});
-            else if (btnPressed['forwards'] && btnPressed['right'])     this.robo.drive({dir:'forwards', turn:'right', speed:speed});
-            else if (btnPressed['backwards'] && btnPressed['left'])     this.robo.drive({dir:'backwards', turn:'left', speed:speed});
-            else if (btnPressed['backwards'] && btnPressed['right'])    this.robo.drive({dir:'backwards', turn:'right', speed:speed});
-            else if (btnPressed['forwards'])                            this.robo.drive({dir:'forwards', speed:speed});
-            else if (btnPressed['backwards'])                           this.robo.drive({dir:'backwards', speed:speed});
-            else if (btnPressed['left'])                                this.robo.drive({dir:'spin', turn:'left', speed:speed});
-            else if (btnPressed['right'])                               this.robo.drive({dir:'spin', turn:'right', speed:speed});
-            else if (btnPressed['stop'])                                this.robo.stop();
+            state.set(action, btnDown);
+            if (state.get('forwards') && state.get('left'))         this.robo.drive({dir:'forwards', turn:'left', speed:state.get('speed')});
+            else if (state.get('forwards') && state.get('right'))   this.robo.drive({dir:'forwards', turn:'right', speed:state.get('speed')});
+            else if (state.get('backwards') && state.get('left'))   this.robo.drive({dir:'backwards', turn:'left', speed:state.get('speed')});
+            else if (state.get('backwards') && state.get('right'))  this.robo.drive({dir:'backwards', turn:'right', speed:state.get('speed')});
+            else if (state.get('forwards'))                         this.robo.drive({dir:'forwards', speed:state.get('speed')});
+            else if (state.get('backwards'))                        this.robo.drive({dir:'backwards', speed:state.get('speed')});
+            else if (state.get('left'))                             this.robo.drive({dir:'spin', turn:'left', speed:state.get('speed')});
+            else if (state.get('right'))                            this.robo.drive({dir:'spin', turn:'right', speed:state.get('speed')});
+            else if (state.get('stop'))                             this.robo.stop();
             else this.robo.stop();
         };
     }
