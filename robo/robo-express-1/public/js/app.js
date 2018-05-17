@@ -23,6 +23,7 @@ const init = () =>
 
     // Robot.
     const robo = new Robo();
+    const speed = 0.7;
 
     // Store button state.
     const btnPressed = 
@@ -36,14 +37,14 @@ const init = () =>
     const onButtonChanged = (action, btnDown=true) =>
     {
         btnPressed[action] = btnDown;
-        if (btnPressed['forwards'] && btnPressed['left'])           robo.drive('forwards', 'left');
-        else if (btnPressed['forwards'] && btnPressed['right'])     robo.drive('forwards', 'right');
-        else if (btnPressed['backwards'] && btnPressed['left'])     robo.drive('backwards', 'left');
-        else if (btnPressed['backwards'] && btnPressed['right'])    robo.drive('backwards', 'right');
-        else if (btnPressed['forwards'])                            robo.drive('forwards', 'straight');
-        else if (btnPressed['backwards'])                           robo.drive('backwards', 'straight');
-        else if (btnPressed['left'])                                robo.drive('spin', 'left');
-        else if (btnPressed['right'])                               robo.drive('spin', 'right');
+        if (btnPressed['forwards'] && btnPressed['left'])           robo.drive({dir:'forwards', turn:'left', speed:speed});
+        else if (btnPressed['forwards'] && btnPressed['right'])     robo.drive({dir:'forwards', turn:'right', speed:speed});
+        else if (btnPressed['backwards'] && btnPressed['left'])     robo.drive({dir:'backwards', turn:'left', speed:speed});
+        else if (btnPressed['backwards'] && btnPressed['right'])    robo.drive({dir:'backwards', turn:'right', speed:speed});
+        else if (btnPressed['forwards'])                            robo.drive({dir:'forwards', speed:speed});
+        else if (btnPressed['backwards'])                           robo.drive({dir:'backwards', speed:speed});
+        else if (btnPressed['left'])                                robo.drive({dir:'spin', turn:'left', speed:speed});
+        else if (btnPressed['right'])                               robo.drive({dir:'spin', turn:'right', speed:speed});
         else if (btnPressed['stop'])                                robo.stop();
         else robo.stop();
     };
