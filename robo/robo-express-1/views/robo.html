@@ -38,21 +38,21 @@
 
         <!-- Styles -->
         <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="/css/default.css">
+        <link rel="stylesheet" href="/css/robo.css">
 
         <!-- JavaScript -->
-        <script src="/js/robo.js"></script>
+        <script src="/js/app.js" type="module"></script>
 
         <svg viewBox="0 0 120 120" display="none">
             <defs>
-                <path id="arrow" d="M15 0 L30 30 L0 30 Z" vector-effect="non-scaling-stroke"/>
+                <path id="arrow" d="M15 0 L30 30 L0 30 Z" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>
             </defs>
         </svg>
     </head>
     <body>
         <div class="flex-box control-panel" /> 
             <div class="control-panel-left" /> 
-                <svg width="100%" height="100%" viewBox="0 0 120 120"> 
+                <svg class="shadow" width="100%" height="100%" viewBox="0 0 120 120"> 
                     <g transform="translate(20 45)">
                         <use id="control-left" class="control" data-action="left"  xlink:href="#arrow" transform="rotate(-90 15 15)"/>
                         <use id="control-right" class="control" data-action="right" xlink:href="#arrow" transform="translate(50, 0) rotate(90 15 15)" />
@@ -60,7 +60,7 @@
                 </svg>
             </div>
             <div class="control-panel-right" /> 
-                <svg width="100%" height="100%" viewBox="0 0 120 120"> 
+                <svg class="shadow" width="100%" height="100%" viewBox="0 0 120 120"> 
                     <g transform="translate(40 0)">
                         <use id="control-forwards" class="control" data-action="forwards" xlink:href="#arrow" transform="translate(0 5)" />
                         <circle id="control-stop" class="control" data-action="stop" xlink:href="#arrow" cx="15" cy="60" r="15" vector-effect="non-scaling-stroke" />

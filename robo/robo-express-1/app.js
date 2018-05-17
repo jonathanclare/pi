@@ -28,7 +28,7 @@ app.listen(5000);
 
 // View engine setup - replaced jade with ejs
 app.engine('html', require('ejs').renderFile);
-app.set('views', path.join(__dirname, 'ejs-views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
 app.use(logger('dev'));
