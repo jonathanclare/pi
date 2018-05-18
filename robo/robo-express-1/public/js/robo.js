@@ -11,7 +11,7 @@ export default class Robo
         this.drive('stop');
     }
     /*
-    dir = stop | forwards | backwards | left | right
+    dir = stop | forward | backward | left | right
     curveLeft = 0 - 1
     curveRight = 0 - 1
     speed = 0 - 1
@@ -26,6 +26,7 @@ export default class Robo
             return filtered;
         }, []);
         if (queryString.length > 0) route += '?' + queryString.join('&');
+        console.log(route)
         http.sendRequest(route);
     }
 }

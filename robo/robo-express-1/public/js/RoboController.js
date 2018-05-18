@@ -12,44 +12,53 @@ export default class RoboController
     {
         // Store controller state.
         const state = new Map([
-            ['forwards', false],
-            ['backwards', false],
+            ['forward', false],
+            ['backward', false],
             ['left', false],
             ['right', false],
             ['stop', false],
-            ['speed', 0.7],
+            ['speed', 0.5],
             ['curve', 0.5],
         ]);
 
         // Attach events to html controls.
-        const ctrls = document.querySelectorAll('.control');
-        for (let ctrl of ctrls)
+        const btns = document.querySelectorAll('.btn');
+        for (let btn of btns)
         {
-            dom.on(ctrl, 'mousedown touchstart', function(evt)
+            dom.on(btn, 'mousedown touchstart', function(evt)
             {
                 evt.preventDefault();
-                onButtonChanged(this.getAttribute('data-action'));
+                onStateChanged(this.getAttribute('data-action'), true);
             });
-            dom.on(ctrl, 'mouseup touchend', function(evt)
+            dom.on(btn, 'mouseup touchend', function(evt)
             {
                 evt.preventDefault();
-                onButtonChanged(this.getAttribute('data-action'), false);
+                onStateChanged(this.getAttribute('data-action'), false);
+            });
+        }
+        const sliders = document.querySelectorAll('.slider');
+        for (let slider of sliders)
+        {
+            dom.on(slider, 'change', function(evt)
+            {
+                onStateChanged(this.getAttribute('data-action'), this.value);
             });
         }
 
-        // Called on button pressed/released.
-        const onButtonChanged = (action, btnDown=true) =>
+        // Called when the controller state changes.
+        const onStateChanged = (action, newValue) =>
         {
-            state.set(action, btnDown);
-            if (state.get('forwards') && state.get('left'))         this.robo.drive({dir:'forwards', curveLeft:state.get('curve'), speed:state.get('speed')});
-            else if (state.get('forwards') && state.get('right'))   this.robo.drive({dir:'forwards', curveRight:state.get('curve'), speed:state.get('speed')});
-            else if (state.get('backwards') && state.get('left'))   this.robo.drive({dir:'backwards', curveLeft:state.get('curve'), speed:state.get('speed')});
-            else if (state.get('backwards') && state.get('right'))  this.robo.drive({dir:'backwards', curveRight:state.get('curve'), speed:state.get('speed')});
-            else if (state.get('forwards'))                         this.robo.drive({dir:'forwards', speed:state.get('speed')});
-            else if (state.get('backwards'))                        this.robo.drive({dir:'backwards', speed:state.get('speed')});
-            else if (state.get('left'))                             this.robo.drive({dir:'left', speed:state.get('speed')});
-            else if (state.get('right'))                            this.robo.drive({dir:'right', speed:state.get('speed')});
-            else if (state.get('stop'))                             this.robo.stop();
+            state.set(action, newValue);
+            if (state.get('forward') && state.get('left'))         this.robo.drive({dir:'forward', curveLeft:state.get('curve'), speed:state.get('speed')});
+            else if (state.get('forward') && state.get('right'))   this.robo.drive({dir:'forward', curveRight:state.get('curve'), speed:state.get('speed')});
+            else if (state.get('backward') && state.get('left'))   this.robo.drive({dir:'backward', curveLeft:state.get('curve'), speed:state.get('speed')});
+            else if (state.get('backward') && state.get('right'))  this.robo.drive({dir:'backward', curveRight:state.get('curve'), speed:state.get('speed')});
+            else if (state.get('forward'))                         this.robo.drive({dir:'forward', speed:state.get('speed')});
+            else if (state.get('backward'))                        this.robo.drive({dir:'backward', speed:state.get('speed')});
+            else if (state.get('left'))                            this.robo.drive({dir:'left', speed:state.get('speed')});
+            else if (state.get('right'))                           this.robo.drive({dir:'right', speed:state.get('speed')});
+            else if (state.get('stop'))                            this.robo.stop();
+            else if (action =='speed' || action =='curve')         {}
             else this.robo.stop();
         };
     }

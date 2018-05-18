@@ -43,30 +43,56 @@
         <!-- JavaScript -->
         <script src="/js/app.js" type="module"></script>
 
-        <svg viewBox="0 0 120 120" display="none">
+        <svg viewBox="0 0 100 100" display="none">
             <defs>
-                <path id="arrow" d="M15 0 L30 30 L0 30 Z" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>
+                <path id="arrow" d="M0 100 L50 0 L100 100 Z" stroke-linejoin="round"/>
             </defs>
         </svg>
     </head>
     <body>
-        <div class="flex-box control-panel" /> 
-            <div class="control-panel-left" /> 
-                <svg class="shadow" width="100%" height="100%" viewBox="0 0 120 120"> 
-                    <g transform="translate(20 45)">
-                        <use id="control-left" class="control" data-action="left"  xlink:href="#arrow" transform="rotate(-90 15 15)"/>
-                        <use id="control-right" class="control" data-action="right" xlink:href="#arrow" transform="translate(50, 0) rotate(90 15 15)" />
-                    </g>
-                </svg>
-            </div>
-            <div class="control-panel-right" /> 
-                <svg class="shadow" width="100%" height="100%" viewBox="0 0 120 120"> 
-                    <g transform="translate(40 0)">
-                        <use id="control-forwards" class="control" data-action="forwards" xlink:href="#arrow" transform="translate(0 5)" />
-                        <circle id="control-stop" class="control" data-action="stop" xlink:href="#arrow" cx="15" cy="60" r="15" vector-effect="non-scaling-stroke" />
-                        <use id="control-backwards" class="control" data-action="backwards" xlink:href="#arrow" transform="translate(0 85) rotate(180 15 15)" />
-                    </g>
-                </svg>
+        <div class="flex-box controller no-select"/> 
+            <div class="flex-box panel panel-row"> 
+                <div class="flex-box panel panel-column"> 
+                    <div class="flex-box panel panel-column" style="flex:2"> 
+                        <div class="flex-box"> 
+                            <div class="flex-box label">S</div>
+                            <div class="ctrl"><input class="slider" data-action="speed" type="range" min="0" max="1" value="0.5" step="0.01"></div>
+                        </div>
+                        <div class="flex-box"> 
+                            <div class="flex-box label">C</div>
+                            <div class="ctrl"><input class="slider" data-action="curve" type="range" min="0" max="1" value="0.5" step="0.01"></div>
+                        </div>
+                    </div>
+                    <div class="flex-box panel panel-row"> 
+                        <div class="flex-box ctrl btn" data-action="left">
+                            <svg viewBox="0 0 100 100">
+                                <use class="btn-icon" xlink:href="#arrow" transform="rotate(-90 50 50)"/>
+                            </svg>
+                        </div>
+                        <div class="flex-box ctrl btn" data-action="right">
+                            <svg viewBox="0 0 100 100">
+                                <use class="btn-icon" xlink:href="#arrow" transform="rotate(90 50 50)"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-box panel panel-column"> 
+                    <div class="flex-box ctrl btn" data-action="forward">
+                        <svg viewBox="0 0 100 100">
+                            <use class="btn-icon" xlink:href="#arrow"/>
+                        </svg>
+                    </div>
+                    <div class="flex-box ctrl btn" data-action="stop">
+                        <svg viewBox="0 0 100 100">
+                            <circle id="btn-icon-stop" class="btn-icon" data-action="stop" xlink:href="#arrow" cx="50" cy="50" r="50"  />
+                        </svg>
+                    </div>
+                    <div class="flex-box ctrl btn" data-action="backward">
+                        <svg viewBox="0 0 100 100">
+                            <use class="btn-icon" xlink:href="#arrow" transform="rotate(180 50 50)"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

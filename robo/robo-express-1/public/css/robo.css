@@ -13,6 +13,7 @@ html
  {
     height: 100%;
     margin: 0;
+    overflow: hidden;
 }
 
 /* Flexbox defaults */
@@ -38,53 +39,87 @@ html
 }
 
 /* Control panel */
-.control-panel
+.controller
 {
     position:absolute;
     top:0px;
     left:0px;
     width:100%;
     height:100%;
-    flex-flow: row nowrap;
+    font-family: sans-serif;
+    font-size: 1rem;
+    color:#05a0d4;
 }
-.control-panel-left, .control-panel-right
+.panel
+{
+    flex:1;
+    justify-content:center;
+}
+.panel-row
+{
+
+}
+.panel-column
+{
+    flex-flow: column nowrap;
+}
+.label
+{
+    justify-content:center;
+    align-items:center;
+    padding:10px;
+}
+.ctrl
+{
+    flex:1;
+    padding:10px;
+}
+.btn
+{
+	cursor: pointer;
+    opacity:0.7; 
+}
+.btn > *
 {
     flex:1;
 }
-.control
-{
-	cursor: pointer;
-    stroke: #00bfff;
-    fill: #e6f8ff;
-    stroke-width: 2;
-    opacity:0.7; 
-}
-.control:hover
+.btn:hover
 {
     opacity:1;
+}
+.btn-icon
+{
+    fill: #3cc3f7;
+    stroke-width: 2;
+}
+#btn-icon-stop
+{
+    fill: #ff8282;
+}
+.slider 
+{
+    -webkit-appearance: none;
+    /*transform: rotate(270deg);*/
+    width: 100%;
+    height: 50px;
+    background: #e6f8ff;
+    outline: none;
+    opacity: 0.7;
+}
+.slider:hover 
+{
+    opacity: 1;
+}
+.slider::-webkit-slider-thumb 
+{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 50px;
+    height: 50px;
+    background: #3cc3f7;
+    cursor: pointer;
 }
 .shadow
 {
     /*filter: drop-shadow(3px 3px 2px rgba(0,0,0,.7));*/
-}
-#control-left
-{ 
-
-}
-#control-right
-{
-
-}
-#control-forwards
-{
-
-}
-#control-stop
-{
-    stroke: #ef7575;
-    fill: #ffe6e6;
-}
-#control-backwards
-{
-
 }

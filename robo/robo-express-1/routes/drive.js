@@ -4,7 +4,7 @@ const path = require('path');
 const spawn = require('child_process').spawn;
 
 /*
-dir = stop | forwards | backwards | left | right
+dir = stop | forward | backward | left | right
 curveLeft = 0 - 1
 curveRight = 0 - 1
 speed = 0 - 1
