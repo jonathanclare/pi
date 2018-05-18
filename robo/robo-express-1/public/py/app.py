@@ -1,10 +1,10 @@
 import sys, json
 from Robo import Robo
 
-# JSON string passed in from javascript.
+# JSON string passed in from Node.
 lines = sys.stdin.readlines()  
 
-# Convert to dictionary.
+# Convert JSON string to dictionary object.
 data = json.loads(lines[0])
 
 # Create new robot and pass in dictioary as arguments.

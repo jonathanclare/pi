@@ -4,9 +4,6 @@
 // INSTALL EJS FOR IMPROVED TEMPLATING
 // > npm install ejs
 //
-// INSTALL PYTHON-SHELL FOR IMPROVED TEMPLATING
-// > npm install python-shell
-//
 // TO RUN
 // > set DEBUG=myapp:* 
 // > npm start

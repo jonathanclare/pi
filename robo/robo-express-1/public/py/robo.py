@@ -8,23 +8,26 @@ from gpiozero import Robot
 # -    |   2   | GPIO 26
 class Robo(Robot, left=(19, 20), right=(21, 26)):
 
-    name = 'Robo 1' # class variable shared by all instances.
-
     # Constructor
     def __init__(self, pin_factory=None):
-        #super(Robo, self).__init__((19, 20), (21, 26), pin_factory=pin_factory) # Python 2
-        super().__init__(left, right, pin_factory=pin_factory)
-        self.speed = 0.5 # 0 - 1 Speed.
-        self.curve = 0.5 # 0 - 1 The amount to curve left while moving forwards.
+        super().__init__(left=left, right=right, pin_factory=pin_factory)
+        self.speed = 0.5 # 0 - 1 The default speed.
+        self.curve = 0.5 # 0 - 1 The default amount to curve left/right whilst turning.
 
     # dir = stop | forwards | backwards | spin
-    # turn = straight | left | right
+    # turn = left | right
     # speed = 0 - 1
-    def drive(self, dir=None, turn=None, speed=None):
-        print({'dir': dir, 'turn': turn, 'speed': speed})
+    def drive(self, dir=None, turn=None, speed=None, curveLeft=None, curveRight=None):
 
-        if speed is None:
-            speed = self.speed
+        if dir != 'stop':
+            if speed is None:
+                speed = self.speed
+
+        if turn != None:
+            if curve is None:
+                curve = self.curve
+
+        print({'dir': dir, 'turn': turn, 'speed': speed, 'curve': curve})
 
         if dir == 'forwards'
             if turn == 'left':
@@ -52,11 +55,11 @@ class Robo(Robot, left=(19, 20), right=(21, 26)):
         print('stop')
         super().stop()
 
-    def forwards(self, turn=None, speed=None):
+    def forwards(self, turn=None, speed=None, curveLeft=None, curveRight=None):
         print('forwards')
         self.drive(dir='forwards', turn=turn, speed=speed)
 
-    def backwards(self, turn=None, speed=None):
+    def backwards(self, turn=None, speed=None, curveLeft=None, curveRight=None):
         print('backwards')
         self.drive(dir='backwards', turn=turn, speed=speed)
 
@@ -67,41 +70,29 @@ class Robo(Robot, left=(19, 20), right=(21, 26)):
 
 class Robo:
 
-    name = 'Robo 1' # class variable shared by all instances.
-
     # Constructor
     def __init__(self, left=(19, 20), right=(21, 26)): 
-        self.speed = 0.5 # 0 - 1 instance variable unique to each instance.
-        #self.l = eh.motor.one
-        #self.r = eh.motor.two
+        self.speed = 0.5 # 0 - 1 Speed.
 
-    # dir = stop | forwards | backwards | spin
-    # turn = straight | left | right
-    # speed = 0 - 1
-    def drive(self, dir=None, turn=None, speed=None):
+    def drive(self, dir=None, speed=None, curveLeft=None, curveRight=None):
 
-        if speed is None:
-            speed = self.speed
-            
-        print({'dir': dir, 'turn': turn, 'speed': speed})
-        #self.l.forwards()
-        #self.r.backwards()
+        if dir != 'stop':
+            if speed is None:
+                speed = self.speed
+
+        print({'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight})
 
     def stop(self):
-        print('stop')
-        #self.l.stop()
-        #self.r.stop()
+        self.drive(dir='stop')
 
-    def forwards(self, turn=None, speed=None):
-        print('forwards')
-        #self.l.forwards(self.speed)
-        #self.r.forwards(self.speed)
+    def forwards(self, speed=None, curveLeft=None, curveRight=None):
+        self.drive(dir='forwards', speed=speed, curveLeft=curveLeft, curveRight=curveRight)
 
-    def backwards(self, turn=None, speed=None):
-        print('backwards')
-        #self.l.backwards(self.speed)
-        #self.r.backwards(self.speed)
+    def backwards(self, speed=None, curveLeft=None, curveRight=None):
+        self.drive(dir='backwards', speed=speed, curveLeft=curveLeft, curveRight=curveRight)
 
-    def spin(self, turn=None, speed=None):
-        print('spin')
-        #self.speed = min(self.speed + 10, 100)
+    def left(self, speed=None):
+        self.drive(dir='left', speed=speed)
+
+    def right(self, speed=None):
+        self.drive(dir='right', speed=speed)

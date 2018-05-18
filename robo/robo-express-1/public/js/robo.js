@@ -11,15 +11,22 @@ export default class Robo
         this.drive('stop');
     }
     /*
-    dir = stop | forwards | backwards | spin
-    turn = left | right
+    dir = stop | forwards | backwards | left | right
+    curveLeft = 0 - 1
+    curveRight = 0 - 1
     speed = 0 - 1
     */
-    drive({dir='stop', turn, speed} = {})
+    drive({dir='stop', curveLeft, curveRight, speed} = {})
     {
-        let route = '/robo/drive/' + dir
-        if (turn !== undefined) route += '/' + turn; 
-        if (speed !== undefined) route += '?speed=' + speed; 
+        let route = '/robo/drive/' + dir;
+        const params =  {speed:speed, curveLeft:curveLeft, curveRight:curveRight}
+        const queryString = Object.keys(params).reduce((filtered, key) =>
+        {
+            if (params[key] !== undefined) filtered.push(key + '=' + params[key]);
+            return filtered;
+        }, []);
+        if (queryString.length > 0) route += '?' + queryString.join('&');
         http.sendRequest(route);
     }
 }
+
