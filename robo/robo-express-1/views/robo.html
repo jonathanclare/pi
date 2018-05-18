@@ -53,7 +53,7 @@
         <div class="flex-box controller no-select"/> 
             <div class="flex-box panel panel-row"> 
                 <div class="flex-box panel panel-column" style="flex:2"> 
-                    <div class="flex-box panel panel-column" style="flex:2"> 
+                    <div class="flex-box panel panel-column"> 
                         <div class="flex-box"> 
                             <div class="flex-box label">S</div>
                             <div class="ctrl-slider"><input class="slider" data-action="speed" type="range" min="0" max="1" value="0.5" step="0.01"></div>
@@ -62,6 +62,9 @@
                             <div class="flex-box label">C</div>
                             <div class="ctrl-slider"><input class="slider" data-action="curve" type="range" min="0" max="1" value="0.5" step="0.01"></div>
                         </div>
+                    </div>
+                    <div class="flex-box panel">
+                        <video style="flex:1" autoplay="true" id="videoElement"></video>
                     </div>
                     <div class="flex-box panel panel-row" style="justify-content:flex-start;align-items:stretch;"> 
                         <div class="flex-box ctrl btn" data-action="left" >

@@ -19,7 +19,7 @@ router.get('/:dir', function(req, res, next)
 	if (req.query.curveRight !== undefined) json.curveRight = req.query.curveRight;
 
 	// Run python script.
-	const filepath = path.join(__dirname, '..', '/public/py/app.py');
+	const filepath = path.join(__dirname, '..', '/public/py/drive.py');
 	const py = spawn('python', [filepath]);
 	py.stdout.on('data', data => 
 	{

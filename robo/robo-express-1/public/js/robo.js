@@ -30,4 +30,3 @@ export default class Robo
         http.sendRequest(route);
     }
 }
-

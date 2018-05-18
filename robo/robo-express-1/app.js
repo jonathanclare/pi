@@ -1,13 +1,23 @@
-// EXPRESS APPLICATION GENERATOR
-// https://expressjs.com/en/starter/generator.html
-// 
-// INSTALL EJS FOR IMPROVED TEMPLATING
-// > npm install ejs
-//
-// TO RUN
-// > set DEBUG=myapp:* 
-// > npm start
+/*
+CLONE CODE FROM GITHUB
+Open terminal
+> git clone https://github.com/jonathanclare/pi.git
 
+OVERWRITE CODE FROM GITHUB
+Open terminal
+> git fetch --all
+> git reset --hard origin/master
+
+EXPRESS APPLICATION GENERATOR
+https://expressjs.com/en/starter/generator.html
+
+INSTALL EJS FOR IMPROVED TEMPLATING
+> npm install ejs
+
+TO RUN
+set DEBUG=myapp:* 
+npm start
+*/
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
