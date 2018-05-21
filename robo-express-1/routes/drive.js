@@ -24,7 +24,7 @@ router.get('/:dir', function(req, res, next)
 	py.stdout.on('data', data => 
 	{
     	console.log(data.toString())
-		res.json(data.toString());
+		//res.json(data.toString());
 	});
 	py.stderr.on('data', data => {});
 	py.stdout.on('end', () => {});

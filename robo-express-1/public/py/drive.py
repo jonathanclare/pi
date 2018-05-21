@@ -1,5 +1,5 @@
 import sys, json
-from Robo import Robo
+from robo import Robo
 
 # JSON string passed in from Node.
 lines = sys.stdin.readlines()  

@@ -1,7 +1,7 @@
 import * as dom from './dom.js' ;
 
 // This shuold be replaced with react in future version.
-export default class RoboController
+export default class Controller
 {
     constructor(robo) 
     {
@@ -57,9 +57,9 @@ export default class RoboController
             else if (state.get('backward'))                        this.robo.drive({dir:'backward', speed:state.get('speed')});
             else if (state.get('left'))                            this.robo.drive({dir:'left', speed:state.get('speed')});
             else if (state.get('right'))                           this.robo.drive({dir:'right', speed:state.get('speed')});
-            else if (state.get('stop'))                            this.robo.stop();
+            else if (state.get('stop'))                            this.robo.drive({dir:'stop'});
             else if (action =='speed' || action =='curve')         {}
-            else this.robo.stop();
+            else                                                   this.robo.drive({dir:'stop'});
         };
     }
 }

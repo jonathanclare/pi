@@ -1,12 +1,12 @@
-import Robo from './Robo.js';
-import RoboController from './RoboController.js';
+import Robo from './robo.js';
+import Controller from './controller.js';
 
 window.onload = () => 
 {
-    new RoboController(new Robo());
+    new Controller(new Robo());
 
 
-/*
+    /*
     var video = document.querySelector("#videoElement");
      
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;

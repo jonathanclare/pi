@@ -26,7 +26,6 @@ export default class Robo
             return filtered;
         }, []);
         if (queryString.length > 0) route += '?' + queryString.join('&');
-        console.log(route)
         http.sendRequest(route);
     }
 }

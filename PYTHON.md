@@ -14,7 +14,20 @@ Check system path
 > python -c "import sys; print('\n'.join(sys.path))"
 ```
 
+### Version
+
+Get version of Python:
+```sh
+> python
+```
+
 ### Run code
+
+
+Run Python 3:
+```sh
+> python3 app.py
+```
 
 Run Python 2:
 ```sh
@@ -26,7 +39,29 @@ Run Python 3:
 > python3 app.py
 ```
 
-### Install Modules
+### Run function from command line.
+
+With the -c (command) argument (assuming your file is named foo.py):
+```sh
+> python -c 'import foo; print foo.hello()'
+```
+
+Alternatively, if you don't care about namespace pollution:
+```sh
+$ python -c 'from foo import *; print hello()'
+```
+
+And the middle ground:
+```sh
+$ python -c 'from foo import hello; print hello()'
+```
+
+### Package Management
+
+Upgrade PIP.
+```sh
+> python -m pip install -U pip
+```
 
 Output installed packages in requirements format.
 ```sh
