@@ -1,8 +1,7 @@
-# piwtf
+# PIWTF
 
 ### Cables
 *2018-04-29* Didnt have a hdmi-dvi cable for my monitor - went out and bought one - subsequently found out I did have the correct cable hidden in a drawer.
-
 
 ### VCN & SSH 
 *2018-04-29* Confusing hostname with username (in most cases username is always 'pi') - so I couldnt connect to the pi.
@@ -44,11 +43,12 @@ I also found out this actually works in the IDEs because they have their own ver
 *2018-05-08* Watch out installing python - 32bit vs 64bit reference different modules. I didnt understand why my modules had disappeared then
 realised everything was installed under the 32 bit version and Id opened my file using the 64bit version of python
 
-
-
 ### PIP
 * *2018-05-02* 'pip freeze' in terminal. Output installed packages in requirements format. 
 * *2018-05-02* 'pip list' in terminal.  List installed packages. 
 
 ### GPIO 
 * *2018-05-02* A handy reference can be accessed on the Raspberry Pi by opening a terminal window and running the command 'pinout'. This tool is provided by the GPIO Zero Python library 
+
+
+### GIT 
