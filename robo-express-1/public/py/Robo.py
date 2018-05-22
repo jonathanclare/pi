@@ -1,4 +1,4 @@
-''' from gpiozero import Robot '''
+from gpiozero import Robot
 from time import sleep
 import threading
 
@@ -13,17 +13,19 @@ class Robo:
 
     # Constructor
     def __init__(self, left=(26, 21), right=(20, 19)): 
-        #self._zeroRobot = Robot(left=left, right=right, pin_factory=None)
+        self._zeroRobot = Robot(left=left, right=right, pin_factory=None)
         self._thread = threading.Thread()
         self._driving = False
 
     def drive(self, dir=None, speed=1, curveLeft=0, curveRight=0, t=None):
+
         if self._thread.isAlive():  
             self._driving = False
             self._thread.join()    
 
         if dir != 'stop':
             if t != None:
+                self._zeroRobot.stop()
                 self._driveLogic(dir=dir, speed=speed, curveLeft=curveLeft, curveRight=curveRight, t=t)
             else:    
                 self._driving = True
@@ -34,28 +36,28 @@ class Robo:
       
     def _driveThread(self, **kwargs):
         while self._driving:
-            self._driveLogic(**kwargs, t=1)
+            self._driveLogic(**kwargs, t=0.5)
         print('Stop Driving')
+        self._zeroRobot.stop()
 
     def _driveLogic(self, **kwargs):
 
+        dir = kwargs.get('dir')
         speed = kwargs.get('speed')
         curveLeft = kwargs.get('curveLeft')
         curveRight = kwargs.get('curveRight')
         t = kwargs.get('t')
 
-        '''        
         if dir == 'forward': 
             self._zeroRobot.forward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
         elif dir == 'backward':
-           s elf._zeroRobot.backward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
+            self._zeroRobot.backward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
         elif dir == 'left':
             self._zeroRobot.left(speed=speed)
         elif dir == 'right':
             self._zeroRobot.right(speed=speed)
         else:
             self._zeroRobot.stop()
-        '''
 
         print('_driveLogic')
         sleep(t)
@@ -66,6 +68,7 @@ class Robo:
             self._thread.join()    
 
         if t != None:
+            self._zeroRobot.stop()
             self._motorLogic(side=side, dir=dir, speed=speed, t=t)
         else:    
             self._driving = True
@@ -76,26 +79,27 @@ class Robo:
       
     def _motorThread(self, **kwargs):
         while self._driving:
-            self._motorLogic(**kwargs, t=1)
+            self._motorLogic(**kwargs, t=0.5)
         print('Stop Motor')
+        self._zeroRobot.stop()
 
     def _motorLogic(self, **kwargs):
 
+        dir = kwargs.get('dir')
         speed = kwargs.get('speed')
         side = kwargs.get('side')
         t = kwargs.get('t')
-        '''
+
         if side == 'left':
             if dir == 'forward':
                 self._zeroRobot.left_motor.forward(speed=speed)
             else:
-                self._zeroRobot.left_motor.forward(speed=speed)
+                self._zeroRobot.left_motor.backward(speed=speed)
         elif side == 'right':
             if dir == 'forward':
                 self._zeroRobot.right_motor.forward(speed=speed)
             else:
                 self._zeroRobot.right_motor.backward(speed=speed)
-        '''
 
         print('_motorLogic')
         sleep(t)   
