@@ -1,8 +1,7 @@
 from robo import Robo
 from guizero import App, Box, PushButton
-from time import sleep
-from multiprocessing import Pool 
-from threading import Thread
+import time
+import threading
 
 r = Robo()
 
@@ -54,50 +53,64 @@ def pivotRight():
     print('pivot right')
     #r.drive({dir:'right', speed:1});
 
-def stop():
+#def stop():
     print('stop')
     #r.drive({dir:'stop'});
 
+#def startThread(dir):
+    #stopFlag = Event()
+    #thread = MyThread(stopFlag)
+    #thread.start()
 
-from threading import Timer,Thread,Event
+class MyThread:
 
-class MyThread(Thread):
-    def __init__(self, event):
-        Thread.__init__(self)
-        self.stopped = event
+    # Constructor
+    def __init__(self, left=(26, 21), right=(20, 19), pin_factory=None): 
+        self.t = threading.Thread()
+        self.driving = False
 
-    def run(self):
-        while not self.stopped.wait(0.5):
-            print("my thread")
-            # call a function
+    def start(self, dir=None, speed=None, curveLeft=0, curveRight=0):
+        self.stop()
+        self.driving = True
+        self.t = threading.Thread(target=self.startThread, args=(dir, speed, curveLeft, curveRight))
+        self.t.start()
 
-stopFlag = Event()
-thread = MyThread(stopFlag)
+    def stop(self):     
+        if self.t.isAlive():  
+            self.driving = False
+            self.t.join()     
 
+    def startThread(self, dir=None, speed=None, curveLeft=0, curveRight=0):
+        while self.driving:
+            r.drive(dir, speed, curveLeft, curveRight)
+            time.sleep(0.1)
+        print("Stopping as you wish.")
 
-def startThread(dir):
-    stopFlag = Event()
-    thread = MyThread(stopFlag)
-    thread.start()
-
-def stopThread(dir):
-    stopFlag.set()
-
+#if __name__ == "__main__":
+ #   main()
 
 def testButtonPress():
+    
+    t = MyThread()
+
+    def move(dir):
+        if dir == 'stop':
+            t.stop()
+        else:
+            t.start(dir)
 
     app = App(title='Robo', height=300, width=300, layout='grid')
     
     box = Box(app, layout='grid', grid=[0,1])
-    btnForwardLeft = PushButton(box, command=startThread, args=['forward'], text='Forward Left', grid=[0,0])
-    btnForward = PushButton(box, command=stopThread, args=['forward'], text='Forward', grid=[1,0])
-    btnForwardRight = PushButton(box, command=stopThread, args=['forward'], text='Forward Right', grid=[2,0])
-    btnPivotLeft = PushButton(box, command=stopThread, args=['left'], text='Pivot Left', grid=[0,1])
-    btnStop = PushButton(box, command=stopThread, args=['stop'], text='Stop', grid=[1,1])
-    btnPivotRight = PushButton(box, command=stopThread, args=['right'], text='Pivot Right', grid=[2,1])
-    btnBackwardLeft = PushButton(box, command=stopThread, args=['backward'], text='Backward Left', grid=[0,2])
-    btnBackward = PushButton(box, command=stopThread, args=['backward'], text='Backward', grid=[1,2])
-    btnBackwardRight = PushButton(box, command=stopThread, args=['backward'], text='Backward Right', grid=[2,2])
+    btnForwardLeft = PushButton(box, command=move, args=['forward'], text='Forward Left', grid=[0,0])
+    btnForward = PushButton(box, command=move, args=['forward'], text='Forward', grid=[1,0])
+    btnForwardRight = PushButton(box, command=move, args=['forward'], text='Forward Right', grid=[2,0])
+    btnPivotLeft = PushButton(box, command=move, args=['left'], text='Pivot Left', grid=[0,1])
+    btnStop = PushButton(box, command=move, text='Stop', args=['stop'], grid=[1,1])
+    btnPivotRight = PushButton(box, command=move, args=['right'], text='Pivot Right', grid=[2,1])
+    btnBackwardLeft = PushButton(box, command=move, args=['backward'], text='Backward Left', grid=[0,2])
+    btnBackward = PushButton(box, command=move, args=['backward'], text='Backward', grid=[1,2])
+    btnBackwardRight = PushButton(box, command=move, args=['backward'], text='Backward Right', grid=[2,2])
 
     app.display()
 
@@ -105,35 +118,35 @@ testButtonPress()
 
 def testMotors(t=3):
     leftMotorBackward()
-    sleep(t)
+    time.sleep(t)
     leftMotorBackward()
-    sleep(t)
+    time.sleep(t)
     rightMotorForward()
-    sleep(t)
+    time.sleep(t)
     rightMotorBackward()
-    sleep(t)
+    time.sleep(t)
     forwardLeft()
-    sleep(t)
+    time.sleep(t)
     backwardLeft()
-    sleep(t)
+    time.sleep(t)
     forwardRight()
-    sleep(t)
+    time.sleep(t)
     backwardRight()
-    sleep(t)
+    time.sleep(t)
     forward()
-    sleep(t)
+    time.sleep(t)
     backward()
-    sleep(t)
+    time.sleep(t)
     pivotLeft()
-    sleep(t)
+    time.sleep(t)
     pivotRight()
-    sleep(t)
+    time.sleep(t)
     pivotLeft()
-    sleep(t)
+    time.sleep(t)
     stop()
-    sleep(t)
+    time.sleep(t)
 
-def testMotorsGui():
+def testMotorsUsingGui():
     app = App(title='Robo', height=300, width=300, layout='grid')
     
     box = Box(app, layout='grid', grid=[0,0])
