@@ -9,56 +9,132 @@ Explorer HAT Motor Channels are default.
 +    |   2   | GPIO 21
 -    |   2   | GPIO 26   
 '''
-'''class Robo(Robot):'''
 class Robo:
 
     # Constructor
-    def __init__(self, left=(26, 21), right=(20, 19), pin_factory=None): 
-        '''super().__init__(left=left, right=right, pin_factory=pin_factory)'''
-        self.speed = 0.5 # 0 - 1 Speed.
+    def __init__(self, left=(26, 21), right=(20, 19)): 
+        #self._zeroRobot = Robot(left=left, right=right, pin_factory=None)
         self._thread = threading.Thread()
         self._driving = False
 
-    def drive(self, dir=None, speed=None, curveLeft=0, curveRight=0):
-        pass
-      
-    def motor(self, side=None, dir='forward', speed=1, t=3):
-        print({'side': side, 'dir': dir, 'speed': speed, 't': t})
-
-        '''
-        if side == 'left':
-            if dir == 'forward':
-                self.left_motor.forward(speed=speed)
-            else:
-                self.left_motor.forward(speed=speed)
-        elif side == 'right':
-            if dir == 'forward':
-                self.right_motor.forward(speed=speed)
-            else:
-                self.right_motor.backward(speed=speed)
-        '''
-
-        sleep(t)
-
-    def move(self, dir=None, speed=None, curveLeft=0, curveRight=0, t=0):
+    def drive(self, dir=None, speed=1, curveLeft=0, curveRight=0, t=None):
+        if self._thread.isAlive():  
+            self._driving = False
+            self._thread.join()    
 
         if dir != 'stop':
-            if speed is None:
-                speed = self.speed
+            if t != None:
+                self._driveLogic(dir=dir, speed=speed, curveLeft=curveLeft, curveRight=curveRight, t=t)
+            else:    
+                self._driving = True
+                self._thread = threading.Thread(target=self._driveThread, kwargs={'dir':dir, 'speed':speed, 'curveLeft':curveLeft, 'curveRight':curveRight})
+                self._thread.start()
+
+        print({'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight, 't': t})
+      
+    def _driveThread(self, **kwargs):
+        while self._driving:
+            self._driveLogic(**kwargs, t=1)
+        print('Stop Driving')
+
+    def _driveLogic(self, **kwargs):
+
+        speed = kwargs.get('speed')
+        curveLeft = kwargs.get('curveLeft')
+        curveRight = kwargs.get('curveRight')
+        t = kwargs.get('t')
 
         '''        
         if dir == 'forward': 
-            self.forward(speed=speed, curve_left=curveLeft, curve_right=curveLeft)
+            self._zeroRobot.forward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
         elif dir == 'backward':
-            self.backward(speed=speed, curve_left=curveLeft, curve_right=curveLeft)
+           s elf._zeroRobot.backward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
         elif dir == 'left':
-            self.left(speed=speed)
+            self._zeroRobot.left(speed=speed)
         elif dir == 'right':
-            self.right(speed=speed)
+            self._zeroRobot.right(speed=speed)
         else:
-            self.stop()
+            self._zeroRobot.stop()
         '''
 
-        print({'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight, 't': t})
-
+        print('_driveLogic')
         sleep(t)
+
+    def motor(self, side=None, dir='forward', speed=1, t=None):
+        if self._thread.isAlive():  
+            self._driving = False
+            self._thread.join()    
+
+        if t != None:
+            self._motorLogic(side=side, dir=dir, speed=speed, t=t)
+        else:    
+            self._driving = True
+            self._thread = threading.Thread(target=self._motorThread, kwargs={'side':side, 'dir':dir, 'speed':speed})
+            self._thread.start()
+
+        print({'side': side, 'dir': dir, 'speed': speed, 't': t})
+      
+    def _motorThread(self, **kwargs):
+        while self._driving:
+            self._motorLogic(**kwargs, t=1)
+        print('Stop Motor')
+
+    def _motorLogic(self, **kwargs):
+
+        speed = kwargs.get('speed')
+        side = kwargs.get('side')
+        t = kwargs.get('t')
+        '''
+        if side == 'left':
+            if dir == 'forward':
+                self._zeroRobot.left_motor.forward(speed=speed)
+            else:
+                self._zeroRobot.left_motor.forward(speed=speed)
+        elif side == 'right':
+            if dir == 'forward':
+                self._zeroRobot.right_motor.forward(speed=speed)
+            else:
+                self._zeroRobot.right_motor.backward(speed=speed)
+        '''
+
+        print('_motorLogic')
+        sleep(t)   
+
+    def forwardLeft(self, speed=1, t=None):
+        self.drive(dir='forward', curveLeft=0.5, speed=speed, t=t)
+
+    def backwardLeft(self, speed=1, t=None):
+        self.drive(dir='backward', curveLeft=0.5, speed=speed, t=t)
+
+    def forwardRight(self, speed=1, t=None):
+        self.drive(dir='forward', curveRight=0.5, speed=speed, t=t)
+
+    def backwardRight(self, speed=1, t=None):
+        self.drive(dir='backward', curveRight=0.5, speed=speed, t=t)
+
+    def forward(self, speed=1, t=None):
+        self.drive(dir='forward', speed=speed, t=t)
+
+    def backward(self, speed=1, t=None):
+        self.drive(dir='backward', speed=speed, t=t)
+
+    def pivotLeft(self, speed=1, t=None):
+        self.drive(dir='left', speed=speed, t=t)
+
+    def pivotRight(self, speed=1, t=None):
+        self.drive(dir='right', speed=speed, t=t)
+
+    def stop(self):
+        self.drive(dir='stop')
+
+    def leftMotorForward(self, speed=1, t=None):
+        self.motor(side='left', dir='forward', speed=speed, t=t)
+
+    def leftMotorBackward(self, speed=1, t=None):
+        self.motor(side='left', dir='backward', speed=speed, t=t)
+
+    def rightMotorForward(self, speed=1, t=None):
+        self.motor(side='right', dir='forward', speed=speed, t=t)
+
+    def rightMotorBackward(self, speed=1, t=None):
+        self.motor(side='right', dir='backward', speed=speed, t=t)
