@@ -6,9 +6,16 @@ export default class Robo
     {
 
     }
-    stop()
-    { 
-        this.drive('stop');
+    /*
+    dir = forward | backward
+    side = left | right
+    speed = 0 - 1
+    */
+    motor({dir='stop', side, speed} = {})
+    {
+        const route = '/robo/motor/' + side + '/' + dir;
+        const params =  {speed:speed}
+        http.sendRequestWithParams(route, params);
     }
     /*
     dir = stop | forward | backward | left | right
@@ -18,14 +25,8 @@ export default class Robo
     */
     drive({dir='stop', curveLeft, curveRight, speed} = {})
     {
-        let route = '/robo/drive/' + dir;
-        const params =  {speed:speed, curveLeft:curveLeft, curveRight:curveRight}
-        const queryString = Object.keys(params).reduce((filtered, key) =>
-        {
-            if (params[key] !== undefined) filtered.push(key + '=' + params[key]);
-            return filtered;
-        }, []);
-        if (queryString.length > 0) route += '?' + queryString.join('&');
-        http.sendRequest(route);
+        const route = '/robo/drive/' + dir;
+        const params = {speed:speed, curveLeft:curveLeft, curveRight:curveRight};
+        http.sendRequestWithParams(route, params);
     }
 }

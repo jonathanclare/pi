@@ -49,64 +49,35 @@
             </defs>
         </svg>
     </head>
-    <body>
-        <div class="flex-box controller no-select"/> 
-            <div class="flex-box panel panel-row"> 
-                <div class="flex-box panel panel-column" style="flex:2"> 
-                    <div class="flex-box panel panel-column"> 
-                        <div class="flex-box"> 
-                            <div class="flex-box label">S</div>
-                            <div class="ctrl-slider"><input class="slider" data-action="speed" type="range" min="0" max="1" value="0.5" step="0.01"></div>
-                        </div>
-                        <div class="flex-box"> 
-                            <div class="flex-box label">C</div>
-                            <div class="ctrl-slider"><input class="slider" data-action="curve" type="range" min="0" max="1" value="0.5" step="0.01"></div>
-                        </div>
-                    </div>
-                    <div class="flex-box panel">
-                        <video style="flex:1" autoplay="true" id="videoElement"></video>
-                    </div>
-                    <div class="flex-box panel panel-row" style="justify-content:flex-start;align-items:stretch;"> 
-                        <div class="flex-box ctrl btn" data-action="left" >
-                            <div>
-                                <svg viewBox="0 0 100 100">
-                                    <use class="btn-icon" xlink:href="#arrow" transform="rotate(-90 50 50)"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="flex-box ctrl btn" data-action="right">
-                            <div>
-                                <svg viewBox="0 0 100 100">
-                                    <use class="btn-icon" xlink:href="#arrow" transform="rotate(90 50 50)"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-box panel panel-column">
-                    <div class="flex-box ctrl btn" data-action="forward" style="justify-content:flex-end;align-items:stretch;">
-                        <div>
-                            <svg viewBox="0 0 100 100">
-                                <use class="btn-icon" xlink:href="#arrow"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="flex-box ctrl btn" data-action="stop" style="justify-content:flex-end;align-items:stretch;">
-                        <div>
-                            <svg viewBox="0 0 100 100">
-                                <circle id="btn-icon-stop" class="btn-icon" data-action="stop" xlink:href="#arrow" cx="50" cy="50" r="50"  />
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="flex-box ctrl btn" data-action="backward" style="justify-content:flex-end;align-items:stretch;">
-                        <div>
-                            <svg viewBox="0 0 100 100">
-                                <use class="btn-icon" xlink:href="#arrow" transform="rotate(180 50 50)"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
+    <body class="no-select">
+        <!--div data-action="left-forward" id="btn-left-forward" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow"/></svg>
+        </div-->
+
+        <div class="flex-box column" id="sliders"> 
+            <div class="flex-box">
+                <div class="ctrl ctrl-slider"><input class="slider" data-action="curve" type="range" min="0" max="1" value="0.5" step="0.01"></div>
+                <div class="flex-box ctrl label">CURVE</div>
             </div>
+            <div class="flex-box">
+                <div class="ctrl ctrl-slider"><input class="slider" data-action="speed" type="range" min="0" max="1" value="0.5" step="0.01"></div>
+                <div class="flex-box ctrl label">SPEED</div>
+            </div>
+        </div>
+        <div data-action="left" id="btn-left" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow" transform="rotate(-90 50 50)"/></svg>
+        </div>
+        <div data-action="right" id="btn-right" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow" transform="rotate(90 50 50)"/></svg>
+        </div>
+        <div data-action="stop" id="btn-stop" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><circle id="btn-icon-stop" class="btn-icon" data-action="stop" xlink:href="#arrow" cx="50" cy="50" r="50"  /></svg>
+        </div>
+        <div data-action="backward" id="btn-backward" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow" transform="rotate(180 50 50)"/></svg>
+        </div>
+        <div data-action="forward" id="btn-forward" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow"/></svg>
         </div>
     </body>
 </html>

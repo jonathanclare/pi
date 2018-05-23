@@ -4,7 +4,7 @@ from robo import Robo
 r = Robo()
 
 def test():
-    app = App(title='Robo', height=300, width=300, layout='grid')
+    app = App(title='Robo', height=300, width=400, layout='grid')
     
     box = Box(app, layout='grid', grid=[0,0])
     PushButton(box, r.leftMotorForward, text='Left Motor Forward', grid=[0,0])

@@ -16,6 +16,17 @@ html
     overflow: hidden;
 }
 
+/* Flexbox defaults */
+.flex-box
+{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
 /* Prevent tap highlight and text selection */
 .no-select 
 {
@@ -27,19 +38,36 @@ html
     user-select: none;
 }
 
-/* Flexbox defaults */
-.flex-box
+/* Control panel */
+.controller
 {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    flex-flow: row nowrap;
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    font-family: sans-serif;
+    font-size: 1rem;
+    color:#05a0d4;
 }
-.column
+.panel
+{
+    flex:1;
+    justify-content:center;
+}
+.panel-row
+{
+
+}
+.panel-column
 {
     flex-flow: column nowrap;
+}
+.label
+{
+    justify-content:center;
+    align-items:center;
+    padding:10px;
 }
 .ctrl
 {
@@ -47,60 +75,30 @@ html
 }
 .btn
 {
-    position:absolute;
-    cursor: pointer;
+	cursor: pointer;
     opacity:0.7; 
+}
+video
+{
+    background-color: #666;
+}
+svg
+{
+   width:100%;
+   height:100%;
 }
 .btn:hover
 {
     opacity:1;
 }
-#btn-left
-{
-    bottom:0px;left:0px;width:100px;height:100px;
-}
-#btn-right
-{
-    bottom:0px;left:100px;width:100px;height:100px;
-}
-#btn-stop
-{
-    bottom:0px;right:100px;width:100px;height:100px;
-}
-#btn-forward
-{
-    bottom:100px;right:0px;width:100px;height:100px;
-}
-#btn-backward
-{
-    bottom:0px;right:0px;width:100px;height:100px;
-}
-#btn-left-forward
-{
-    top:0px;right:50px;width:50px;height:50px;
-}
 .btn-icon
 {
-    width:100%;
-    height:100%;
     fill: #3cc3f7;
     stroke-width: 2;
 }
 #btn-icon-stop
 {
     fill: #ff8282;
-}
-.label
-{
-    font-family: sans-serif;
-    font-size: 1rem;
-    color:#05a0d4;
-    justify-content:center;
-    align-items:center;
-}
-#sliders
-{
-     position:absolute;top:0px;left:0px;
 }
 .ctrl-slider
 {
@@ -110,7 +108,7 @@ html
 {
     -webkit-appearance: none;
     /*transform: rotate(270deg);*/
-    width: 200px;
+    width: 100%;
     height: 50px;
     background: #e6f8ff;
     outline: none;

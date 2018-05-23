@@ -8,6 +8,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const roboRouter = require('./routes/robo');
 const driveRouter = require('./routes/drive');
+const motorRouter = require('./routes/motor');
 
 // Listen at port 5000.
 const app = express();
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/robo', roboRouter);
 app.use('/robo/drive', driveRouter);
+app.use('/robo/motor', motorRouter);
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) =>

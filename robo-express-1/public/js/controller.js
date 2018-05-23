@@ -12,13 +12,17 @@ export default class Controller
     {
         // Store controller state.
         const state = new Map([
+            ['left-forward', false],
+            ['left-backward', false],
+            ['right-forward', false],
+            ['right-backward', false],
             ['forward', false],
             ['backward', false],
             ['left', false],
             ['right', false],
             ['stop', false],
             ['speed', 0.5],
-            ['curve', 0.5],
+            ['curve', 0.8],
         ]);
 
         // Attach events to html controls.
@@ -49,7 +53,11 @@ export default class Controller
         const onStateChanged = (action, newValue) =>
         {
             state.set(action, newValue);
-            if (state.get('forward') && state.get('left'))         this.robo.drive({dir:'forward', curveLeft:state.get('curve'), speed:state.get('speed')});
+            if (state.get('left-forward'))                         this.robo.motor({dir:'forward', side:'left', speed:state.get('speed')});
+            else if (state.get('left-backward'))                   this.robo.motor({dir:'backward', side:'left', speed:state.get('speed')});
+            else if (state.get('right-forward'))                   this.robo.motor({dir:'forward', side:'right', speed:state.get('speed')});
+            else if (state.get('right-backward'))                  this.robo.motor({dir:'backward', side:'right', speed:state.get('speed')});
+            else if (state.get('forward') && state.get('left'))    this.robo.drive({dir:'forward', curveLeft:state.get('curve'), speed:state.get('speed')});
             else if (state.get('forward') && state.get('right'))   this.robo.drive({dir:'forward', curveRight:state.get('curve'), speed:state.get('speed')});
             else if (state.get('backward') && state.get('left'))   this.robo.drive({dir:'backward', curveLeft:state.get('curve'), speed:state.get('speed')});
             else if (state.get('backward') && state.get('right'))  this.robo.drive({dir:'backward', curveRight:state.get('curve'), speed:state.get('speed')});

@@ -12,5 +12,5 @@ data = json.loads(lines[0])
 r = Robo()
 
 while True:
-	r.drive(**data)
+	r.motor(**data)
 	sys.stdout.flush()
