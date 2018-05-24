@@ -1,5 +1,4 @@
 #from gpiozero import Robot
-from time import sleep
 
 '''
 Explorer HAT Motor Channels are default.
@@ -22,15 +21,15 @@ class Robo:
     speed = 0 - 1
     motor = left | right
     '''
-    def drive(self, dir=None, speed=1, curveLeft=0, curveRight=0, motor=None, t=1):
-        print({'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight, 'motor': motor, 't': t})
+    def drive(self, dir=None, speed=1, curveLeft=0, curveRight=0, motor=None):
+        print({'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight, 'motor': motor})
 
         speed = float(speed)
         curveLeft = float(curveLeft)
         curveRight = float(curveRight)
-        t = float(t)
 
         '''
+        self._zeroRobot.stop()
         if motor != None:
             if motor == 'left':
                 if dir == 'forward':
@@ -43,7 +42,6 @@ class Robo:
                 elif dir == 'backward':
                     self._zeroRobot.right_motor.backward(speed=speed)
         else    
-            self._zeroRobot.stop()
             if dir == 'forward': 
                 self._zeroRobot.forward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
             elif dir == 'backward':
@@ -54,43 +52,41 @@ class Robo:
                 self._zeroRobot.right(speed=speed)
         '''
 
-        sleep(t)
+    def forwardLeft(self, curveLeft=0.8, speed=1):
+        self.drive(dir='forward', curveLeft=curveLeft, speed=speed)
 
-    def forwardLeft(self, curveLeft=0.8, speed=1, t=1):
-        self.drive(dir='forward', curveLeft=curveLeft, speed=speed, t=t)
+    def backwardLeft(self, curveLeft=0.8, speed=1):
+        self.drive(dir='backward', curveLeft=curveLeft, speed=speed)
 
-    def backwardLeft(self, curveLeft=0.8, speed=1, t=1):
-        self.drive(dir='backward', curveLeft=curveLeft, speed=speed, t=t)
+    def forwardRight(self, curveRight=0.8, speed=1):
+        self.drive(dir='forward', curveRight=curveRight, speed=speed)
 
-    def forwardRight(self, curveRight=0.8, speed=1, t=1):
-        self.drive(dir='forward', curveRight=curveRight, speed=speed, t=t)
+    def backwardRight(self, curveRight=0.8, speed=1):
+        self.drive(dir='backward', curveRight=curveRight, speed=speed)
 
-    def backwardRight(self, curveRight=0.8, speed=1, t=1):
-        self.drive(dir='backward', curveRight=curveRight, speed=speed, t=t)
+    def forward(self, speed=1):
+        self.drive(dir='forward', speed=speed)
 
-    def forward(self, speed=1, t=1):
-        self.drive(dir='forward', speed=speed, t=t)
+    def backward(self, speed=1):
+        self.drive(dir='backward', speed=speed)
 
-    def backward(self, speed=1, t=1):
-        self.drive(dir='backward', speed=speed, t=t)
+    def pivotLeft(self, speed=1):
+        self.drive(dir='left', speed=speed)
 
-    def pivotLeft(self, speed=1, t=1):
-        self.drive(dir='left', speed=speed, t=t)
-
-    def pivotRight(self, speed=1, t=None):
-        self.drive(dir='right', speed=speed, t=t)
+    def pivotRight(self, speed=1):
+        self.drive(dir='right', speed=speed)
 
     def stop(self):
         self.drive(dir='stop')
 
-    def leftMotorForward(self, speed=1, t=1):
-        self.drive(motor='left', dir='forward', speed=speed, t=t)
+    def leftMotorForward(self, speed=1):
+        self.drive(motor='left', dir='forward', speed=speed)
 
-    def leftMotorBackward(self, speed=1, t=1):
-        self.drive(motor='left', dir='backward', speed=speed, t=t)
+    def leftMotorBackward(self, speed=1):
+        self.drive(motor='left', dir='backward', speed=speed)
 
-    def rightMotorForward(self, speed=1, t=1):
-        self.drive(motor='right', dir='forward', speed=speed, t=t)
+    def rightMotorForward(self, speed=1):
+        self.drive(motor='right', dir='forward', speed=speed)
 
-    def rightMotorBackward(self, speed=1, t=1):
-        self.drive(motor='right', dir='backward', speed=speed, t=t)
+    def rightMotorBackward(self, speed=1):
+        self.drive(motor='right', dir='backward', speed=speed)

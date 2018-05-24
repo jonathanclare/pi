@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{title}}</title>
+        <link rel="icon" href="{{url_for('static', filename='img/robo.png')}}">
+
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Keywords for google search -->
+        <meta name="description" content="Robo">
+        <meta name="keywords" content="Robo">
+
+        <!-- Disable tap highlight on IE -->
+        <meta name="msapplication-tap-highlight" content="no">
+
+        <!-- Web Application Manifest -->
+        <link rel="manifest" href="./manifest.json">
+
+        <!-- Add to homescreen for Chrome on Android -->
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="application-name" content="Robo">
+        <link rel="icon" sizes="192x192" href="{{url_for('static', filename='img/robo.png')}}">
+
+        <!-- Add to homescreen for Safari on iOS -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#75c7eb">
+        <meta name="apple-mobile-web-app-title" content="Robo">
+        <link rel="apple-touch-icon" href="{{url_for('static', filename='img/robo.png')}}">
+
+        <!-- Tile icon for Win8 (144x144 + tile color) -->
+        <meta name="msapplication-TileImage" content="{{url_for('static', filename='img/robo.png')}}">
+        <meta name="msapplication-TileColor" content="#ffffff">
+
+        <!-- Color the status bar on mobile devices -->
+        <meta name="theme-color" content="#75c7eb">
+
+        <!-- Import webfonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{url_for('static', filename='css/default.css')}}">
+
+        <!-- JavaScript -->
+        <script src="{{url_for('static', filename='js/app.js')}}" type="module"></script>
+
+        <svg viewBox="0 0 100 100" display="none">
+            <defs>
+                <path id="arrow" d="M0 100 L50 0 L100 100 Z" stroke-linejoin="round"/>
+            </defs>
+        </svg>
+    </head>
+    <body class="no-select">
+        <!--div data-action="left-forward" id="btn-left-forward" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow"/></svg>
+        </div-->
+        <div class="flex-box column" id="sliders"> 
+            <div class="flex-box">
+                <div class="ctrl ctrl-slider"><input class="slider" data-action="curve" type="range" min="0" max="1" value="0.5" step="0.01"></div>
+                <div class="flex-box ctrl label">CURVE</div>
+            </div>
+            <div class="flex-box">
+                <div class="ctrl ctrl-slider"><input class="slider" data-action="speed" type="range" min="0" max="1" value="0.5" step="0.01"></div>
+                <div class="flex-box ctrl label">SPEED</div>
+            </div>
+        </div>
+        <div data-action="left" id="btn-left" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow" transform="rotate(-90 50 50)"/></svg>
+        </div>
+        <div data-action="right" id="btn-right" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow" transform="rotate(90 50 50)"/></svg>
+        </div>
+        <div data-action="stop" id="btn-stop" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><circle id="btn-icon-stop" class="btn-icon" data-action="stop" xlink:href="#arrow" cx="50" cy="50" r="50"  /></svg>
+        </div>
+        <div data-action="backward" id="btn-backward" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow" transform="rotate(180 50 50)"/></svg>
+        </div>
+        <div data-action="forward" id="btn-forward" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow"/></svg>
+        </div>
+    </body>
+</html>

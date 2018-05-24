@@ -18,10 +18,10 @@ router.get('/:dir', function(req, res, next)
 	const json = JSON.parse(JSON.stringify(req.params));
 
 	// Query string params.
-	if (req.query.speed !== undefined) json.speed = req.query.speed;
-	if (req.query.curveLeft !== undefined) json.curveLeft = req.query.curveLeft;
+	if (req.query.speed !== undefined) 		json.speed = req.query.speed;
+	if (req.query.curveLeft !== undefined) 	json.curveLeft = req.query.curveLeft;
 	if (req.query.curveRight !== undefined) json.curveRight = req.query.curveRight;
-	if (req.query.motor !== undefined) json.motor = req.query.motor;
+	if (req.query.motor !== undefined) 		json.motor = req.query.motor;
 
 	// Run python script.
 	let filepath
@@ -39,7 +39,7 @@ router.get('/:dir', function(req, res, next)
 	});
 	py.stderr.on('data', err => 
 	{
-		console.log(err);
+		console.log(err.toString());
 	});
 	py.stdout.on('end', () => 
 	{

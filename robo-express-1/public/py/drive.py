@@ -13,4 +13,5 @@ r = Robo()
 
 while True:
 	r.drive(**data)
+	sleep(0.1)
 	sys.stdout.flush()

@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "name": "Robo",
+  "launch_path": "/robo.html",
+  "description": "Robot Rover",
+  "icons": {
+    "128": "/img/robo.png"
+  },
+  "developer": {
+    "name": "Jonathan CLare",
+    "url": "https://jonathanclare.github.io/pi/"
+  },
+  "installs_allowed_from": [
+    "*"
+  ],
+  "default_locale": "en",
+  "permissions": {
+  },
+  "locales": {
+    "en": {
+      "name": "Robo",
+      "description": "Robot Rover"
+    }
+  }
+}

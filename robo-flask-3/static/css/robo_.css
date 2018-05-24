@@ -1,0 +1,133 @@
+/* The width and height properties of elements (and min/max properties) includes content, padding and border */
+html 
+{
+    box-sizing: border-box;
+}
+*, *:before, *:after 
+{
+    box-sizing: inherit;
+}
+
+/* Full page app */
+ html, body 
+ {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Flexbox defaults */
+.flex-box
+{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+/* Prevent tap highlight and text selection */
+.no-select 
+{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;
+}
+
+/* Control panel */
+.controller
+{
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    font-family: sans-serif;
+    font-size: 1rem;
+    color:#05a0d4;
+}
+.panel
+{
+    flex:1;
+    justify-content:center;
+}
+.panel-row
+{
+
+}
+.panel-column
+{
+    flex-flow: column nowrap;
+}
+.label
+{
+    justify-content:center;
+    align-items:center;
+    padding:10px;
+}
+.ctrl
+{
+    padding:10px;
+}
+.btn
+{
+	cursor: pointer;
+    opacity:0.7; 
+}
+video
+{
+    background-color: #666;
+}
+svg
+{
+   width:100%;
+   height:100%;
+}
+.btn:hover
+{
+    opacity:1;
+}
+.btn-icon
+{
+    fill: #3cc3f7;
+    stroke-width: 2;
+}
+#btn-icon-stop
+{
+    fill: #ff8282;
+}
+.ctrl-slider
+{
+    flex:1;
+}
+.slider 
+{
+    -webkit-appearance: none;
+    /*transform: rotate(270deg);*/
+    width: 100%;
+    height: 50px;
+    background: #e6f8ff;
+    outline: none;
+    opacity: 0.7;
+}
+.slider:hover 
+{
+    opacity: 1;
+}
+.slider::-webkit-slider-thumb 
+{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 50px;
+    height: 50px;
+    background: #3cc3f7;
+    cursor: pointer;
+}
+.shadow
+{
+    /*filter: drop-shadow(3px 3px 2px rgba(0,0,0,.7));*/
+}

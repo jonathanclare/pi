@@ -1,0 +1,26 @@
+{
+  "name": "Robo",
+  "short_name": "Robo",
+  "icons": [{
+        "src": "img/robo.png",
+        "sizes": "128x128",
+        "type": "image/png"
+      }, {
+        "src": "img/robo.png",
+        "sizes": "152x152",
+        "type": "image/png"
+      }, {
+        "src": "img/robo.png",
+        "sizes": "144x144",
+        "type": "image/png"
+      }, {
+        "src": "img/robo.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }],
+  "start_url": "/robo.html",
+  "orientation": "landscape",
+  "display": "standalone",
+  "background_color": "#e1e8ed",
+  "theme_color": "#75c7eb"
+}
