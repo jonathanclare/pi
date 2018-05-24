@@ -5,7 +5,7 @@
 -  32bit vs 64bit reference different modules. I didnt understand why my modules had disappeared then
 realised everything was installed under the 32 bit version and Id opened my file using the 64bit version of python.
 - Code not running? Check which version of Python youre using.
-- The terminal may be using a different version of Python than your IDE.
+- The terminalwill use the version of Python the system path, An IDE may be using a different version.
 
 ### System path
 
@@ -23,13 +23,12 @@ Get version of Python:
 
 ### Run code
 
-
 Run Python 3:
 ```sh
 > python3 app.py
 ```
 
-Run Python 2:
+Run version of Python found on system path:
 ```sh
 > python app.py
 ```
