@@ -1,20 +1,31 @@
 import sys
 import util
+from time import sleep
 from robo import Robo
 
 r = Robo()
 
-def test(t=1, speed=1):
-    r.leftMotorForward(speed=speed, t=t)
-    r.leftMotorBackward(speed=speed, t=t)
-    r.rightMotorForward(speed=speed, t=t)
-    r.rightMotorBackward(speed=speed, t=t)
-    r.forwardLeft(speed=speed, t=t)
-    r.forwardRight(speed=speed, t=t)
-    r.backwardLeft(speed=speed, t=t)
-    r.backwardRight(speed=speed, t=t)
-    r.pivotLeft(speed=speed, t=t)
-    r.pivotRight(speed=speed, t=t)
+def test(speed=1):
+    r.leftMotorForward(speed=speed)
+    sleep(1)
+    r.leftMotorBackward(speed=speed)
+    sleep(1)
+    r.rightMotorForward(speed=speed)
+    sleep(1)
+    r.rightMotorBackward(speed=speed)
+    sleep(1)
+    r.forwardLeft(speed=speed)
+    sleep(1)
+    r.forwardRight(speed=speed)
+    sleep(1)
+    r.backwardLeft(speed=speed)
+    sleep(1)
+    r.backwardRight(speed=speed)
+    sleep(1)
+    r.pivotLeft(speed=speed)
+    sleep(1)
+    r.pivotRight(speed=speed)
+    sleep(1)
     r.stop()
 
 if len(sys.argv) > 1 and util.isNumber(sys.argv[1]):

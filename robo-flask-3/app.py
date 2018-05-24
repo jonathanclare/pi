@@ -1,12 +1,12 @@
 from flask import Flask, request, render_template
 import json
-from robo import Robo
+from robo import Robo, RoboThread
 from time import sleep
-import threading
 
 app = Flask(__name__)
 
 r = Robo()
+rt = RoboThread(r)
 
 @app.route("/")
 def index():
@@ -23,25 +23,8 @@ curveRight = 0 - 1
 speed = 0 - 1
 motor = left | right
 '''
-
-driveThread = threading.Thread()
-driving = False
-
-def driveLoop(**kwargs):
-    while driving:
-        r.drive(**kwargs)
-        sleep(0.1)
-    print('Stop Driving')
-
 @app.route('/robo/drive/<dir>')
 def drive(dir=None):
-
-    global driveThread
-    global driving
-
-    if driveThread.isAlive():  
-        driving = False
-        driveThread.join()    
 
     data = {'dir':dir};
 
@@ -55,14 +38,10 @@ def drive(dir=None):
     if request.args.get('motor') != None:      
         data['motor'] = request.args.get('motor')
 
-    #r.drive(**data)
-    #sleep(0.1)
-
     if dir != 'stop':
-        driving = True
-        driveThread = threading.Thread(target=driveLoop, kwargs=data)
-        driveThread.start()
+        rt.drive(**data)
     else:   
+        rt.kill()
         r.stop()
         sleep(0.1) 
 

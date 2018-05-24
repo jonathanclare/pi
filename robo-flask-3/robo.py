@@ -90,3 +90,33 @@ class Robo:
 
     def rightMotorBackward(self, speed=1):
         self.drive(motor='right', dir='backward', speed=speed)
+
+
+from time import sleep
+import threading
+
+class RoboThread:
+
+    # Constructor
+    def __init__(self, robo): 
+        self.driving = False
+        self.robo = robo
+        self.driveThread = threading.Thread()
+
+    def drive(self, **kwargs2):
+        self.kill()
+        self.driving = True
+        self.driveThread = threading.Thread(target=self._driveLoop, kwargs=kwargs2)
+        self.driveThread.daemon = True
+        self.driveThread.start()
+
+    def kill(self):
+        if self.driveThread.isAlive():  
+            self.driving = False
+            self.driveThread.join()    
+
+    def _driveLoop(self, **kwargs):
+        while self.driving:
+            self.robo.drive(**kwargs)
+            sleep(0.1)
+        print('Stop Driving')
