@@ -18,3 +18,8 @@ Overwrite code from Git:
 > git fetch --all
 > git reset --hard origin/master
 ```
+
+Rename file:
+```sh
+> git mv --force myfile MyFile
+```
