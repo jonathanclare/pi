@@ -1,81 +1,92 @@
-#import explorerhat as eh
+#from gpiozero import Robot
 
-# invert() - Reverses the direction of forwards for this motor
-# forwards(speed) - Turns the motor "forwards" at speed ( default 100% )
-# backwards(speed) - Turns the motor "backwards" at speed ( default 100% )
-# speed(-100 to 100) - Moves the motor at speed, from full backwards to full forwards
-# stop() - Stops the motor by setting its speed to 0
-
-print("Robo1 Online!")
-
+'''
+Explorer HAT Motor Channels are default.
++    |   1   | GPIO 19
+-    |   1   | GPIO 20
++    |   2   | GPIO 21
+-    |   2   | GPIO 26   
+'''
 class Robo:
 
-    name = 'Robo 1' # class variable shared by all instances.
+    # Constructor
+    def __init__(self, left=(26, 21), right=(20, 19)): 
+        pass
+        '''self._zeroRobot = Robot(left=left, right=right, pin_factory=None)'''
 
-    def __init__(self): # Constructor
-        self.speed = 50 # 0 - 100% instance variable unique to each instance.
-        #self.l = eh.motor.one
-        #self.r = eh.motor.two
-        print('New robot instance created')
+    '''
+    dir = stop | forward | backward | left | right
+    curveLeft = 0 - 1
+    curveRight = 0 - 1
+    speed = 0 - 1
+    motor = left | right
+    '''
+    def drive(self, dir=None, speed=1, curveLeft=0, curveRight=0, motor=None):
+        print({'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight, 'motor': motor})
 
-    def spin(self):
-        print('spin')
-        #self.l.forwards()
-        #self.r.backwards()
+        speed = float(speed)
+        curveLeft = float(curveLeft)
+        curveRight = float(curveRight)
 
-    def move(self, movement = 'forwards', direction = 'straight'):
-        if movement == 'forwards' and direction == 'straight':
-            self.forwards()
-        elif movement == 'forwards' and direction == 'left':
-            self.left()
-        elif movement == 'forwards' and direction == 'right':
-            self.right()
-        elif movement == 'backwards':
-            self.backwards()
-        elif direction == 'left':
-            self.left()
-        elif direction == 'right':
-            self.right()
-        elif movement == 'stop':
-            self.stop()
-        else:
-            print('None')
+        '''
+        self._zeroRobot.stop()
+        if motor != None:
+            if motor == 'left':
+                if dir == 'forward':
+                    self._zeroRobot.left_motor.forward(speed=speed)
+                elif dir == 'backward':
+                    self._zeroRobot.left_motor.backward(speed=speed)
+            elif motor == 'right':
+                if dir == 'forward':
+                    self._zeroRobot.right_motor.forward(speed=speed)
+                elif dir == 'backward':
+                    self._zeroRobot.right_motor.backward(speed=speed)
+        else    
+            if dir == 'forward': 
+                self._zeroRobot.forward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
+            elif dir == 'backward':
+                self._zeroRobot.backward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
+            elif dir == 'left':
+                self._zeroRobot.left(speed=speed)
+            elif dir == 'right':
+                self._zeroRobot.right(speed=speed)
+        '''
+
+    def forwardLeft(self, curveLeft=0.8, speed=1):
+        self.drive(dir='forward', curveLeft=curveLeft, speed=speed)
+
+    def backwardLeft(self, curveLeft=0.8, speed=1):
+        self.drive(dir='backward', curveLeft=curveLeft, speed=speed)
+
+    def forwardRight(self, curveRight=0.8, speed=1):
+        self.drive(dir='forward', curveRight=curveRight, speed=speed)
+
+    def backwardRight(self, curveRight=0.8, speed=1):
+        self.drive(dir='backward', curveRight=curveRight, speed=speed)
+
+    def forward(self, speed=1):
+        self.drive(dir='forward', speed=speed)
+
+    def backward(self, speed=1):
+        self.drive(dir='backward', speed=speed)
+
+    def pivotLeft(self, speed=1):
+        self.drive(dir='left', speed=speed)
+
+    def pivotRight(self, speed=1):
+        self.drive(dir='right', speed=speed)
 
     def stop(self):
-        print('stop')
-        #self.l.stop()
-        #self.r.stop()
+        self.drive(dir='stop')
 
-    def forwards(self):
-        print('forwards')
-        #self.l.forwards(self.speed)
-        #self.r.forwards(self.speed)
+    def leftMotorForward(self, speed=1):
+        self.drive(motor='left', dir='forward', speed=speed)
 
-    def backwards(self):
-        print('backwards')
-        #self.l.backwards(self.speed)
-        #self.r.backwards(self.speed)
+    def leftMotorBackward(self, speed=1):
+        self.drive(motor='left', dir='backward', speed=speed)
 
-    def left(self):
-        print('left')
-        #self.l.forwards(self.speed / 2)
-        #self.r.forwards(self.speed)
+    def rightMotorForward(self, speed=1):
+        self.drive(motor='right', dir='forward', speed=speed)
 
-    def right(self):
-        print('right')
-        #self.l.forwards(self.speed)
-        #self.r.forwards(self.speed / 2)
-
-    def faster(self):
-        print('faster ', self.speed)
-        #self.speed = min(self.speed + 10, 100)
-
-    def slower(self):
-        print('slower ', self.speed)
-        #self.speed = max(self.speed - 10, 0)
-
-    def alarm(self):
-        print('alarm')
-
-    def photo(self):
-        print('photo')
+    def rightMotorBackward(self, speed=1):
+        self.drive(motor='right', dir='backward', speed=speed)
