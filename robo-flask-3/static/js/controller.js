@@ -25,8 +25,7 @@ export default class Controller
             ['curve', 0.8],
         ]);
 
-        // Attach events to html controls.
-
+        // Attach event
         // Btns.
         const btns = document.querySelectorAll('.btn');
         for (let btn of btns)
@@ -36,12 +35,25 @@ export default class Controller
                 evt.preventDefault();
                 onStateChanged(this.getAttribute('data-action'), true);
             });
-            dom.on(btn, 'touchend', function(evt)
+            /*dom.on(btn, 'touchend', function(evt)
             {
                 evt.preventDefault();
                 onStateChanged(this.getAttribute('data-action'), false);
-            });
+            });*/
         }
+// Fix touch end
+        dom.on(document, 'touchend', function(evt) // Handle missed touches.
+        {
+            if (evt.touches.length < 1) 
+            {
+                for (let [key, value] of state) 
+                {
+                    if (typeof(value) === 'boolean') state.set(key, false);
+                } 
+                this.robo.drive({dir:'stop'});
+            }
+        }.bind(this));
+
         dom.on(document, 'mouseup', function(evt) // Handles mouseup outside button. 
         {
             let stopRobot = false;

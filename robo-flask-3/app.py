@@ -2,6 +2,7 @@ from flask import Flask, request, render_template
 import json
 from robo import Robo, RoboThread
 from time import sleep
+import datetime
 
 app = Flask(__name__)
 
@@ -14,7 +15,13 @@ def index():
 
 @app.route('/robo')
 def robot():
-    return render_template('robo.html')
+    now = datetime.datetime.now()
+    date = now.strftime('%H-%M-%S')
+    template_data = {
+        'title' : 'ROBO',
+        'date': date
+    }
+    return render_template('robo.html', **template_data)
 
 '''
 dir = stop | forward | backward | left | right
