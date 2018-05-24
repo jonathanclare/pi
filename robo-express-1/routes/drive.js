@@ -8,6 +8,7 @@ dir = stop | forward | backward | left | right
 curveLeft = 0 - 1
 curveRight = 0 - 1
 speed = 0 - 1
+motor = left | right
 */
 let py;
 router.get('/:dir', function(req, res, next) 
@@ -20,6 +21,7 @@ router.get('/:dir', function(req, res, next)
 	if (req.query.speed !== undefined) json.speed = req.query.speed;
 	if (req.query.curveLeft !== undefined) json.curveLeft = req.query.curveLeft;
 	if (req.query.curveRight !== undefined) json.curveRight = req.query.curveRight;
+	if (req.query.motor !== undefined) json.motor = req.query.motor;
 
 	// Run python script.
 	let filepath
@@ -41,8 +43,7 @@ router.get('/:dir', function(req, res, next)
 	});
 	py.stdout.on('end', () => 
 	{
-		//console.log(out);
-		res.json(JSON.stringify(json));
+		res.json(json);
 	});
 	py.stdin.write(JSON.stringify(json));
 	py.stdin.end();

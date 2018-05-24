@@ -9,7 +9,8 @@ const sendRequest = route =>
     })
     .then(function(json) 
     {
-        console.log('response: ' + json);
+        console.log('response:');
+        console.log(json);
     });
 }
 const sendRequestWithParams = (route, params) =>

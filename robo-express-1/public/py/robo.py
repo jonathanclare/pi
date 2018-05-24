@@ -15,6 +15,13 @@ class Robo:
         pass
         '''self._zeroRobot = Robot(left=left, right=right, pin_factory=None)'''
 
+    '''
+    dir = stop | forward | backward | left | right
+    curveLeft = 0 - 1
+    curveRight = 0 - 1
+    speed = 0 - 1
+    motor = left | right
+    '''
     def drive(self, dir=None, speed=1, curveLeft=0, curveRight=0, motor=None, t=1):
         print({'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight, 'motor': motor, 't': t})
 
@@ -23,8 +30,8 @@ class Robo:
         curveRight = float(curveRight)
         t = float(t)
 
-        if motor != None
-            '''
+        '''
+        if motor != None:
             if motor == 'left':
                 if dir == 'forward':
                     self._zeroRobot.left_motor.forward(speed=speed)
@@ -35,9 +42,7 @@ class Robo:
                     self._zeroRobot.right_motor.forward(speed=speed)
                 elif dir == 'backward':
                     self._zeroRobot.right_motor.backward(speed=speed)
-            '''
         else    
-            '''
             self._zeroRobot.stop()
             if dir == 'forward': 
                 self._zeroRobot.forward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
@@ -47,7 +52,7 @@ class Robo:
                 self._zeroRobot.left(speed=speed)
             elif dir == 'right':
                 self._zeroRobot.right(speed=speed)
-            '''
+        '''
 
         sleep(t)
 

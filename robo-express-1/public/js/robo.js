@@ -7,23 +7,13 @@ export default class Robo
 
     }
     /*
-    dir = forward | backward
-    side = left | right
-    speed = 0 - 1
-    */
-    motor({dir='stop', side, speed} = {})
-    {
-        const route = '/robo/motor/' + side + '/' + dir;
-        const params =  {speed:speed}
-        http.sendRequestWithParams(route, params);
-    }
-    /*
     dir = stop | forward | backward | left | right
     curveLeft = 0 - 1
     curveRight = 0 - 1
     speed = 0 - 1
+    motor = left | right
     */
-    drive({dir='stop', curveLeft, curveRight, speed} = {})
+    drive({dir='stop', curveLeft, curveRight, speed, motor} = {})
     {
         const route = '/robo/drive/' + dir;
         const params = {speed:speed, curveLeft:curveLeft, curveRight:curveRight};
