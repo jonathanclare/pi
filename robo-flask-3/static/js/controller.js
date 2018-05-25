@@ -1,6 +1,7 @@
-import * as dom from './dom.js' ;
+import * as dom from './dom.js';
+import EventHandler from './eventhandler.js';
 
-// This shuold be replaced with react in future version.
+// This should be replaced with react in future version.
 export default class Controller
 {
     constructor(robo) 
@@ -25,26 +26,22 @@ export default class Controller
             ['curve', 0.8],
         ]);
 
-        // Attach event
-        // Btns.
-        const btns = document.querySelectorAll('.btn');
-        for (let btn of btns)
+        const handler = new EventHandler(document, 
         {
-            dom.on(btn, 'mousedown touchstart', function(evt)
-            {
-                evt.preventDefault();
-                onStateChanged(this.getAttribute('data-action'), true);
-            });
-            /*dom.on(btn, 'touchend', function(evt)
-            {
-                evt.preventDefault();
-                onStateChanged(this.getAttribute('data-action'), false);
-            });*/
+            always : (evt, evtType, type) => {if (type === 'touch') evt.preventDefault()},
+            touchstart : evt => onDown(evt.target.getAttribute('data-action')),
+            touchend : evt => {if (evt.touches.length < 1) onUp(evt.target.getAttribute('data-action'))},
+            mousedown : evt => onDown(evt.target.getAttribute('data-action')),
+            mouseup : evt => onUp(evt.target.getAttribute('data-action'))
+        });
+
+        const onDown = action =>
+        {
+            if (action !== null) onStateChanged(action, true);
         }
-// Fix touch end
-        dom.on(document, 'touchend', function(evt) // Handle missed touches.
+        const onUp = action =>
         {
-            if (evt.touches.length < 1) 
+            if (action !== 'stop' && action !== 'speed' && action !== 'curve' &&action !== null)
             {
                 for (let [key, value] of state) 
                 {
@@ -52,21 +49,7 @@ export default class Controller
                 } 
                 this.robo.drive({dir:'stop'});
             }
-        }.bind(this));
-
-        dom.on(document, 'mouseup', function(evt) // Handles mouseup outside button. 
-        {
-            let stopRobot = false;
-            for (let [key, value] of state) 
-            {
-                if (typeof(value) === 'boolean') 
-                {
-                    if (value === true && key != 'stop') stopRobot = true;
-                    state.set(key, false);
-                }
-            } 
-            if (stopRobot === true) this.robo.drive({dir:'stop'});
-        }.bind(this));
+        }
 
         // Sliders.
         const sliders = document.querySelectorAll('.slider');

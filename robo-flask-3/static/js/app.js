@@ -1,5 +1,5 @@
 import Robo from './robo.js';
-import Controller from './controller.js?';
+import Controller from './controller.js';
 
 window.onload = () => 
 {
