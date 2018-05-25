@@ -6,7 +6,7 @@
 
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
         <!-- Keywords for google search -->
         <meta name="description" content="Robo">
@@ -57,28 +57,28 @@
         </div-->
         <div class="flex-box column" id="sliders"> 
             <div class="flex-box">
-                <div class="ctrl ctrl-slider"><input class="slider" data-action="curve" type="range" min="0" max="1" value="0.5" step="0.01"></div>
+                <div class="ctrl ctrl-slider"><input id="slider-curve" class="slider" type="range" min="0" max="1" step="0.01"></div>
                 <div class="flex-box ctrl label">CURVE</div>
             </div>
             <div class="flex-box">
-                <div class="ctrl ctrl-slider"><input class="slider" data-action="speed" type="range" min="0" max="1" value="0.5" step="0.01"></div>
+                <div class="ctrl ctrl-slider"><input id="slider-speed" class="slider" type="range" min="0" max="1" step="0.01"></div>
                 <div class="flex-box ctrl label">SPEED</div>
             </div>
         </div>
-        <div id="btn-left" class="ctrl btn">
-            <svg viewBox="0 0 100 100"><use data-action="left" class="btn-icon" xlink:href="#arrow" transform="rotate(-90 50 50)"/></svg>
+        <div id="btn-left" data-action="left" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use  class="btn-icon" xlink:href="#arrow" transform="rotate(-90 50 50)"/></svg>
         </div>
-        <div id="btn-right" class="ctrl btn">
-            <svg viewBox="0 0 100 100"><use data-action="right" class="btn-icon" xlink:href="#arrow" transform="rotate(90 50 50)"/></svg>
+        <div id="btn-right" data-action="right" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow" transform="rotate(90 50 50)"/></svg>
         </div>
-        <div id="btn-stop" class="ctrl btn">
-            <svg viewBox="0 0 100 100"><circle data-action="stop" id="btn-icon-stop" class="btn-icon" data-action="stop" xlink:href="#arrow" cx="50" cy="50" r="50"  /></svg>
+        <div id="btn-stop" data-action="stop" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><circle id="btn-icon-stop" class="btn-icon" data-action="stop" xlink:href="#arrow" cx="50" cy="50" r="50"  /></svg>
         </div>
-        <div id="btn-backward" class="ctrl btn">
-            <svg viewBox="0 0 100 100"><use data-action="backward" class="btn-icon" xlink:href="#arrow" transform="rotate(180 50 50)"/></svg>
+        <div id="btn-backward" data-action="backward" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow" transform="rotate(180 50 50)"/></svg>
         </div>
-        <div id="btn-forward" class="ctrl btn">
-            <svg viewBox="0 0 100 100"><use data-action="forward" class="btn-icon" xlink:href="#arrow"/></svg>
+        <div id="btn-forward" data-action="forward" class="ctrl btn">
+            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow"/></svg>
         </div>
     </body>
 </html>

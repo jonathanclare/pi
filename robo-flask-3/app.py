@@ -47,10 +47,10 @@ def drive(dir=None):
 
     if dir != 'stop':
         rt.drive(**data)
-    else:   
+    else:  
+        sleep(0.1)
         rt.kill()
         r.stop()
-        sleep(0.1) 
 
     return json.dumps(data)
 

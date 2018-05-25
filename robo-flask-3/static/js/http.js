@@ -1,7 +1,7 @@
 const sendRequest = route =>
 { 
     const url = [location.protocol, '//', location.host, route].join('');
-    console.log('request: ' + url);
+    //console.log('request: ' + url);
     fetch(url)
     .then(function(response) 
     {
@@ -9,7 +9,7 @@ const sendRequest = route =>
     })
     .then(function(json) 
     {
-        console.log('response:');
+        //console.log('response:');
         console.log(json);
     });
 }
