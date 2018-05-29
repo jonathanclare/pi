@@ -41,6 +41,8 @@ html
 {
     flex-flow: column nowrap;
 }
+
+/* Controls */
 .ctrl
 {
     padding:10px;
@@ -129,7 +131,21 @@ html
     background: #3cc3f7;
     cursor: pointer;
 }
-.shadow
+
+/* Video feed */
+.video-feed
 {
-    /*filter: drop-shadow(3px 3px 2px rgba(0,0,0,.7));*/
+    position: absolute;
+    top: 0;
+    left: 0; 
+    right: 0; 
+    bottom: 0; 
+    align-items:center;
+    justify-content: center;
+}
+.video-feed img 
+{
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
 }

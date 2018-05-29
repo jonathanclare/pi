@@ -1,7 +1,7 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, Response
 import json
+import os
 from robo import Robo, RoboThread
-from time import sleep
 import datetime
 
 app = Flask(__name__)
@@ -53,6 +53,40 @@ def drive(dir=None):
         r.stop()
 
     return json.dumps(data)
+
+from camera import Camera, CameraThread
+
+'''
+Multipart response
+
+HTTP/1.1 200 OK
+Content-Type: multipart/x-mixed-replace; boundary=frame
+
+--frame
+Content-Type: image/jpeg
+
+<jpeg data here>
+
+--frame
+Content-Type: image/jpeg
+
+<jpeg data here>
+
+...
+
+'''
+
+c = Camera()
+ct = CameraThread(c)
+ct.start()
+
+def gen():
+    while True:
+        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + ct.getFrame() + b'\r\n')
+
+@app.route('/robo/video_feed')
+def video_feed():
+    return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
