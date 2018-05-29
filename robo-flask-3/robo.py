@@ -1,4 +1,4 @@
-#from _gpiozero import Robot
+from gpiozero import Robot
 
 '''
 Explorer HAT Motor Channels are default.
@@ -11,8 +11,8 @@ class Robo:
 
     # Constructor
     def __init__(self, left=(26, 21), right=(20, 19)): 
-        pass
-        #self._zeroRobot = Robot(left=left, right=right, pin_factory=None)
+        #pass
+        self._zeroRobot = Robot(left=left, right=right, pin_factory=None)
 
     '''
     dir = stop | forward | backward | left | right
@@ -28,7 +28,6 @@ class Robo:
         curveLeft = float(curveLeft)
         curveRight = float(curveRight)
 
-        '''
         self._zeroRobot.stop()
         if motor != None:
             if motor == 'left':
@@ -50,7 +49,6 @@ class Robo:
                 self._zeroRobot.left(speed=speed)
             elif dir == 'right':
                 self._zeroRobot.right(speed=speed)
-        '''
 
     def forwardLeft(self, curveLeft=0.8, speed=1):
         self.drive(dir='forward', curveLeft=curveLeft, speed=speed)

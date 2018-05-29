@@ -3,6 +3,7 @@ import json
 import os
 from robo import Robo, RoboThread
 import datetime
+from time import sleep
 
 app = Flask(__name__)
 
@@ -89,4 +90,4 @@ def video_feed():
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(threaded=True, host='0.0.0.0')

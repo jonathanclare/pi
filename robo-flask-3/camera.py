@@ -1,24 +1,23 @@
 from time import time, sleep
-#from picamera import PiCamera
+from picamera import PiCamera
 
 class Camera(object):
     def __init__(self):
-		#self.camera = PiCamera()
-		#self.camera.rotation = 180
-        self.frames = [open(f + '.jpg', 'rb').read() for f in ['1', '2', '3']]
+        self.camera = PiCamera()
+        self.camera.rotation = 180
+        #self.frames = [open(f + '.jpg', 'rb').read() for f in ['1', '2', '3']]
 
     def start(self):
-    	pass
-		#self.camera.start_preview()
+        self.camera.start_preview()
 
     def getFrame(self):
-    	#self.camera.capture('./image.jpg')
-    	#f = open('./image.jpg', 'rb').read()
-        return self.frames[int(time()) % 3]
+        self.camera.capture('./image.jpg')
+        f = open('./image.jpg', 'rb').read()
+        return f
+        #return self.frames[int(time()) % 3]
 
     def stop(self):
-    	pass
-		#self.camera.stop_preview()
+        self.camera.stop_preview()
 
 
 import threading
@@ -52,5 +51,5 @@ class CameraThread:
     def _threadWorker(self, **kwargs):
         while self._running:
         	self._frame = self._camera.getFrame();
-        	sleep(0.1)
+        	sleep(0.01)
         print('Stop _running')
