@@ -4,6 +4,8 @@ import os
 from robo import Robo, RoboThread
 import datetime
 from time import sleep
+import sys, traceback
+import signal
 
 app = Flask(__name__)
 
@@ -47,15 +49,14 @@ def drive(dir=None):
         data['motor'] = request.args.get('motor')
 
     if dir != 'stop':
-        rt.drive(**data)
+        rt.start(**data)
     else:  
         sleep(0.1)
-        rt.kill()
-        r.stop()
+        rt.stop()
 
     return json.dumps(data)
 
-from camera import Camera, CameraThread
+from camera import Camera
 
 '''
 Multipart response
@@ -76,18 +77,47 @@ Content-Type: image/jpeg
 ...
 
 '''
-
 c = Camera()
-ct = CameraThread(c)
-ct.start()
+c.start()
 
 def gen():
     while True:
-        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + ct.getFrame() + b'\r\n')
+        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + c.getFrame() + b'\r\n')
+        sleep(0.01)
 
-@app.route('/robo/video_feed')
-def video_feed():
-    return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/robo/camera/<cmd>')
+def cam(cmd=None):
+    if cmd == 'feed':
+        return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    elif cmd == 'start': 
+        c.start()
+    elif cmd == 'stop': 
+        c.stop()
+
+
+# Handler for a clean shutdown when pressing Ctrl-C
+def signalHandler(signal, frame):
+    print("----exiting----")
+    c.stop()
+    rt.stop()
+    sys.exit(0)
+
+def main():
+    signal.signal(signal.SIGINT, signalHandler)
+    app.run(threaded=True, host='0.0.0.0')
+
+    '''
+    try:
+        #app.jinja_env.cache = {}
+        app.run(threaded=True, host='0.0.0.0')
+    except KeyboardInterrupt:
+        print('----------Shutdown requested...exiting----------')
+    except Exception:
+        traceback.print_exc(file=sys.stdout)
+    c.stop()
+    rt.stop()
+    sys.exit(0)
+    '''
 
 if __name__ == "__main__":
-    app.run(threaded=True, host='0.0.0.0')
+    main()

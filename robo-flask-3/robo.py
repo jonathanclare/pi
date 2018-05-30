@@ -1,4 +1,4 @@
-from gpiozero import Robot
+#from gpiozero import Robot
 
 '''
 Explorer HAT Motor Channels are default.
@@ -11,8 +11,8 @@ class Robo:
 
     # Constructor
     def __init__(self, left=(26, 21), right=(20, 19)): 
-        #pass
-        self._zeroRobot = Robot(left=left, right=right, pin_factory=None)
+        pass
+        #self._zeroRobot = Robot(left=left, right=right, pin_factory=None)
 
     '''
     dir = stop | forward | backward | left | right
@@ -27,7 +27,7 @@ class Robo:
         speed = float(speed)
         curveLeft = float(curveLeft)
         curveRight = float(curveRight)
-
+        '''
         self._zeroRobot.stop()
         if motor != None:
             if motor == 'left':
@@ -49,7 +49,7 @@ class Robo:
                 self._zeroRobot.left(speed=speed)
             elif dir == 'right':
                 self._zeroRobot.right(speed=speed)
-
+        '''
     def forwardLeft(self, curveLeft=0.8, speed=1):
         self.drive(dir='forward', curveLeft=curveLeft, speed=speed)
 
@@ -97,24 +97,25 @@ class RoboThread:
 
     # Constructor
     def __init__(self, robo): 
-        self.driving = False
-        self.robo = robo
-        self.driveThread = threading.Thread()
+        self._robo = robo
+        self._running = False
+        self._thread = threading.Thread()
 
-    def drive(self, **kwargs2):
-        self.kill()
-        self.driving = True
-        self.driveThread = threading.Thread(target=self._driveLoop, kwargs=kwargs2)
-        self.driveThread.daemon = True
-        self.driveThread.start()
+    def start(self, **kwargs2):
+        self.stop()
+        self._running = True
+        self._thread = threading.Thread(target=self._target, kwargs=kwargs2)
+        self._thread.daemon = True
+        self._thread.start()
 
-    def kill(self):
-        if self.driveThread.isAlive():  
-            self.driving = False
-            self.driveThread.join()    
+    def stop(self):
+        if self._thread.isAlive():  
+            self._running = False
+            self._thread.join()  
+        self._robo.stop()  
 
-    def _driveLoop(self, **kwargs):
-        while self.driving:
-            self.robo.drive(**kwargs)
+    def _target(self, **kwargs):
+        while self._running:
+            self._robo.drive(**kwargs)
             sleep(0.1)
         print('Stop Driving')
