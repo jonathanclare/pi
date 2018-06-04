@@ -11,7 +11,7 @@ class Robo:
 
     # Constructor
     def __init__(self, left=(26, 21), right=(20, 19)): 
-        pass
+        self.state = {'dir': None, 'speed': 1, 'curveLeft': 0, 'curveRight': 0, 'motor': None}
         #self._zeroRobot = Robot(left=left, right=right, pin_factory=None)
 
     '''
@@ -22,11 +22,14 @@ class Robo:
     motor = left | right
     '''
     def drive(self, dir=None, speed=1, curveLeft=0, curveRight=0, motor=None):
-        print({'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight, 'motor': motor})
 
         speed = float(speed)
         curveLeft = float(curveLeft)
         curveRight = float(curveRight)
+
+        self.state = {'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight, 'motor': motor}
+        print(self.state)
+
         '''
         self._zeroRobot.stop()
         if motor != None:
@@ -50,22 +53,11 @@ class Robo:
             elif dir == 'right':
                 self._zeroRobot.right(speed=speed)
         '''
-    def forwardLeft(self, curveLeft=0.8, speed=1):
-        self.drive(dir='forward', curveLeft=curveLeft, speed=speed)
+    
+    def forward(self, speed=1, curveLeft=0, curveRight=0):
+        self.drive(dir='forward', speed=speed, curveLeft=0.8, curveRight=0.8)
 
-    def backwardLeft(self, curveLeft=0.8, speed=1):
-        self.drive(dir='backward', curveLeft=curveLeft, speed=speed)
-
-    def forwardRight(self, curveRight=0.8, speed=1):
-        self.drive(dir='forward', curveRight=curveRight, speed=speed)
-
-    def backwardRight(self, curveRight=0.8, speed=1):
-        self.drive(dir='backward', curveRight=curveRight, speed=speed)
-
-    def forward(self, speed=1):
-        self.drive(dir='forward', speed=speed)
-
-    def backward(self, speed=1):
+    def backward(self, speed=1, curveLeft=0, curveRight=0):
         self.drive(dir='backward', speed=speed)
 
     def pivotLeft(self, speed=1):

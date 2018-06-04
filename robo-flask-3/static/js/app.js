@@ -3,7 +3,11 @@ import Controller from './controller.js';
 
 window.onload = () => 
 {
-    new Controller(new Robo());
+    const r = new Robo(
+    {
+        onChange: json => console.log(json)
+    });
+    new Controller(r);
 
 
     /*

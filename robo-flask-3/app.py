@@ -26,6 +26,10 @@ def robot():
     }
     return render_template('robo.html', **template_data)
 
+@app.route('/robo/state')
+def state():
+    return json.dumps(r.state)
+
 '''
 dir = stop | forward | backward | left | right
 curveLeft = 0 - 1
@@ -54,7 +58,7 @@ def drive(dir=None):
         sleep(0.1)
         rt.stop()
 
-    return json.dumps(data)
+    return json.dumps(r.state)
 
 from camera import Camera
 
