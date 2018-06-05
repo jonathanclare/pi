@@ -65,10 +65,6 @@ html
 {
     bottom:0px;left:100px;width:100px;height:100px;
 }
-#btn-stop
-{
-    bottom:0px;right:100px;width:100px;height:100px;
-}
 #btn-forward
 {
     bottom:100px;right:0px;width:100px;height:100px;
@@ -88,10 +84,6 @@ html
     fill: #3cc3f7;
     stroke-width: 2;
 }
-#btn-icon-stop
-{
-    fill: #ff8282;
-}
 .label
 {
     font-family: sans-serif;
@@ -100,7 +92,7 @@ html
     justify-content:center;
     align-items:center;
 }
-#sliders
+#slider-speed
 {
      position:absolute;top:0px;left:0px;
 }

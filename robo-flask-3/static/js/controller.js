@@ -18,8 +18,6 @@ export default class Controller
             ['speed', 1]
         ]);
 
-        let btnPressed = false;
-
         // Sliders.
         const sldrs = document.querySelectorAll('.slider');
         for (let sldr of sldrs)
@@ -35,12 +33,12 @@ export default class Controller
         // Btns.
 
         // Touch.
-        dom.on('.btn', 'touchstart', function(evt)
+        dom.on('.btn', 'touchstart', evt =>
         {
             evt.preventDefault();
             setState(evt.currentTarget.getAttribute('data-action'), true);
         });
-        dom.on('.btn', 'touchend', function(evt)
+        dom.on('.btn', 'touchend', evt =>
         {
             evt.preventDefault();
             if (evt.touches.length === 0) 
@@ -48,8 +46,9 @@ export default class Controller
             else
                 setState(evt.currentTarget.getAttribute('data-action'), false);
         });
-
+        
         // Mouse.
+        let btnPressed = false;
         dom.on('.btn', 'mousedown', evt => 
         {
             btnPressed = true;    
@@ -61,6 +60,7 @@ export default class Controller
             btnPressed = false;    
         });
 
+        // Set robot state.
         const setState = (key, value) =>
         {
             state.set(key, value);
@@ -93,6 +93,7 @@ export default class Controller
             }
         };
 
+        // Reset state and stop robot.
         const kill = () =>
         {
             for (let [key, value] of state) 

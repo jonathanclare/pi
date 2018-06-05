@@ -15,7 +15,7 @@ class Robo:
         #self._zeroRobot = Robot(left=left, right=right, pin_factory=None)
 
     '''
-    dir = stop | forward | backward | left | right
+    dir = forward | backward | left | right
     curveLeft = 0 - 1
     curveRight = 0 - 1
     speed = 0 - 1
@@ -106,10 +106,17 @@ class RoboThread:
         self._running = False
         self._thread = threading.Thread()
 
-    def start(self, **kwargs2):
+    def drive(self, **kwargs2):
         self.stop()
         self._running = True
-        self._thread = threading.Thread(target=self._target, kwargs=kwargs2)
+        self._thread = threading.Thread(target=self._drive, kwargs=kwargs2)
+        self._thread.daemon = True
+        self._thread.start()
+
+    def motor(self, **kwargs2):
+        self.stop()
+        self._running = True
+        self._thread = threading.Thread(target=self._motor, kwargs=kwargs2)
         self._thread.daemon = True
         self._thread.start()
 
@@ -119,8 +126,14 @@ class RoboThread:
             self._thread.join()  
         self._robo.stop()  
 
-    def _target(self, **kwargs):
+    def _drive(self, **kwargs):
         while self._running:
             self._robo.drive(**kwargs)
             sleep(0.1)
         print('Stop Driving')
+
+    def _motor(self, **kwargs):
+        while self._running:
+            self._robo.motor(**kwargs)
+            sleep(0.1)
+        print('Stop Motor')

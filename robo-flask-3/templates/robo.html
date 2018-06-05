@@ -55,11 +55,9 @@
         <div class="video-feed flex-box">
             <img src="/robo/camera/feed">
         </div>
-        <div class="flex-box column" id="sliders">
-            <div class="flex-box">
-                <div class="ctrl ctrl-slider"><input class="slider" type="range" min="0" max="1" step="0.01" data-action="speed"></div>
-                <div class="flex-box ctrl label">SPEED</div>
-            </div>
+        <div id="slider-speed" class="flex-box">
+            <div class="ctrl ctrl-slider"><input class="slider" type="range" min="0" max="1" step="0.01" data-action="speed"></div>
+            <div class="flex-box ctrl label">SPEED</div>
         </div>
         <div id="btn-left" data-action="left" class="ctrl btn">
             <svg viewBox="0 0 100 100"><use  class="btn-icon" xlink:href="#arrow" transform="rotate(-90 50 50)"/></svg>
@@ -67,9 +65,6 @@
         <div id="btn-right" data-action="right" class="ctrl btn">
             <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow" transform="rotate(90 50 50)"/></svg>
         </div>
-        <!--div id="btn-stop" data-action="stop" class="ctrl btn">
-            <svg viewBox="0 0 100 100"><circle id="btn-icon-stop" class="btn-icon" data-action="stop" xlink:href="#arrow" cx="50" cy="50" r="50"  /></svg>
-        </div-->
         <div id="btn-backward" data-action="backward" class="ctrl btn">
             <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow" transform="rotate(180 50 50)"/></svg>
         </div>

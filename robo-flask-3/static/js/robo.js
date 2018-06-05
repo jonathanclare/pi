@@ -8,10 +8,10 @@ export default class Robo
         this.onChange = onChange;
     }
     /*
-    dir = stop | forward | backward | left | right
+    dir = forward | backward | left | right
     speed = 0 - 1
     */
-    drive({dir='stop', speed} = {})
+    drive({dir, speed} = {})
     {
         this.setState('/robo/drive/' + dir, {speed:speed});
     }

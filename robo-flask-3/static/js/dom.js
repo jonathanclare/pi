@@ -21,25 +21,6 @@ const on = (selectors, strEvents, listener, useCapture) =>
 		for (var strEvent of strEvents.split(' ')) selectors.addEventListener(strEvent, listener, useCapture);
     }
 };
-const off = (selectors, strEvents, listener) =>
-{
-    if (typeof selectors === 'string')
-    {
-        const nodeList = document.querySelectorAll(selectors);
-        for (let node of nodeList)
-        {
-            for (var strEvent of strEvents.split(' ')) node.removeEventListener(strEvent, listener);
-        }
-    }
-    else
-    {
-        for (var strEvent of strEvents.split(' ')) 
-        {
-            console.log("off")
-            selectors.removeEventListener(strEvent, listener);
-        }
-    }
-};
 
 /**
  * Get the window object of an element.
@@ -53,4 +34,4 @@ const getWindowForElement = element =>
     return (doc.defaultView || doc.parentWindow || window);
 };
 
-export {on, off, getWindowForElement};
+export {on, getWindowForElement};
