@@ -19,7 +19,6 @@ class Robo:
     curveLeft = 0 - 1
     curveRight = 0 - 1
     speed = 0 - 1
-    motor = left | right
     '''
     def drive(self, dir=None, speed=1, curveLeft=0, curveRight=0, motor=None):
 
@@ -29,21 +28,8 @@ class Robo:
 
         self.state = {'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight, 'motor': motor}
         print(self.state)
-
         '''
         self._zeroRobot.stop()
-        if motor != None:
-            if motor == 'left':
-                if dir == 'forward':
-                    self._zeroRobot.left_motor.forward(speed=speed)
-                elif dir == 'backward':
-                    self._zeroRobot.left_motor.backward(speed=speed)
-            elif motor == 'right':
-                if dir == 'forward':
-                    self._zeroRobot.right_motor.forward(speed=speed)
-                elif dir == 'backward':
-                    self._zeroRobot.right_motor.backward(speed=speed)
-        else:  
             if dir == 'forward': 
                 self._zeroRobot.forward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
             elif dir == 'backward':
@@ -53,7 +39,37 @@ class Robo:
             elif dir == 'right':
                 self._zeroRobot.right(speed=speed)
         '''
-    
+
+    '''
+    dir = forward | backward
+    speed = 0 - 1
+    side = left | right
+    '''
+    def motor(self, dir=None, speed=1, side=None):
+
+        speed = float(speed)
+
+        self.state = {'dir': dir, 'speed': speed, 'side': side}
+        print(self.state)
+        '''
+        self._zeroRobot.stop()
+        if side == 'left':
+            if dir == 'forward':
+                self._zeroRobot.left_motor.forward(speed=speed)
+            elif dir == 'backward':
+                self._zeroRobot.left_motor.backward(speed=speed)
+        elif side == 'right':
+            if dir == 'forward':
+                self._zeroRobot.right_motor.forward(speed=speed)
+            elif dir == 'backward':
+                self._zeroRobot.right_motor.backward(speed=speed)
+        '''
+
+    def stop(self):
+        self.state = {'dir': 'stop', 'speed': 0, 'curveLeft': 0, 'curveRight': 0, 'motor': None}
+        print(self.state)
+        '''self._zeroRobot.stop()'''
+
     def forward(self, speed=1, curveLeft=0, curveRight=0):
         self.drive(dir='forward', speed=speed, curveLeft=0.8, curveRight=0.8)
 
@@ -66,20 +82,17 @@ class Robo:
     def pivotRight(self, speed=1):
         self.drive(dir='right', speed=speed)
 
-    def stop(self):
-        self.drive(dir='stop')
-
     def leftMotorForward(self, speed=1):
-        self.drive(motor='left', dir='forward', speed=speed)
+        self.motor(side='left', dir='forward', speed=speed)
 
     def leftMotorBackward(self, speed=1):
-        self.drive(motor='left', dir='backward', speed=speed)
+        self.motor(side='left', dir='backward', speed=speed)
 
     def rightMotorForward(self, speed=1):
-        self.drive(motor='right', dir='forward', speed=speed)
+        self.motor(side='right', dir='forward', speed=speed)
 
     def rightMotorBackward(self, speed=1):
-        self.drive(motor='right', dir='backward', speed=speed)
+        self.motor(side='right', dir='backward', speed=speed)
 
 
 from time import sleep

@@ -2,22 +2,35 @@ import * as http from './http.js' ;
 
 export default class Robo
 {
-    constructor({onChange = json => {}} = {}) 
+    constructor({url, onChange = json => {}} = {}) 
     {
+        this.url = url;
         this.onChange = onChange;
     }
     /*
     dir = stop | forward | backward | left | right
-    curveLeft = 0 - 1
-    curveRight = 0 - 1
     speed = 0 - 1
-    motor = left | right
     */
-    drive({dir='stop', curveLeft, curveRight, speed, motor} = {})
+    drive({dir='stop', speed} = {})
     {
-        const route = '/robo/drive/' + dir;
-        const params = {speed:speed, curveLeft:curveLeft, curveRight:curveRight};
-        http.sendRequest(route, params).then(response => response.json()).then(json =>
+        this.setState('/robo/drive/' + dir, {speed:speed});
+    }
+    /*
+    dir = forward | backward
+    speed = 0 - 1
+    side = left | right
+    */
+    motor({dir, speed, side} = {})
+    {
+        this.setState('/robo/motor' + side, {speed:speed, dir:dir});
+    }
+    stop()
+    {
+        this.setState('/robo/stop');
+    }
+    setState(route, params)
+    {
+        http.sendRequest(this.url, route, params).then(response => response.json()).then(json =>
         {
             this.onChange.call(null, json);
         });

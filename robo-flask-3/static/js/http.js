@@ -1,6 +1,6 @@
-const sendRequest = (route, params) =>
+const sendRequest = (url, route, params) =>
 { 
-    let url = [location.protocol, '//', location.host, route].join('');
+    if (route !== undefined) url += route;
     if (params !== undefined)
     {
         const queryString = Object.keys(params).reduce((filtered, key) =>

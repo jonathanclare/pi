@@ -30,12 +30,19 @@ def robot():
 def state():
     return json.dumps(r.state)
 
+@app.route('/robo/stop')
+def stop():
+
+    sleep(0.1)
+    rt.stop()
+
+    return json.dumps(r.state)
+
 '''
 dir = stop | forward | backward | left | right
 curveLeft = 0 - 1
 curveRight = 0 - 1
 speed = 0 - 1
-motor = left | right
 '''
 @app.route('/robo/drive/<dir>')
 def drive(dir=None):
@@ -49,14 +56,32 @@ def drive(dir=None):
         data['curveLeft'] = request.args.get('curveLeft')
     if request.args.get('curveRight') != None: 
         data['curveRight'] = request.args.get('curveRight')
-    if request.args.get('motor') != None:      
-        data['motor'] = request.args.get('motor')
 
     if dir != 'stop':
         rt.start(**data)
     else:  
         sleep(0.1)
         rt.stop()
+
+    return json.dumps(r.state)
+
+'''
+side = left | right
+dir = stop | forward
+speed = 0 - 1
+'''
+@app.route('/robo/motor/<side>')
+def motor(side=None):
+
+    data = {'side':side};
+
+    # Query string params.
+    if request.args.get('dir') != None:      
+        data['dir'] = request.args.get('dir')
+    if request.args.get('speed') != None:      
+        data['speed'] = request.args.get('speed')
+
+    rt.start(**data)
 
     return json.dumps(r.state)
 
