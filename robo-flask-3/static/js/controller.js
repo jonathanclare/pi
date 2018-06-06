@@ -15,7 +15,7 @@ export default class Controller
             ['backward', false],
             ['left', false],
             ['right', false],
-            ['speed', 1]
+            ['speed', robo.speed]
         ]);
 
         // Sliders.

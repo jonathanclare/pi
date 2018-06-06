@@ -2,11 +2,11 @@ import * as http from './http.js' ;
 
 export default class Robo
 {
-    constructor({url, onChange = json => {}} = {}) 
+    constructor({url, onChange = json => {}, speed=1} = {}) 
     {
         this.url = url;
         this.onChange = onChange;
-        this.speed = 1;
+        this.speed = speed;
     }
     stop()
     {
@@ -14,50 +14,42 @@ export default class Robo
     }
     forward()
     {
-        this.drive('forward');
+        this.drive({dir:'forward'});
     }
     backward()
     {
-        this.drive('backward');
+        this.drive({dir:'backward'});
     }
     pivotLeft()
     {
-        this.drive('left');
+        this.drive({dir:'left'});
     }
     pivotRight()
     {
-        this.drive('right');
+        this.drive({dir:'right'});
     }
     forwardLeft()
     {
-        this.motor('right', 'forward');
+        this.drive({dir:'forward', curveLeft:1});
     }
     forwardRight()
     {
-        this.motor('left', 'forward');
+        this.drive({dir:'forward', curveRight:1});
     }
     backwardLeft()
     {
-        this.motor('right', 'backward');
+        this.drive({dir:'backward', curveLeft:1});
     }
     backwardRight()
     {
-        this.motor('left', 'backward');
+        this.drive({dir:'backward', curveRight:1});
     }
     /*
     dir = forward | backward | left | right
     */
-    drive(dir)
+    drive({dir, curveLeft=0, curveRight=0} = {})
     {
-        this.setState('/robo/drive/' + dir, {speed:this.speed});
-    }
-    /*
-    side = left | right
-    dir = forward | backward
-    */
-    motor(side, dir)
-    {
-        this.setState('/robo/motor' + side, {dir:dir, speed:this.speed});
+        this.setState('/robo/drive/' + dir, {speed:this.speed, curveLeft:curveLeft, curveRight:curveRight});
     }
     setState(route, params)
     {

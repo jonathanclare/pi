@@ -11,7 +11,7 @@ class Robo:
 
     # Constructor
     def __init__(self, left=(26, 21), right=(20, 19)): 
-        self.state = {'dir': None, 'speed': 1, 'curveLeft': 0, 'curveRight': 0, 'motor': None}
+        self.state = {'dir': None, 'speed': 1, 'curveLeft': 0, 'curveRight': 0}
         #self._zeroRobot = Robot(left=left, right=right, pin_factory=None)
 
     '''
@@ -20,13 +20,13 @@ class Robo:
     curveRight = 0 - 1
     speed = 0 - 1
     '''
-    def drive(self, dir=None, speed=1, curveLeft=0, curveRight=0, motor=None):
+    def drive(self, dir=None, speed=1, curveLeft=0, curveRight=0):
 
         speed = float(speed)
         curveLeft = float(curveLeft)
         curveRight = float(curveRight)
 
-        self.state = {'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight, 'motor': motor}
+        self.state = {'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight}
         print(self.state)
         '''
         self._zeroRobot.stop()
@@ -40,38 +40,13 @@ class Robo:
                 self._zeroRobot.right(speed=speed)
         '''
 
-    '''
-    dir = forward | backward
-    speed = 0 - 1
-    side = left | right
-    '''
-    def motor(self, dir=None, speed=1, side=None):
-
-        speed = float(speed)
-
-        self.state = {'dir': dir, 'speed': speed, 'side': side}
-        print(self.state)
-        '''
-        self._zeroRobot.stop()
-        if side == 'left':
-            if dir == 'forward':
-                self._zeroRobot.left_motor.forward(speed=speed)
-            elif dir == 'backward':
-                self._zeroRobot.left_motor.backward(speed=speed)
-        elif side == 'right':
-            if dir == 'forward':
-                self._zeroRobot.right_motor.forward(speed=speed)
-            elif dir == 'backward':
-                self._zeroRobot.right_motor.backward(speed=speed)
-        '''
-
     def stop(self):
-        self.state = {'dir': 'stop', 'speed': 0, 'curveLeft': 0, 'curveRight': 0, 'motor': None}
+        self.state = {'dir': 'stop', 'speed': 0, 'curveLeft': 0, 'curveRight': 0}
         print(self.state)
         '''self._zeroRobot.stop()'''
 
     def forward(self, speed=1, curveLeft=0, curveRight=0):
-        self.drive(dir='forward', speed=speed, curveLeft=0.8, curveRight=0.8)
+        self.drive(dir='forward', speed=speed)
 
     def backward(self, speed=1, curveLeft=0, curveRight=0):
         self.drive(dir='backward', speed=speed)
@@ -82,17 +57,17 @@ class Robo:
     def pivotRight(self, speed=1):
         self.drive(dir='right', speed=speed)
 
-    def leftMotorForward(self, speed=1):
-        self.motor(side='left', dir='forward', speed=speed)
+    def forwardLeft(self, speed=1, curve=1):
+        self.drive(dir='forward', speed=speed, curveLeft=curve)
 
-    def leftMotorBackward(self, speed=1):
-        self.motor(side='left', dir='backward', speed=speed)
+    def backwardLeft(self, speed=1, curve=1):
+        self.drive(dir='backward', speed=speed, curveLeft=curve)
 
-    def rightMotorForward(self, speed=1):
-        self.motor(side='right', dir='forward', speed=speed)
+    def forwardRight(self, speed=1, curve=1):
+        self.drive(dir='forward', speed=speed, curveRight=curve)
 
-    def rightMotorBackward(self, speed=1):
-        self.motor(side='right', dir='backward', speed=speed)
+    def backwardRight(self, speed=1, curve=1):
+        self.drive(dir='backward', speed=speed, curveRight=curve)
 
 
 from time import sleep
@@ -113,13 +88,6 @@ class RoboThread:
         self._thread.daemon = True
         self._thread.start()
 
-    def motor(self, **kwargs2):
-        self.stop()
-        self._running = True
-        self._thread = threading.Thread(target=self._motor, kwargs=kwargs2)
-        self._thread.daemon = True
-        self._thread.start()
-
     def stop(self):
         if self._thread.isAlive():  
             self._running = False
@@ -131,9 +99,3 @@ class RoboThread:
             self._robo.drive(**kwargs)
             sleep(0.1)
         print('Stop Driving')
-
-    def _motor(self, **kwargs):
-        while self._running:
-            self._robo.motor(**kwargs)
-            sleep(0.1)
-        print('Stop Motor')

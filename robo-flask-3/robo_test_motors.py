@@ -6,13 +6,13 @@ from robo import Robo
 r = Robo()
 
 def test(speed=1):
-    r.leftMotorForward(speed=speed)
+    r.forwardLeft(speed=speed)
     sleep(1)
-    r.leftMotorBackward(speed=speed)
+    r.backwardLeft(speed=speed)
     sleep(1)
-    r.rightMotorForward(speed=speed)
+    r.forwardRight(speed=speed)
     sleep(1)
-    r.rightMotorBackward(speed=speed)
+    r.backwardRight(speed=speed)
     sleep(1)
     r.forward(speed=speed, curveLeft=0.8)
     sleep(1)

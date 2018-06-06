@@ -59,26 +59,6 @@ def drive(dir=None):
 
     return json.dumps(r.state)
 
-'''
-side = left | right
-dir = forward | backward
-speed = 0 - 1
-'''
-@app.route('/robo/motor/<side>')
-def motor(side=None):
-
-    data = {'side':side};
-
-    # Query string params.
-    if request.args.get('dir') != None:      
-        data['dir'] = request.args.get('dir')
-    if request.args.get('speed') != None:      
-        data['speed'] = request.args.get('speed')
-
-    rt.motor(**data)
-
-    return json.dumps(r.state)
-
 from camera import Camera
 
 '''
