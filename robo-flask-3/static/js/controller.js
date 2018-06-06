@@ -65,30 +65,28 @@ export default class Controller
         {
             state.set(key, value);
 
-            let o;
+            robo.speed = state.get('speed');
 
-            if (state.get('left-forward'))          o = {dir:'forward', side:'left'};
-            else if (state.get('left-backward'))    o = {dir:'backward', side:'left'};
-            else if (state.get('right-forward'))    o = {dir:'forward', side:'right'};
-            else if (state.get('right-backward'))   o = {dir:'backward', side:'right'};
-
-            if (o !== undefined)
-            {
-                o.speed = state.get('speed');
-                robo.motor(o);
-            }
+            if (state.get('left-forward'))          robo.forwardLeft();
+            else if (state.get('left-backward'))    robo.backwardLeft();
+            else if (state.get('right-forward'))    robo.forwardRight();
+            else if (state.get('right-backward'))   robo.backwardRight();
             else
             {
-                if (state.get('left'))              o = {dir:'left'};
-                else if (state.get('right'))        o = {dir:'right'};
-                else if (state.get('forward'))      o = {dir:'forward'};
-                else if (state.get('backward'))     o = {dir:'backward'};
-
-                if (o !== undefined)
+                if (state.get('left'))
                 {
-                    o.speed = state.get('speed');
-                    robo.drive(o);
+                    if (state.get('forward'))       robo.forwardLeft();
+                    else if (state.get('backward')) robo.backwardLeft();
+                    else                            robo.pivotLeft();
                 }
+                else if (state.get('right'))
+                {
+                    if (state.get('forward'))       robo.forwardRight();
+                    else if (state.get('backward')) robo.backwardRight();
+                    else                            robo.pivotRight();
+                }
+                else if (state.get('forward'))      robo.forward();
+                else if (state.get('backward'))     robo.backward();
                 else robo.stop();
             }
         };

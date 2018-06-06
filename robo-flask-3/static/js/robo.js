@@ -6,27 +6,58 @@ export default class Robo
     {
         this.url = url;
         this.onChange = onChange;
-    }
-    /*
-    dir = forward | backward | left | right
-    speed = 0 - 1
-    */
-    drive({dir, speed} = {})
-    {
-        this.setState('/robo/drive/' + dir, {speed:speed});
-    }
-    /*
-    dir = forward | backward
-    speed = 0 - 1
-    side = left | right
-    */
-    motor({dir, speed, side} = {})
-    {
-        this.setState('/robo/motor' + side, {speed:speed, dir:dir});
+        this.speed = 1;
     }
     stop()
     {
         this.setState('/robo/stop');
+    }
+    forward()
+    {
+        this.drive('forward');
+    }
+    backward()
+    {
+        this.drive('backward');
+    }
+    pivotLeft()
+    {
+        this.drive('left');
+    }
+    pivotRight()
+    {
+        this.drive('right');
+    }
+    forwardLeft()
+    {
+        this.motor('right', 'forward');
+    }
+    forwardRight()
+    {
+        this.motor('left', 'forward');
+    }
+    backwardLeft()
+    {
+        this.motor('right', 'backward');
+    }
+    backwardRight()
+    {
+        this.motor('left', 'backward');
+    }
+    /*
+    dir = forward | backward | left | right
+    */
+    drive(dir)
+    {
+        this.setState('/robo/drive/' + dir, {speed:this.speed});
+    }
+    /*
+    side = left | right
+    dir = forward | backward
+    */
+    motor(side, dir)
+    {
+        this.setState('/robo/motor' + side, {dir:dir, speed:this.speed});
     }
     setState(route, params)
     {
