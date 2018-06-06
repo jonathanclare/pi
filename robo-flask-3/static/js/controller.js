@@ -7,10 +7,6 @@ export default class Controller
     {
         // Store controller state.
         const state = new Map([
-            ['left-forward', false],
-            ['left-backward', false],
-            ['right-forward', false],
-            ['right-backward', false],
             ['forward', false],
             ['backward', false],
             ['left', false],
@@ -41,64 +37,42 @@ export default class Controller
         dom.on('.btn', 'touchend', evt =>
         {
             evt.preventDefault();
-            if (evt.touches.length === 0) 
-                kill();
-            else
-                setState(evt.currentTarget.getAttribute('data-action'), false);
+            setState(evt.currentTarget.getAttribute('data-action'), false);
         });
         
         // Mouse.
-        let btnPressed = false;
+        let action = null;
         dom.on('.btn', 'mousedown', evt => 
         {
-            btnPressed = true;    
-            setState(evt.currentTarget.getAttribute('data-action'), true);
+            action = evt.currentTarget.getAttribute('data-action');    
+            setState(action, true);
         });
         dom.on(document, 'mouseup', evt =>  
         {
-            if (btnPressed === true) kill();
-            btnPressed = false;    
+            if (action !== null) setState(action, false);
+            action = null;    
         });
 
         // Set robot state.
         const setState = (key, value) =>
         {
             state.set(key, value);
-
             robo.speed = state.get('speed');
-
-            if (state.get('left-forward'))          robo.forwardLeft();
-            else if (state.get('left-backward'))    robo.backwardLeft();
-            else if (state.get('right-forward'))    robo.forwardRight();
-            else if (state.get('right-backward'))   robo.backwardRight();
-            else
+            if (state.get('left'))
             {
-                if (state.get('left'))
-                {
-                    if (state.get('forward'))       robo.forwardLeft();
-                    else if (state.get('backward')) robo.backwardLeft();
-                    else                            robo.pivotLeft();
-                }
-                else if (state.get('right'))
-                {
-                    if (state.get('forward'))       robo.forwardRight();
-                    else if (state.get('backward')) robo.backwardRight();
-                    else                            robo.pivotRight();
-                }
-                else if (state.get('forward'))      robo.forward();
-                else if (state.get('backward'))     robo.backward();
-                else robo.stop();
+                if (state.get('forward'))       robo.forwardLeft();
+                else if (state.get('backward')) robo.backwardLeft();
+                else                            robo.pivotLeft();
             }
-        };
-
-        // Reset state and stop robot.
-        const kill = () =>
-        {
-            for (let [key, value] of state) 
+            else if (state.get('right'))
             {
-                if (typeof(value) === 'boolean') state.set(key, false);
-            } 
-            robo.stop();
+                if (state.get('forward'))       robo.forwardRight();
+                else if (state.get('backward')) robo.backwardRight();
+                else                            robo.pivotRight();
+            }
+            else if (state.get('forward'))      robo.forward();
+            else if (state.get('backward'))     robo.backward();
+            else                                robo.stop();
         };
     }
 }

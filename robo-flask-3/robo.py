@@ -16,9 +16,9 @@ class Robo:
 
     '''
     dir = forward | backward | left | right
+    speed = 0 - 1
     curveLeft = 0 - 1
     curveRight = 0 - 1
-    speed = 0 - 1
     '''
     def drive(self, dir=None, speed=1, curveLeft=0, curveRight=0):
 
@@ -29,19 +29,18 @@ class Robo:
         self.state = {'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight}
         print(self.state)
         '''
-        self._zeroRobot.stop()
-            if dir == 'forward': 
-                self._zeroRobot.forward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
-            elif dir == 'backward':
-                self._zeroRobot.backward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
-            elif dir == 'left':
-                self._zeroRobot.left(speed=speed)
-            elif dir == 'right':
-                self._zeroRobot.right(speed=speed)
+        if dir == 'forward': 
+            self._zeroRobot.forward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
+        elif dir == 'backward':
+            self._zeroRobot.backward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
+        elif dir == 'left':
+            self._zeroRobot.left(speed=speed)
+        elif dir == 'right':
+            self._zeroRobot.right(speed=speed)
         '''
 
     def stop(self):
-        self.state = {'dir': 'stop', 'speed': 0, 'curveLeft': 0, 'curveRight': 0}
+        self.state = {'dir': None, 'speed': 0, 'curveLeft': 0, 'curveRight': 0}
         print(self.state)
         '''self._zeroRobot.stop()'''
 
@@ -68,34 +67,3 @@ class Robo:
 
     def backwardRight(self, speed=1, curve=1):
         self.drive(dir='backward', speed=speed, curveRight=curve)
-
-
-from time import sleep
-import threading
-
-class RoboThread:
-
-    # Constructor
-    def __init__(self, robo): 
-        self._robo = robo
-        self._running = False
-        self._thread = threading.Thread()
-
-    def drive(self, **kwargs2):
-        self.stop()
-        self._running = True
-        self._thread = threading.Thread(target=self._drive, kwargs=kwargs2)
-        self._thread.daemon = True
-        self._thread.start()
-
-    def stop(self):
-        if self._thread.isAlive():  
-            self._running = False
-            self._thread.join()  
-        self._robo.stop()  
-
-    def _drive(self, **kwargs):
-        while self._running:
-            self._robo.drive(**kwargs)
-            sleep(0.1)
-        print('Stop Driving')

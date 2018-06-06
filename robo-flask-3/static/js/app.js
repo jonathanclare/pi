@@ -3,12 +3,12 @@ import Controller from './controller.js';
 
 window.onload = () => 
 {
-    let url = [location.protocol, '//', location.host].join('');
-
     const r = new Robo(
     {
-        url: url,
-        onChange: json => console.log(json)
+        url: [location.protocol, '//', location.host].join(''),
+        speed:1,
+        curve:1,
+        onResponse: json => console.log(json)
     });
     new Controller(r);
 

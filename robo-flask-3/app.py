@@ -1,16 +1,23 @@
 from flask import Flask, request, render_template, Response
 import json
-import os
-from robo import Robo, RoboThread
 import datetime
-from time import sleep
-import sys, traceback
+from time import time, sleep
+import sys
 import signal
+from robo import Robo
+from infinite_thread import InfiniteThread
+#from picamera import PiCamera
 
 app = Flask(__name__)
 
-r = Robo()
-rt = RoboThread(r)
+def driveFnc(**kwargs):
+    while driveThread.isRunning:
+        robo.drive(**kwargs)
+        sleep(0.1)
+    print('--------Stop Drive Thread--------')
+
+robo = Robo()
+driveThread = InfiniteThread(driveFnc)
 
 @app.route("/")
 def index():
@@ -28,13 +35,14 @@ def robot():
 
 @app.route('/robo/state')
 def state():
-    return json.dumps(r.state)
+    return json.dumps(robo.state)
 
 @app.route('/robo/stop')
 def stop():
+    driveThread.stop()
     sleep(0.1)
-    rt.stop()
-    return json.dumps(r.state)
+    robo.stop()
+    return json.dumps(robo.state)
 
 '''
 dir = forward | backward | left | right
@@ -55,11 +63,11 @@ def drive(dir=None):
     if request.args.get('curveRight') != None: 
         data['curveRight'] = request.args.get('curveRight')
 
-    rt.drive(**data)
+    driveThread.start(**data)
+    #robo.drive(**data)
 
-    return json.dumps(r.state)
+    return json.dumps(robo.state)
 
-from camera import Camera
 
 '''
 Multipart response
@@ -80,47 +88,54 @@ Content-Type: image/jpeg
 ...
 
 '''
-c = Camera()
-c.start()
+imagePath = './image.jpg'
+
+def camFnc(**kwargs):
+    #picam.start_preview()
+    #for filename in picam.capture_continuous(imagePath):
+        #if camThread.isRunning = False:
+            #break
+        #sleep(0.01) 
+    print('--------Stop Camera Thread--------')
+
+#picam = PiCamera()
+#picam.rotation = 180
+camThread = InfiniteThread(camFnc)
+camThread.start()
+
+frames = [open(f + '.jpg', 'rb').read() for f in ['1', '2', '3']]
+def getFrame():
+    f = frames[int(time()) % 3]
+    #f = open(imagePath, 'rb').read()
+    return f
 
 def gen():
     while True:
-        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + c.getFrame() + b'\r\n')
+        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + getFrame() + b'\r\n')
         sleep(0.01)
 
 @app.route('/robo/camera/<cmd>')
-def cam(cmd=None):
-    if cmd == 'feed':
-        return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
-    elif cmd == 'start': 
-        c.start()
-    elif cmd == 'stop': 
-        c.stop()
-
+def camera(cmd=None):
+    return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    #if cmd == 'feed':
+        #return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    #elif cmd == 'start': 
+        #picam.start_preview()
+    #elif cmd == 'stop': 
+        #picam.stop_preview()
 
 # Handler for a clean shutdown when pressing Ctrl-C
 def signalHandler(signal, frame):
     print("----exiting----")
-    c.stop()
-    rt.stop()
+    camThread.stop()
+    #picam.stop_preview()
+    driveThread.stop()
+    robo.stop()
     sys.exit(0)
 
 def main():
     signal.signal(signal.SIGINT, signalHandler)
     app.run(threaded=True, host='0.0.0.0')
-
-    '''
-    try:
-        #app.jinja_env.cache = {}
-        app.run(threaded=True, host='0.0.0.0')
-    except KeyboardInterrupt:
-        print('----------Shutdown requested...exiting----------')
-    except Exception:
-        traceback.print_exc(file=sys.stdout)
-    c.stop()
-    rt.stop()
-    sys.exit(0)
-    '''
 
 if __name__ == "__main__":
     main()

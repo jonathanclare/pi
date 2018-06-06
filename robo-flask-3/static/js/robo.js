@@ -2,15 +2,16 @@ import * as http from './http.js' ;
 
 export default class Robo
 {
-    constructor({url, onChange = json => {}, speed=1} = {}) 
+    constructor({url, onResponse = json => {}, speed=1, curve=1} = {}) 
     {
         this.url = url;
-        this.onChange = onChange;
+        this.onResponse = onResponse;
         this.speed = speed;
+        this.curve = curve;
     }
     stop()
     {
-        this.setState('/robo/stop');
+        this.sendRequest('/robo/stop');
     }
     forward()
     {
@@ -30,32 +31,32 @@ export default class Robo
     }
     forwardLeft()
     {
-        this.drive({dir:'forward', curveLeft:1});
+        this.drive({dir:'forward', curveLeft:this.curve});
     }
     forwardRight()
     {
-        this.drive({dir:'forward', curveRight:1});
+        this.drive({dir:'forward', curveRight:this.curve});
     }
     backwardLeft()
     {
-        this.drive({dir:'backward', curveLeft:1});
+        this.drive({dir:'backward', curveLeft:this.curve});
     }
     backwardRight()
     {
-        this.drive({dir:'backward', curveRight:1});
+        this.drive({dir:'backward', curveRight:this.curve});
     }
     /*
     dir = forward | backward | left | right
     */
     drive({dir, curveLeft=0, curveRight=0} = {})
     {
-        this.setState('/robo/drive/' + dir, {speed:this.speed, curveLeft:curveLeft, curveRight:curveRight});
+        this.sendRequest('/robo/drive/' + dir, {speed:this.speed, curveLeft:curveLeft, curveRight:curveRight});
     }
-    setState(route, params)
+    sendRequest(route, params)
     {
         http.sendRequest(this.url, route, params).then(response => response.json()).then(json =>
         {
-            this.onChange.call(null, json);
+            this.onResponse.call(null, json);
         });
     }
     getState()
