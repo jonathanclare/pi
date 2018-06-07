@@ -7,7 +7,7 @@ window.onload = () =>
     {
         url: [location.protocol, '//', location.host].join(''),
         speed:1,
-        curve:1,
+        curve:0.9,
         onResponse: json => console.log(json)
     });
     new Controller(r);

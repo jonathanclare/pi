@@ -1,4 +1,4 @@
-#from gpiozero import Robot
+from gpiozero import Robot
 
 '''
 Explorer HAT Motor Channels are default.
@@ -12,7 +12,7 @@ class Robo:
     # Constructor
     def __init__(self, left=(26, 21), right=(20, 19)): 
         self.state = {'dir': None, 'speed': 1, 'curveLeft': 0, 'curveRight': 0}
-        #self._zeroRobot = Robot(left=left, right=right, pin_factory=None)
+        self._zeroRobot = Robot(left=left, right=right, pin_factory=None)
 
     '''
     dir = forward | backward | left | right
@@ -28,7 +28,7 @@ class Robo:
 
         self.state = {'dir': dir, 'speed': speed, 'curveLeft': curveLeft, 'curveRight': curveRight}
         print(self.state)
-        '''
+
         if dir == 'forward': 
             self._zeroRobot.forward(speed=speed, curve_left=curveLeft, curve_right=curveRight)
         elif dir == 'backward':
@@ -37,12 +37,11 @@ class Robo:
             self._zeroRobot.left(speed=speed)
         elif dir == 'right':
             self._zeroRobot.right(speed=speed)
-        '''
 
     def stop(self):
         self.state = {'dir': None, 'speed': 0, 'curveLeft': 0, 'curveRight': 0}
         print(self.state)
-        '''self._zeroRobot.stop()'''
+        self._zeroRobot.stop()
 
     def forward(self, speed=1, curveLeft=0, curveRight=0):
         self.drive(dir='forward', speed=speed)

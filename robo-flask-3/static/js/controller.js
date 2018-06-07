@@ -37,7 +37,8 @@ export default class Controller
         dom.on('.btn', 'touchend', evt =>
         {
             evt.preventDefault();
-            setState(evt.currentTarget.getAttribute('data-action'), false);
+            if (evt.touches.length === 0) kill();
+            else setState(evt.currentTarget.getAttribute('data-action'), false);
         });
         
         // Mouse.
@@ -52,6 +53,16 @@ export default class Controller
             if (action !== null) setState(action, false);
             action = null;    
         });
+
+        // Reset state and stop robot.
+        const kill = () =>
+        {
+            for (let [key, value] of state) 
+            {
+                if (typeof(value) === 'boolean') state.set(key, false);
+            } 
+            robo.stop();
+        };
 
         // Set robot state.
         const setState = (key, value) =>

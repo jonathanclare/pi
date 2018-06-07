@@ -6,7 +6,7 @@ import sys
 import signal
 from robo import Robo
 from infinite_thread import InfiniteThread
-#from picamera import PiCamera
+from picamera import PiCamera
 
 app = Flask(__name__)
 
@@ -64,7 +64,6 @@ def drive(dir=None):
         data['curveRight'] = request.args.get('curveRight')
 
     driveThread.start(**data)
-    #robo.drive(**data)
 
     return json.dumps(robo.state)
 
@@ -88,47 +87,32 @@ Content-Type: image/jpeg
 ...
 
 '''
-imagePath = './image.jpg'
+picam = PiCamera()
+picam.rotation = 180
+picam.start_preview()
+sleep(2) 
 
-def camFnc(**kwargs):
-    #picam.start_preview()
-    #for filename in picam.capture_continuous(imagePath):
-        #if camThread.isRunning = False:
-            #break
-        #sleep(0.01) 
-    print('--------Stop Camera Thread--------')
-
-#picam = PiCamera()
-#picam.rotation = 180
-camThread = InfiniteThread(camFnc)
-camThread.start()
-
-frames = [open(f + '.jpg', 'rb').read() for f in ['1', '2', '3']]
+#frames = [open(f + '.jpg', 'rb').read() for f in ['1', '2', '3']]
 def getFrame():
-    f = frames[int(time()) % 3]
-    #f = open(imagePath, 'rb').read()
+    #f = frames[int(time()) % 3]
+    picam.capture('./image.jpg')
+    sleep(0.1) 
+    f = open('./image.jpg', 'rb').read()
     return f
 
 def gen():
     while True:
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + getFrame() + b'\r\n')
-        sleep(0.01)
+        sleep(0.1)
 
-@app.route('/robo/camera/<cmd>')
+@app.route('/robo/camera')
 def camera(cmd=None):
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
-    #if cmd == 'feed':
-        #return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
-    #elif cmd == 'start': 
-        #picam.start_preview()
-    #elif cmd == 'stop': 
-        #picam.stop_preview()
 
 # Handler for a clean shutdown when pressing Ctrl-C
 def signalHandler(signal, frame):
     print("----exiting----")
-    camThread.stop()
-    #picam.stop_preview()
+    picam.stop_preview()
     driveThread.stop()
     robo.stop()
     sys.exit(0)
