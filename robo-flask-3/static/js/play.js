@@ -1,30 +1,10 @@
 let draggedElement;
 
-// Target element.
-function onDragOver(evt) 
-{
-    evt.preventDefault();
-    evt.dataTransfer.dropEffect = 'copy';
-}
-function onDragEnter(evt) 
-{
-    console.log(evt.target.id);
-    if (evt.target.id !== 'target' && !hasClass(evt.target, 'box-hover')) 
-    {
-        console.log('add class')
-        addClass(evt.target, 'box-hover');
-    }
-}
-function onDragLeave(evt) 
-{
-    removeClass(evt.target,'box-hover');
-}
-
-
 // Dragged element.
 function onDragStart(evt) 
 {
     draggedElement = evt.target;
+    console.log(draggedElement)
     evt.dataTransfer.dropEffect = 'copy';
     var o = JSON.stringify({id:evt.target.id, parentId:evt.target.parentNode.id});
     evt.dataTransfer.setData('text/plain', o);
@@ -36,7 +16,7 @@ function onDragEnd(evt)
 function onDrop(evt) 
 {
     evt.preventDefault();
-    removeClass(evt.target,'box-hover');
+    if (hasClass(evt.target, 'draggable-on-drag-over')) removeClass(evt.target,'draggable-on-drag-over');
 
     const data = JSON.parse(evt.dataTransfer.getData('text'));
     console.log(data.parentId+" > "+data.id);
@@ -54,8 +34,23 @@ function onDrop(evt)
 
     if (evt.target.id === 'target')
         evt.target.appendChild(cln);  
-    else  
+    else if (hasClass(evt.target, 'draggable'))
         evt.target.parentNode.insertBefore(cln, evt.target);
+}
+
+// Target element.
+function onDragOver(evt) 
+{
+    evt.preventDefault();
+    evt.dataTransfer.dropEffect = 'copy';
+}
+function onDragEnter(evt) 
+{
+    if (hasClass(evt.target, 'draggable')) addClass(evt.target, 'draggable-on-drag-over');
+}
+function onDragLeave(evt) 
+{
+    if (hasClass(evt.target, 'draggable-on-drag-over')) removeClass(evt.target, 'draggable-on-drag-over');
 }
 
 // Util functions.

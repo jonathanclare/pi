@@ -39,29 +39,37 @@ html
     flex-flow: row wrap;
 }
 
-/* commands */
+.source
+{
+    margin:20px;
+    padding:20px 20px 20px 0px;
+    min-height:100px;
+    border: solid 1px #ccc;
+    background-color: #f9f9f9;
+}
 .target
 {
+    margin:20px;
+    padding:20px 20px 20px 0px;
     min-height:100px;
     border: solid 1px #ccc;
     background-color: #f9f9f9;
 }
 .box
 {
+    padding:20px;
     border: solid 1px #ccc;
     background-color: #f9f9f9;
-    padding:20px;
     opacity:0.8;
-    cursor:move;
-    cursor: -webkit-grab;
-    cursor:    -moz-grab;
-    cursor:         grab;
-    transition: padding 0.3s;
 }
 .box:hover
 {
     border: solid 1px #000;
     opacity:1;
+    cursor:move;
+    cursor: -webkit-grab;
+    cursor:    -moz-grab;
+    cursor:         grab;
 }
 .box:active
 {
@@ -70,15 +78,12 @@ html
     cursor:    -moz-grabbing;
     cursor:         grabbing;
 }
-.source > .box 
+.draggable
 {
-    margin:20px;
+    padding-left:20px;
+    transition: padding 0.3s;
 }
-.target > .box
-{
-    margin-left:20px;
-}
-.box-hover
+.draggable-on-drag-over
 {
     padding-left:100px !important;
 }
