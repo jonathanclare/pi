@@ -1,0 +1,84 @@
+/* The width and height properties of elements (and min/max properties) includes content, padding and border */
+html 
+{
+    box-sizing: border-box;
+}
+*, *:before, *:after 
+{
+    box-sizing: inherit;
+}
+
+/* Full page app */
+ html, body 
+ {
+    font-family: 'Open Sans', sans-serif;
+    font-size:1rem;
+    color:#444;
+    margin: 0 auto;
+}
+
+/* Prevent tap highlight and text selection */
+.no-select 
+{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;
+}
+
+/* Flexbox defaults */
+.flex-box
+{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+/* commands */
+.target
+{
+    min-height:100px;
+    border: solid 1px #ccc;
+    background-color: #f9f9f9;
+}
+.box
+{
+    border: solid 1px #ccc;
+    background-color: #f9f9f9;
+    padding:20px;
+    opacity:0.8;
+    cursor:move;
+    cursor: -webkit-grab;
+    cursor:    -moz-grab;
+    cursor:         grab;
+    transition: padding 0.3s;
+}
+.box:hover
+{
+    border: solid 1px #000;
+    opacity:1;
+}
+.box:active
+{
+    cursor:move;
+    cursor: -webkit-grabbing;
+    cursor:    -moz-grabbing;
+    cursor:         grabbing;
+}
+.source > .box 
+{
+    margin:20px;
+}
+.target > .box
+{
+    margin-left:20px;
+}
+.box-hover
+{
+    padding-left:100px !important;
+}

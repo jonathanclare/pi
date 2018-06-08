@@ -40,10 +40,11 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         
         <!-- Styles -->
-        <link rel="stylesheet" href="{{url_for('static', filename='css/robo.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/play.css')}}">
 
         <!-- JavaScript -->
         <script src="{{url_for('static', filename='js/app.js')}}" type="module"></script>
+        <script src="{{url_for('static', filename='js/play.js')}}"></script>
 
         <svg viewBox="0 0 100 100" display="none">
             <defs>
@@ -52,24 +53,12 @@
         </svg>
     </head>
     <body class="no-select">
-        <div class="video-feed flex-box">
-            <img src="/robo/camera">
+        <div id="source" class="flex-box source">
+            <div id="forward" class="box" draggable="true" ondragstart="onDragStart(event);" ondragend="onDragEnd(event);">forward</div>
+            <div id="backward" class="box" draggable="true" ondragstart="onDragStart(event);" ondragend="onDragEnd(event);">backward</div>
+            <div id="left" class="box" draggable="true" ondragstart="onDragStart(event);" ondragend="onDragEnd(event);">left</div>
+            <div id="right" class="box" draggable="true" ondragstart="onDragStart(event);" ondragend="onDragEnd(event);">right</div>
         </div>
-        <div id="slider-speed" class="flex-box">
-            <div class="ctrl ctrl-slider"><input class="slider" type="range" min="0" max="1" step="0.01" data-action="speed"></div>
-            <div class="flex-box ctrl label">SPEED</div>
-        </div>
-        <div id="btn-left" data-action="left" class="ctrl btn">
-            <svg viewBox="0 0 100 100"><use  class="btn-icon" xlink:href="#arrow" transform="rotate(-90 50 50)"/></svg>
-        </div>
-        <div id="btn-right" data-action="right" class="ctrl btn">
-            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow" transform="rotate(90 50 50)"/></svg>
-        </div>
-        <div id="btn-backward" data-action="backward" class="ctrl btn">
-            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow" transform="rotate(180 50 50)"/></svg>
-        </div>
-        <div id="btn-forward" data-action="forward" class="ctrl btn">
-            <svg viewBox="0 0 100 100"><use class="btn-icon" xlink:href="#arrow"/></svg>
-        </div>
+        <div id="target" class="flex-box target" ondrop="onDrop(event);" ondragover="onDragOver(event);" ondragenter="onDragEnter(event);" ondragleave="onDragLeave(event);"></div>
     </body>
 </html>

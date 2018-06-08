@@ -1,23 +1,14 @@
 from flask import Flask, request, render_template, Response
 import json
 import datetime
-from time import time, sleep
 import sys
 import signal
 from robo import Robo
-from infinite_thread import InfiniteThread
-from picamera import PiCamera
+from camera import Camera
 
 app = Flask(__name__)
 
-def driveFnc(**kwargs):
-    while driveThread.isRunning:
-        robo.drive(**kwargs)
-        sleep(0.1)
-    print('--------Stop Drive Thread--------')
-
 robo = Robo()
-driveThread = InfiniteThread(driveFnc)
 
 @app.route("/")
 def index():
@@ -37,10 +28,23 @@ def robot():
 def state():
     return json.dumps(robo.state)
 
+'''
+Play
+'''
+@app.route('/robo/play')
+def play():
+    template_data = {
+        'title' : 'ROBO PLAY',
+    }
+    return render_template('play.html', **template_data)
+
+
+'''
+Drive
+'''
+
 @app.route('/robo/stop')
 def stop():
-    driveThread.stop()
-    sleep(0.1)
     robo.stop()
     return json.dumps(robo.state)
 
@@ -53,7 +57,7 @@ speed = 0 - 1
 @app.route('/robo/drive/<dir>')
 def drive(dir=None):
 
-    data = {'dir':dir};
+    data = {'dir':dir, 'indefinite':True};
 
     # Query string params.
     if request.args.get('speed') != None:      
@@ -63,12 +67,14 @@ def drive(dir=None):
     if request.args.get('curveRight') != None: 
         data['curveRight'] = request.args.get('curveRight')
 
-    driveThread.start(**data)
+    robo.drive(**data)
 
     return json.dumps(robo.state)
 
 
 '''
+Camera
+
 Multipart response
 
 HTTP/1.1 200 OK
@@ -87,38 +93,27 @@ Content-Type: image/jpeg
 ...
 
 '''
-picam = PiCamera()
-picam.rotation = 180
-picam.start_preview()
-sleep(2) 
 
-#frames = [open(f + '.jpg', 'rb').read() for f in ['1', '2', '3']]
-def getFrame():
-    #f = frames[int(time()) % 3]
-    picam.capture('./image.jpg')
-    sleep(0.1) 
-    f = open('./image.jpg', 'rb').read()
-    return f
-
-def gen():
-    while True:
-        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + getFrame() + b'\r\n')
-        sleep(0.1)
+cam = Camera()
 
 @app.route('/robo/camera')
 def camera(cmd=None):
-    return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(cam.generateFrames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-# Handler for a clean shutdown when pressing Ctrl-C
-def signalHandler(signal, frame):
+'''
+Start/Stop
+'''
+
+# Exit
+def onExit(signal, frame):
     print("----exiting----")
-    picam.stop_preview()
-    driveThread.stop()
+    #picam.stop_preview()
     robo.stop()
     sys.exit(0)
 
+# Strtup
 def main():
-    signal.signal(signal.SIGINT, signalHandler)
+    signal.signal(signal.SIGINT, onExit)
     app.run(threaded=True, host='0.0.0.0')
 
 if __name__ == "__main__":
