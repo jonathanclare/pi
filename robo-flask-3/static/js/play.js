@@ -3,54 +3,64 @@ let draggedElement;
 // Dragged element.
 function onDragStart(evt) 
 {
-    draggedElement = evt.target;
-    console.log(draggedElement)
-    evt.dataTransfer.dropEffect = 'copy';
-    var o = JSON.stringify({id:evt.target.id, parentId:evt.target.parentNode.id});
-    evt.dataTransfer.setData('text/plain', o);
+    draggedElement = evt.target.closest('.draggable');
+
+    if (hasClass(draggedElement.parentNode, 'target'))  // Dragged from source.
+    {
+        setTimeout(function(){addClass(draggedElement, 'hide-source');});
+    }
+
+    //const o = JSON.stringify({id:evt.target.id, parentId:evt.target.parentNode.id})
+    //evt.dataTransfer.setData('text/plain', o);
 }
 function onDragEnd(evt) 
 {
-    if (hasClass(evt.target.parentNode, 'target') && evt.dataTransfer.dropEffect === 'none') remove(evt.target);
-}
-function onDrop(evt) 
-{
-    evt.preventDefault();
-    if (hasClass(evt.target, 'draggable-on-drag-over')) removeClass(evt.target,'draggable-on-drag-over');
-
-    const data = JSON.parse(evt.dataTransfer.getData('text'));
-    console.log(data.parentId+" > "+data.id);
-
-    let cln;
-    if (data.parentId === 'source')
-    {
-        cln = draggedElement.cloneNode(true);
-
-    }
-    else // target.
-    {
-        cln = draggedElement;
-    }
-
-    if (evt.target.id === 'target')
-        evt.target.appendChild(cln);  
-    else if (hasClass(evt.target, 'draggable'))
-        evt.target.parentNode.insertBefore(cln, evt.target);
+    // Dragged outside target box.
+    if (hasClass(draggedElement.parentNode, 'target') && evt.dataTransfer.dropEffect === 'none') remove(draggedElement);
 }
 
 // Target element.
 function onDragOver(evt) 
 {
     evt.preventDefault();
-    evt.dataTransfer.dropEffect = 'copy';
+    if (hasClass(draggedElement.parentNode, 'source'))  // Dragged from source.
+        evt.dataTransfer.dropEffect = 'copy';
+    else                                                // Dragged from target.
+        evt.dataTransfer.dropEffect = 'move';
 }
 function onDragEnter(evt) 
 {
-    if (hasClass(evt.target, 'draggable')) addClass(evt.target, 'draggable-on-drag-over');
+    const elt = evt.target.closest('.draggable');
+    if (elt !== null) addClass(elt, 'draggable-on-drag-over');
 }
 function onDragLeave(evt) 
 {
-    if (hasClass(evt.target, 'draggable-on-drag-over')) removeClass(evt.target, 'draggable-on-drag-over');
+    const elt = evt.target.closest('.draggable')
+    if (elt !== null) removeClass(elt, 'draggable-on-drag-over');
+}
+function onDrop(evt) 
+{
+    const elts = document.querySelectorAll('.draggable');
+    for (let elt of elts)
+    { 
+        removeClass(elt, 'draggable-on-drag-over');
+        removeClass(elt, 'hide-source');
+    }
+
+    let draggable;
+    if (hasClass(draggedElement.parentNode, 'source'))  // Dragged from source.
+        draggable = draggedElement.cloneNode(true);
+    else                                                // Dragged from target.
+        draggable = draggedElement;
+
+    if (hasClass(evt.target, 'target'))     // Dropped on to target.
+        evt.target.appendChild(draggable);  
+    else                                    // Dropped on to another draggable.
+        evt.target.closest('.draggable').parentNode.insertBefore(draggable, evt.target.closest('.draggable'));
+
+
+    //const data = JSON.parse(evt.dataTransfer.getData('text'));
+   // console.log(data.parentId+" > "+data.id);
 }
 
 // Util functions.

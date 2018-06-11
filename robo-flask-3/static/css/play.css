@@ -60,30 +60,24 @@ html
     padding:20px;
     border: solid 1px #ccc;
     background-color: #f9f9f9;
-    opacity:0.8;
 }
 .box:hover
 {
-    border: solid 1px #000;
-    opacity:1;
     cursor:move;
     cursor: -webkit-grab;
     cursor:    -moz-grab;
     cursor:         grab;
 }
-.box:active
-{
-    cursor:move;
-    cursor: -webkit-grabbing;
-    cursor:    -moz-grabbing;
-    cursor:         grabbing;
-}
 .draggable
 {
+    /*transition: padding 0.3s;*/
     padding-left:20px;
-    transition: padding 0.3s;
 }
 .draggable-on-drag-over
 {
-    padding-left:100px !important;
+    padding-left:100px;
+}
+.hide-source
+{
+    display: none;
 }
