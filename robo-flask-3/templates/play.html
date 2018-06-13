@@ -53,15 +53,15 @@
         </svg>
     </head>
     <body class="no-select">
-        <div id="source" class="flex-box source">
-            <div class="container"><div class="box" draggable="true" ondragstart="onDragStart(event);" ondragend="onDragEnd(event);">forward</div></div>
-            <div class="container"><div class="box" draggable="true" ondragstart="onDragStart(event);" ondragend="onDragEnd(event);">backward</div></div>
-            <div class="container"><div class="box" draggable="true" ondragstart="onDragStart(event);" ondragend="onDragEnd(event);">left</div></div>
-            <div class="container"><div class="box" draggable="true" ondragstart="onDragStart(event);" ondragend="onDragEnd(event);">right</div></div>
+        <div class="flex-box panel source">
+            <div class="container"><div class="box" draggable="true" ondragstart="boxOnDragStart(event);" ondragend="boxOnDragEnd(event);">forward</div></div>
+            <div class="container"><div class="box" draggable="true" ondragstart="boxOnDragStart(event);" ondragend="boxOnDragEnd(event);">backward</div></div>
+            <div class="container"><div class="box" draggable="true" ondragstart="boxOnDragStart(event);" ondragend="boxOnDragEnd(event);">left</div></div>
+            <div class="container"><div class="box" draggable="true" ondragstart="boxOnDragStart(event);" ondragend="boxOnDragEnd(event);">right</div></div>
         </div>
-        <div id="target" class="flex-box target">
-            <div class="container" style="flex:1" ondrop="onDrop(event);" ondragover="onDragOver(event);" ondragenter="onDragEnter(event);" ondragleave="onDragLeave(event);"></div>
+        <div class="flex-box panel target">
+            <div class="container master-container" ondragover="onDragOver(event);" ondrop="onDrop(event);" ondragenter="onDragEnter(event);" ondragleave="onDragLeave(event);"></div>
         </div>
-        <div id="bin" class="flex-box target" ondrop="onBinDrop(event);" ondragover="onBinOver(event);" ondragenter="onBinEnter(event);" ondragleave="onBinLeave(event);"></div>
+        <div class="panel bin" ondrop="binOnDrop(event);" ondragover="binOnDragOver(event);" ondragenter="binOnDragEnter(event);" ondragleave="binOnDragLeave(event);"></div>
     </body>
 </html>
