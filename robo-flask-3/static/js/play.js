@@ -1,84 +1,103 @@
+import * as dom from './dom.js';
+
 let dragElement = null;
 let dragOrigin = null;
 let dropZone = null;
+let placeHolder;
 let overBin = false
+
+dom.on('.box', 'dragstart dragend', evt => 
+{
+    if (evt.type === 'dragstart') boxOnDragStart(evt);
+    else if (evt.type === 'dragend') boxOnDragEnd(evt);
+});
+dom.on('.bin', 'drop dragover dragenter dragleave', evt => 
+{
+    if (evt.type === 'drop') binOnDrop(evt);
+    else if (evt.type === 'dragover') binOnDragOver(evt);
+    else if (evt.type === 'dragenter') binOnDragEnter(evt);
+    else if (evt.type === 'dragleave') binOnDragLeave(evt);
+}); 
+dom.on('.target', 'dragover', evt => 
+{
+    if (evt.type === 'dragover') targetOnDragOver(evt);
+}); 
+dom.on('.target', 'dragenter', evt => 
+{
+    if (evt.type === 'dragenter') containerOnDragEnter(evt);
+}, true); 
+
 
 // Box element (element being dragged).
 const boxOnDragStart = evt => 
 {
     dragElement = evt.target;
 
-    if (arrHasClass(evt.path, 'target')) 
-        dragOrigin = 'target';
-    else
-        dragOrigin = 'source'
 
-    // Hide if dragged from target box.
-    if (dragOrigin === 'target') setTimeout(function() {dragElement.parentNode.remove();});
+    placeHolder = dragElement.cloneNode(true);
+    dom.addClass(placeHolder, 'place-holder');
+
+    dom.addClass(document.querySelector('.target'), 'target-highlight');
+    dom.addClass(document.querySelector('.bin'), 'bin-highlight');
+
+    if (dom.arrHasClass(evt.path, 'target')) 
+    {
+        dragOrigin = 'target';
+        setTimeout(function() {dragElement.parentNode.remove();}); // Hide container if dragged from target box.
+    }
+    else dragOrigin = 'source'
 
     //const o = JSON.stringify({id:evt.target.id, parentId:evt.target.parentNode.id})
     //evt.dataTransfer.setData('text/plain', o);
 }
 const boxOnDragEnd = evt =>
 {
-    drop();
-
-    const elts = document.querySelectorAll('.place-holder');
-    for (let elt of elts)
-    { 
-        elt.remove();
-    }
-    overBin = false;
-    dragElement = null;
-    dragOrigin = null;
-}
-
-// Target element.
-const onDragOver = evt =>
-{
-    evt.preventDefault();
-    if (dragOrigin === 'source')                // Dragged from source.
-        evt.dataTransfer.dropEffect = 'copy';
-    else                                        // Dragged from target.
-        evt.dataTransfer.dropEffect = 'move';
-}
-
-// Container elements (drop zones).
-const onDragEnter = evt =>
-{
-    const placeHolders = document.querySelectorAll('.place-holder');
-    for (let elt of placeHolders) {elt.remove();}
-
-    if (evt.target.closest('.container') !== null)
-    {
-        dropZone = evt.target.closest('.container');
-        const placeHolder = dragElement.cloneNode(true);
-        addClass(placeHolder, 'place-holder');
-        dropZone.parentNode.insertBefore(placeHolder, dropZone);
-    }
-}
-const onDragLeave = evt => 
-{
-
-}
-const onDrop = evt =>
-{
-    drop();
-    // const data = JSON.parse(evt.dataTransfer.getData('text'));
-    // console.log(data.parentId+" > "+data.id);
-}
-
-
-function drop(elt)
-{
     if (dropZone !== null && overBin === false) 
     {
         const container = document.querySelector('.master-container').cloneNode(true);
-        removeClass(container, 'master-container');
-        container.appendChild(dragElement.cloneNode(true));
+        dom.removeClass(container, 'master-container');
+
+        const cln = dragElement.cloneNode(true);
+        dom.on(cln, 'dragstart dragend', evt => 
+        {
+            console.log("dragstart")
+            if (evt.type === 'dragstart') boxOnDragStart(evt);
+            else if (evt.type === 'dragend') boxOnDragEnd(evt);
+        });
+        container.appendChild(cln);
+        console.log(container)
         dropZone.parentNode.insertBefore(container, dropZone);
-        dropZone = null;
+
     }
+    placeHolder.remove();
+    overBin = false;
+    dropZone = null;
+
+    dom.removeClass(document.querySelector('.target'), 'target-highlight');
+    dom.removeClass(document.querySelector('.bin'), 'bin-highlight');
+}
+
+// Target.
+const targetOnDragOver = evt =>
+{
+    if (dropZone !== null) 
+    {
+        evt.preventDefault();
+        if (dragOrigin === 'source')                // Dragged from source.
+            evt.dataTransfer.dropEffect = 'copy';
+        else                                        // Dragged from target.
+            evt.dataTransfer.dropEffect = 'move';
+    }
+}
+
+// Container elements (drop zones).
+const containerOnDragEnter = evt =>
+{
+    console.log("containerOnDragEnter")
+    console.log(evt.target)
+    dropZone = evt.target.closest('.target-container');
+    console.log(dropZone)
+    if (dropZone !== null) dropZone.parentNode.insertBefore(placeHolder, dropZone);
 }
 
 // Bin element.
@@ -86,44 +105,18 @@ const binOnDragOver = evt =>
 {
     evt.preventDefault();
     evt.dataTransfer.dropEffect = 'move';
+    overBin = true;
 }
 const binOnDragEnter = evt =>
 {
-    overBin = true;
-    addClass(evt.target, 'bin-hover');
+    dom.addClass(evt.target.closest('.bin'), 'bin-on-drag-over');
 }
 const binOnDragLeave = evt => 
 {
     overBin = false;
-    removeClass(evt.target, 'bin-hover');
+    dom.removeClass(evt.target.closest('.bin'), 'bin-on-drag-over');
 }
 const binOnDrop = evt =>
 {
-    removeClass(evt.target, 'bin-hover');
-}
-
-// Util functions.
-function addClass (elt, className)
-{
-    elt.className += ' ' + className;
-}
-function removeClass (elt, className)
-{
-    elt.className = elt.className.replace(new RegExp('(?:^|\\s)'+ className + '(?:\\s|$)'), ' ');
-}
-function hasClass (elt, className)
-{
-    return (' ' + elt.className + ' ').replace(/[\n\t]/g, ' ').indexOf(' ' + className + ' ') > -1;
-}
-function remove (elt)
-{
-    elt.parentNode.removeChild(elt);
-};
-function arrHasClass (arrElts, className)
-{
-    for (let elt of arrElts)
-    {
-        if (hasClass(elt, className)) return true;
-    }
-    return false;
+    dom.removeClass(evt.target.closest('.bin'), 'bin-on-drag-over');
 }

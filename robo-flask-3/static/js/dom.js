@@ -34,4 +34,28 @@ const getWindowForElement = element =>
     return (doc.defaultView || doc.parentWindow || window);
 };
 
-export {on, getWindowForElement};
+const addClass = (elt, className) =>
+{
+    elt.className += ' ' + className;
+}
+
+const removeClass = (elt, className) =>
+{
+    elt.className = elt.className.replace(new RegExp('(?:^|\\s)'+ className + '(?:\\s|$)'), ' ');
+}
+
+const hasClass = (elt, className) =>
+{
+    return (' ' + elt.className + ' ').replace(/[\n\t]/g, ' ').indexOf(' ' + className + ' ') > -1;
+}
+
+const arrHasClass = (arrElts, className) =>
+{
+    for (let elt of arrElts)
+    {
+        if (hasClass(elt, className)) return true;
+    }
+    return false;
+}
+
+export {on, getWindowForElement, addClass, removeClass, hasClass, arrHasClass};

@@ -41,10 +41,11 @@
         
         <!-- Styles -->
         <link rel="stylesheet" href="{{url_for('static', filename='css/play.css')}}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
         <!-- JavaScript -->
         <script src="{{url_for('static', filename='js/app.js')}}" type="module"></script>
-        <script src="{{url_for('static', filename='js/play.js')}}"></script>
+        <script src="{{url_for('static', filename='js/play.js')}}" type="module"></script>
 
         <svg viewBox="0 0 100 100" display="none">
             <defs>
@@ -54,14 +55,41 @@
     </head>
     <body class="no-select">
         <div class="flex-box panel source">
-            <div class="container"><div class="box" draggable="true" ondragstart="boxOnDragStart(event);" ondragend="boxOnDragEnd(event);">forward</div></div>
-            <div class="container"><div class="box" draggable="true" ondragstart="boxOnDragStart(event);" ondragend="boxOnDragEnd(event);">backward</div></div>
-            <div class="container"><div class="box" draggable="true" ondragstart="boxOnDragStart(event);" ondragend="boxOnDragEnd(event);">left</div></div>
-            <div class="container"><div class="box" draggable="true" ondragstart="boxOnDragStart(event);" ondragend="boxOnDragEnd(event);">right</div></div>
+            <div class="container">
+                <div class="flex-box box" draggable="true">
+                    <div><i class="fas fa-arrow-alt-circle-up fa-4x"></i></div>
+                    <div>Forwards</div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="flex-box box" draggable="true">
+                    <i class="fas fa-arrow-alt-circle-down fa-4x"></i>
+                    <div>Backwards</div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="flex-box box" draggable="true">
+                    <div><i class="fas fa-arrow-alt-circle-left fa-4x"></i></div>
+                    <div>Left</div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="flex-box box" draggable="true">
+                    <div><i class="fas fa-arrow-alt-circle-right fa-4x"></i></div>
+                    <div>Right</div>
+                </div>
+            </div>
         </div>
         <div class="flex-box panel target">
-            <div class="container master-container" ondragover="onDragOver(event);" ondrop="onDrop(event);" ondragenter="onDragEnter(event);" ondragleave="onDragLeave(event);"></div>
+            <div class="container master-container target-container"></div>
         </div>
-        <div class="panel bin" ondrop="binOnDrop(event);" ondragover="binOnDragOver(event);" ondragenter="binOnDragEnter(event);" ondragleave="binOnDragLeave(event);"></div>
+        <div class="flex-box controls">
+            <div class="flex-box control bin">
+                <div><i class="far fa-trash-alt fa-5x"></i></div><div>Bin</div>
+            </div>
+            <div class="flex-box control play"><div><i class="fas fa-play fa-5x"></i></div><div>Play</div></div>
+            <div class="flex-box control pause"><div><i class="fas fa-pause fa-5x"></i></div><div>Pause</div></div>
+            <div class="flex-box control restart"><div><i class="fas fa-undo fa-5x"></i></div><div>Restart</div></div>
+        </div>
     </body>
 </html>

@@ -36,28 +36,75 @@ html
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
 }
 
 .panel
 {
     align-items: flex-start;
-    padding:0px 0px 20px 20px;
+    padding:0px 20px 20px 0px;
     margin:20px;
     min-height:200px;
     border: solid 1px #ccc;
     background-color: #f9f9f9;
+    flex-flow: row wrap;
 }
-.bin-hover
+.controls
 {
-    border: solid 1px #c00;
-    background-color: #f5e3e3;
+    margin:20px;
+}
+.controls > .control
+{
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    border: solid 1px #ccc;
+    background-color: #f9f9f9;
+    padding:20px;
+}
+.controls > .control:not(:first-child)
+{
+    margin-left:20px;
+}
+.controls > .control:hover
+{
+    cursor:pointer;
+    border: solid 1px #000;
+}
+.controls > .control > *
+{
+    padding:5px;
+}
+.bin
+{
+    justify-content: center;
+    align-items: center;
+}
+.bin-on-drag-over
+{
+    background-color: #f5e3e3 !important;
+}
+.bin-highlight
+{
+    border: solid 1px #c00 !important;
+}
+.target-highlight
+{
+    border: solid 1px #0c0;
 }
 .box
 {
-    padding:20px;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    padding:10px;
     border: solid 1px #ccc;
     background-color: #f9f9f9;
+}
+.box > *
+{
+    padding:5px;
 }
 .box:hover
 {
@@ -68,19 +115,15 @@ html
 }
 .place-holder
 {
-    margin:20px 20px 0px 0px;
+    margin:20px 0px 0px 20px;
     opacity:0.3;
 }
 .container
 {
-    padding:20px 20px 0px 0px;
+    padding:20px 0px 0px 20px;
 }
 .master-container
 {
     align-self: stretch;
     flex: 1;
-}
-.hide
-{
-    display: none;
 }
