@@ -6,33 +6,67 @@ let dropZone = null;
 let placeHolder;
 let overBin = false
 
+
 dom.on('.box', 'dragstart dragend', evt => 
 {
-    if (evt.type === 'dragstart') boxOnDragStart(evt);
-    else if (evt.type === 'dragend') boxOnDragEnd(evt);
+    if (evt.type === 'dragstart') 
+        boxOnDragStart(evt);
+    else if (evt.type === 'dragend') 
+        boxOnDragEnd(evt);
 });
 dom.on('.bin', 'drop dragover dragenter dragleave', evt => 
 {
-    if (evt.type === 'drop') binOnDrop(evt);
-    else if (evt.type === 'dragover') binOnDragOver(evt);
-    else if (evt.type === 'dragenter') binOnDragEnter(evt);
-    else if (evt.type === 'dragleave') binOnDragLeave(evt);
+    if (evt.type === 'dragover')
+    {
+        evt.preventDefault();
+        evt.dataTransfer.dropEffect = 'move';
+        overBin = true;
+    }
+    else if (evt.type === 'dragenter') 
+    {
+        dom.addClass(evt.target.closest('.bin'), 'bin-on-drag-over');
+    }
+    else if (evt.type === 'drop') 
+    {
+    console.log('drop')
+        dom.removeClass(evt.target.closest('.bin'), 'bin-on-drag-over');
+    }
+    else if (evt.type === 'dragleave') 
+    {
+        overBin = false;
+        dom.removeClass(evt.target.closest('.bin'), 'bin-on-drag-over');
+    }
 }); 
-dom.on('.target', 'dragover', evt => 
+dom.on('.target', 'dragover dragenter', evt => 
 {
-    if (evt.type === 'dragover') targetOnDragOver(evt);
-}); 
-dom.on('.target', 'dragenter', evt => 
-{
-    if (evt.type === 'dragenter') containerOnDragEnter(evt);
-}, true); 
+    if (evt.type === 'dragover')
+    {
+        evt.preventDefault();
+        if (dragOrigin === 'source')                // Dragged from source.
+            evt.dataTransfer.dropEffect = 'copy';
+        else                                        // Dragged from target.
+            evt.dataTransfer.dropEffect = 'move';
+    }
+    else if (evt.type === 'dragenter')
+    {
+        if (evt.target.closest('.target-container') !== null) 
+        {
+            dropZone = evt.target.closest('.target-container');
+            dropZone.parentNode.insertBefore(placeHolder, dropZone);
+        }
+        else if (evt.target.querySelector('.target-container:last-child') !== null)
+        {
+            dropZone = evt.target.querySelector('.target-container:last-child');
+            dropZone.parentNode.insertBefore(placeHolder, dropZone);
+        }
+    }
+});
 
 
 // Box element (element being dragged).
 const boxOnDragStart = evt => 
 {
     dragElement = evt.target;
-
 
     placeHolder = dragElement.cloneNode(true);
     dom.addClass(placeHolder, 'place-holder');
@@ -47,8 +81,9 @@ const boxOnDragStart = evt =>
     }
     else dragOrigin = 'source'
 
-    //const o = JSON.stringify({id:evt.target.id, parentId:evt.target.parentNode.id})
-    //evt.dataTransfer.setData('text/plain', o);
+
+    const o = JSON.stringify({id:evt.target.id, parentId:evt.target.parentNode.id})
+    evt.dataTransfer.setData('text/plain', o);
 }
 const boxOnDragEnd = evt =>
 {
@@ -60,12 +95,10 @@ const boxOnDragEnd = evt =>
         const cln = dragElement.cloneNode(true);
         dom.on(cln, 'dragstart dragend', evt => 
         {
-            console.log("dragstart")
             if (evt.type === 'dragstart') boxOnDragStart(evt);
             else if (evt.type === 'dragend') boxOnDragEnd(evt);
         });
         container.appendChild(cln);
-        console.log(container)
         dropZone.parentNode.insertBefore(container, dropZone);
 
     }
@@ -75,48 +108,4 @@ const boxOnDragEnd = evt =>
 
     dom.removeClass(document.querySelector('.target'), 'target-highlight');
     dom.removeClass(document.querySelector('.bin'), 'bin-highlight');
-}
-
-// Target.
-const targetOnDragOver = evt =>
-{
-    if (dropZone !== null) 
-    {
-        evt.preventDefault();
-        if (dragOrigin === 'source')                // Dragged from source.
-            evt.dataTransfer.dropEffect = 'copy';
-        else                                        // Dragged from target.
-            evt.dataTransfer.dropEffect = 'move';
-    }
-}
-
-// Container elements (drop zones).
-const containerOnDragEnter = evt =>
-{
-    console.log("containerOnDragEnter")
-    console.log(evt.target)
-    dropZone = evt.target.closest('.target-container');
-    console.log(dropZone)
-    if (dropZone !== null) dropZone.parentNode.insertBefore(placeHolder, dropZone);
-}
-
-// Bin element.
-const binOnDragOver = evt =>
-{
-    evt.preventDefault();
-    evt.dataTransfer.dropEffect = 'move';
-    overBin = true;
-}
-const binOnDragEnter = evt =>
-{
-    dom.addClass(evt.target.closest('.bin'), 'bin-on-drag-over');
-}
-const binOnDragLeave = evt => 
-{
-    overBin = false;
-    dom.removeClass(evt.target.closest('.bin'), 'bin-on-drag-over');
-}
-const binOnDrop = evt =>
-{
-    dom.removeClass(evt.target.closest('.bin'), 'bin-on-drag-over');
 }
