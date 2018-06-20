@@ -3,73 +3,89 @@ import * as dom from './dom.js';
 let dragElement = null;
 let dragOrigin = null;
 let dropZone = null;
-let placeHolder;
 let overBin = false
-
 
 dom.on('.box', 'dragstart dragend', evt => 
 {
-    if (evt.type === 'dragstart') 
-        boxOnDragStart(evt);
-    else if (evt.type === 'dragend') 
-        boxOnDragEnd(evt);
+    switch (evt.type) 
+    {
+        case 'dragstart':
+            onDragStart(evt);
+        break;
+        case 'dragend':
+            onDragEnd(evt);
+        break;
+    }
 });
-dom.on('.bin', 'drop dragover dragenter dragleave', evt => 
+dom.on('.target', 'dragenter dragover', evt => 
 {
-    if (evt.type === 'dragover')
+    switch (evt.type) 
     {
-        evt.preventDefault();
-        evt.dataTransfer.dropEffect = 'move';
-        overBin = true;
+        case 'dragenter':
+            onDragEnter(evt);
+        break;
+        case 'dragover':
+            onDragOver(evt);
+        break;
     }
-    else if (evt.type === 'dragenter') 
+});
+dom.on('.bin', 'dragenter dragover dragleave drop', evt => 
+{
+    switch (evt.type) 
     {
-        dom.addClass(evt.target.closest('.bin'), 'bin-on-drag-over');
-    }
-    else if (evt.type === 'drop') 
-    {
-    console.log('drop')
-        dom.removeClass(evt.target.closest('.bin'), 'bin-on-drag-over');
-    }
-    else if (evt.type === 'dragleave') 
-    {
-        overBin = false;
-        dom.removeClass(evt.target.closest('.bin'), 'bin-on-drag-over');
+        case 'dragenter':
+            dom.addClass(evt.target.closest('.bin'), 'bin-on-drag-over');
+        break;
+        case 'dragover':
+            evt.preventDefault();
+            overBin = true;
+            evt.dataTransfer.dropEffect = 'move';
+        break;
+        case 'dragleave':
+            overBin = false;
+            dom.removeClass(evt.target.closest('.bin'), 'bin-on-drag-over');
+        break;
+        case 'drop':
+            dom.removeClass(evt.target.closest('.bin'), 'bin-on-drag-over');
+        break;
     }
 }); 
-dom.on('.target', 'dragover dragenter', evt => 
+
+// Box element enters target element.
+const onDragEnter = evt => 
 {
-    if (evt.type === 'dragover')
-    {
-        evt.preventDefault();
-        if (dragOrigin === 'source')                // Dragged from source.
-            evt.dataTransfer.dropEffect = 'copy';
-        else                                        // Dragged from target.
-            evt.dataTransfer.dropEffect = 'move';
-    }
-    else if (evt.type === 'dragenter')
-    {
-        if (evt.target.closest('.target-container') !== null) 
-        {
-            dropZone = evt.target.closest('.target-container');
-            dropZone.parentNode.insertBefore(placeHolder, dropZone);
-        }
-        else if (evt.target.querySelector('.target-container:last-child') !== null)
-        {
-            dropZone = evt.target.querySelector('.target-container:last-child');
-            dropZone.parentNode.insertBefore(placeHolder, dropZone);
-        }
-    }
-});
+    updateCursor(evt);
 
+    const container = evt.target.closest('.container');
+    if (container !== null) 
+        container.parentNode.insertBefore(dropZone, container);
+    else if (dom.hasClass(evt.target, 'target'))
+        evt.target.append(dropZone);
+};
 
-// Box element (element being dragged).
-const boxOnDragStart = evt => 
+// Box element dragged over target element.
+const onDragOver = evt => 
+{
+    updateCursor(evt);
+};
+
+const updateCursor = evt =>
+{
+    evt.preventDefault();
+    if (dragOrigin === 'source')
+        evt.dataTransfer.dropEffect = 'copy';
+    else
+        evt.dataTransfer.dropEffect = 'move';
+};
+
+// Start dragging box element.
+const onDragStart = evt => 
 {
     dragElement = evt.target;
 
-    placeHolder = dragElement.cloneNode(true);
-    dom.addClass(placeHolder, 'place-holder');
+    dropZone = document.createElement('div');
+    dom.addClass(dropZone, 'drop-zone');
+    dropZone.appendChild(evt.target.cloneNode(true))
 
     dom.addClass(document.querySelector('.target'), 'target-highlight');
     dom.addClass(document.querySelector('.bin'), 'bin-highlight');
@@ -77,35 +93,30 @@ const boxOnDragStart = evt =>
     if (dom.arrHasClass(evt.path, 'target')) 
     {
         dragOrigin = 'target';
-        setTimeout(function() {dragElement.parentNode.remove();}); // Hide container if dragged from target box.
+        setTimeout(function() {evt.target.parentNode.remove();}); // Hide container if dragged from target box.
     }
     else dragOrigin = 'source'
 
+    //const o = JSON.stringify({id:evt.target.id, parentId:evt.target.parentNode.id})
+    //evt.dataTransfer.setData('text/plain', o);
+};
 
-    const o = JSON.stringify({id:evt.target.id, parentId:evt.target.parentNode.id})
-    evt.dataTransfer.setData('text/plain', o);
-}
-const boxOnDragEnd = evt =>
+// End dragging box element.
+const onDragEnd = evt =>
 {
-    if (dropZone !== null && overBin === false) 
+    if (dropZone.parentNode !== null && overBin === false) 
     {
-        const container = document.querySelector('.master-container').cloneNode(true);
-        dom.removeClass(container, 'master-container');
-
-        const cln = dragElement.cloneNode(true);
-        dom.on(cln, 'dragstart dragend', evt => 
+        dom.removeClass(dropZone, 'drop-zone');
+        dom.addClass(dropZone, 'container');
+        dom.on(dropZone.querySelector('.box'), 'dragstart dragend', evt => 
         {
-            if (evt.type === 'dragstart') boxOnDragStart(evt);
-            else if (evt.type === 'dragend') boxOnDragEnd(evt);
+            if (evt.type === 'dragstart') onDragStart(evt);
+            else if (evt.type === 'dragend') onDragEnd(evt);
         });
-        container.appendChild(cln);
-        dropZone.parentNode.insertBefore(container, dropZone);
-
     }
-    placeHolder.remove();
-    overBin = false;
-    dropZone = null;
+    else dropZone.remove();
 
+    overBin = false;
     dom.removeClass(document.querySelector('.target'), 'target-highlight');
     dom.removeClass(document.querySelector('.bin'), 'bin-highlight');
-}
+};

@@ -41,19 +41,19 @@ html
 
 .panel
 {
-    align-items: flex-start;
-    padding:0px 20px 20px 0px;
+    align-items: stretch;
+    padding:20px 20px 0px 0px;
     margin:20px;
     min-height:200px;
     border: solid 1px #ccc;
-    background-color: #f9f9f9;
+    background-color: #fff;
     flex-flow: row wrap;
 }
 .controls
 {
     margin:20px;
 }
-.controls > .control
+.control
 {
     flex-flow: column nowrap;
     justify-content: center;
@@ -63,16 +63,16 @@ html
     background-color: #f9f9f9;
     padding:20px;
 }
-.controls > .control:not(:first-child)
+.control:not(:first-child)
 {
     margin-left:20px;
 }
-.controls > .control:hover
+.control:hover
 {
     cursor:pointer;
     border: solid 1px #000;
 }
-.controls > .control > *
+.control > *
 {
     padding:5px;
 }
@@ -113,17 +113,12 @@ html
     cursor:    -moz-grab;
     cursor:         grab;
 }
-.place-holder
+.drop-zone
 {
-    margin:20px 0px 0px 20px;
+    padding:0px 0px 20px 20px;
     opacity:0.3;
 }
 .container
 {
-    padding:20px 0px 0px 20px;
-}
-.master-container
-{
-    align-self: stretch;
-    flex: 1;
+    padding:0px 0px 20px 20px;
 }

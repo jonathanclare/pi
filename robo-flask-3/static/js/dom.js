@@ -58,4 +58,32 @@ const arrHasClass = (arrElts, className) =>
     return false;
 }
 
-export {on, getWindowForElement, addClass, removeClass, hasClass, arrHasClass};
+/** 
+ * Returns a function, that, as long as it continues to be invoked, will not
+ * be triggered.
+ *
+ * @since 0.1.0
+ *
+ * @param {Function} func      The function to call.
+ * @param {Object}   wait      The function will be called after it stops being called for 'wait' milliseconds.
+ * @param {Object}   immediate If `immediate` is passed, trigger the function on the leading edge, instead of the trailing.
+ */
+const debounce = (func, wait, immediate) =>
+{
+    var timeout;
+    return function() 
+    {
+        var me = this, args = arguments;
+        var later = function() 
+        {
+            timeout = null;
+            if (!immediate) func.apply(me, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait || 250);
+        if (callNow) func.apply(me, args);
+    };
+};
+
+export {on, getWindowForElement, addClass, removeClass, hasClass, arrHasClass, debounce};
